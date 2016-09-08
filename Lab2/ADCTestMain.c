@@ -33,6 +33,8 @@
 #include "fixed.h"
 #include "Timer1.h"
 #include "map.h"
+#include <stdio.h>      /* printf, scanf, NULL */
+#include <stdlib.h>     /* calloc, exit, free */
 
 #define PF1       (*((volatile uint32_t *)0x40025008))
 #define PF2       (*((volatile uint32_t *)0x40025010))
@@ -43,7 +45,7 @@
 #define GREEN     0x08
 #define WHEELSIZE 8           // must be an integer multiple of 2
                               //    red, yellow,    green, light blue, blue, purple,   white,          dark
-#define MAX_RECORDS 1000
+#define MAX_RECORDS 100
 const uint32_t COLORWHEEL[WHEELSIZE] = {RED, RED+GREEN, GREEN, GREEN+BLUE, BLUE, BLUE+RED, RED+GREEN+BLUE, 0};
 
 void DisableInterrupts(void); // Disable interrupts
@@ -151,7 +153,14 @@ double calculate_jitter(volatile uint32_t times[], uint16_t length) {
 }
 
 
-void histogramify(volatile uint32_t data[], uint16_t length, uint32_t** xs, uint32_t** ys) {
+typedef struct histogram {
+	uint32_t min;
+	uint32_t max;
+	uint32_t* freq;
+} histogram;
+
+
+void histogramify(volatile uint32_t data[], uint16_t length, histogram* h) {
 	uint32_t min = data[0];
 	uint32_t max = 0;
 	
@@ -163,21 +172,30 @@ void histogramify(volatile uint32_t data[], uint16_t length, uint32_t** xs, uint
 			max = data[i];
 		}
 	}
-	
-	//*xs = calloc(0, sizeof(uint32_t));
+	//assert(min <= max)
+	h->min = min;
+	h->max = max;
+
+	h->freq = malloc((max - min + 1) * sizeof(uint32_t));
+	/*
+	for (int i = 0; i < length; ++i) {
+		uint32_t offset = data[i] - min;
+		++(h->freq[offset]);
+	}
+	*/
 }
+
 
 void draw_data(volatile uint32_t data[], uint16_t length) {
 	ST7735_XYplotInit("ADC PMF", -450, 150, -400, 200);
    // ST7735_XYplot(50,(int32_t *)StarXbuf,(int32_t *)StarYbuf);
    // Pause();
-	uint32_t *s_x;
-	uint32_t *s_y;
-	histogramify(data, length, &s_x, &s_y);
+	histogram adc_hist;
+	histogramify(data, length, &adc_hist);
+	/*
 	for (int i = 0; i < length; ++i) {
-		 //ST7735_XYplot(
-		//data[i];
-	}
+		ST7735_DrawFastVLine(i, 0, adc_hist.freq[i], ST7735_MAGENTA);
+	}*/
 }
 	
 
@@ -205,6 +223,7 @@ int main(void){
 		}
 	}
 	volatile double jitter = calculate_jitter(time_records, MAX_RECORDS);
+
   draw_data(ADC_records, MAX_RECORDS);
 }
 
