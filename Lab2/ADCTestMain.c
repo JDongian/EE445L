@@ -32,6 +32,7 @@
 #include "ST7735.h"
 #include "fixed.h"
 #include "Timer1.h"
+#include "map.h"
 
 #define PF1       (*((volatile uint32_t *)0x40025008))
 #define PF2       (*((volatile uint32_t *)0x40025010))
@@ -150,8 +151,31 @@ double calculate_jitter(volatile uint32_t times[], uint16_t length) {
 }
 
 
-void draw_data(volatile uint32_t data[], uint16_t length) {
+void histogramify(volatile uint32_t data[], uint16_t length, uint32_t** xs, uint32_t** ys) {
+	uint32_t min = data[0];
+	uint32_t max = 0;
+	
 	for (int i = 0; i < length; ++i) {
+		if (data[i] < min) {
+			min = data[i];
+		}
+		if (max < data[i]) {
+			max = data[i];
+		}
+	}
+	
+	//*xs = calloc(0, sizeof(uint32_t));
+}
+
+void draw_data(volatile uint32_t data[], uint16_t length) {
+	ST7735_XYplotInit("ADC PMF", -450, 150, -400, 200);
+   // ST7735_XYplot(50,(int32_t *)StarXbuf,(int32_t *)StarYbuf);
+   // Pause();
+	uint32_t *s_x;
+	uint32_t *s_y;
+	histogramify(data, length, &s_x, &s_y);
+	for (int i = 0; i < length; ++i) {
+		 //ST7735_XYplot(
 		//data[i];
 	}
 }
