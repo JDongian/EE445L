@@ -4,6 +4,8 @@
 // put your name here
 // put the date here
 
+#include <stdint.h>
+
 
 /****************ST7735_sDecOut3***************
  converts fixed point number to LCD
@@ -69,6 +71,11 @@ void ST7735_XYplotInit(char *title, int32_t minX, int32_t maxX, int32_t minY, in
  neglect any points outside the minX maxY minY maxY bounds
 */
 void ST7735_XYplot(uint32_t num, int32_t bufX[], int32_t bufY[]);
+
+/**************ST7735_PlotBar_Lab2***************
+	Plot a bar at specified x coordinate with height y
+*/
+void ST7735_PlotBar_Lab2(int32_t x, int32_t y);
 
 
 
