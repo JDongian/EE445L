@@ -5,12 +5,43 @@
 #include "ST7735.h"
 
 
-void ST7735_print_buf(char buffer[], int length) {
+void ST7735_printBuf(char buffer[], int length) {
   for (int i = 0; i < length; ++i) {
 		ST7735_OutChar(buffer[i]);
 	}
 }
 
+// TODO: move to drawing library
+void drawPoint(point p, short color) {
+    ST7735_DrawPixel(p.x, p.y, color);
+}
+
+// TODO: move to drawing library
+point point_new(int x, int y) {
+    point temp;
+    temp.x = x;
+    temp.y = y;
+    return temp;
+}
+
+// TODO: move to drawing library
+void ST7735_drawLine(point a, point b, short color) {
+    int dx = abs(b.x - a.x), sx = a.x < b.x ? 1 : -1;
+    int dy = abs(b.y - a.y), sy = a.y < b.y ? 1 : -1; 
+    int err = (dx > dy ? dx : -dy)/2, e2; // two error calculations for line aliases
+    while (a.x != b.x || a.y != b.y) {
+        drawPoint(point_new(a.x, a.y), color);
+        e2 = err;
+        if (e2 > -dx) {
+            err -= dy;
+            a.x += sx;
+        }
+        if (e2 < dy) {
+            err += dx;
+            a.y += sy;
+        }
+    }
+}
 
 char get_lsd(uint32_t n) {
 	return (n % 10) + '0';
@@ -35,7 +66,7 @@ void ST7735_sDecOut3(int32_t n)
     }
   }
 	
-	ST7735_print_buf(buffer, 6);    
+	ST7735_printBuf(buffer, 6);    
 }
 
 
@@ -63,7 +94,7 @@ void ST7735_uBinOut8(uint32_t n)
 		}
   }
   
-	ST7735_print_buf(buffer, 6);
+	ST7735_printBuf(buffer, 6);
 }
 
 

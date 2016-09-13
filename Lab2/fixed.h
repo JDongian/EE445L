@@ -7,7 +7,13 @@
 #include <stdint.h>
 
 
-/****************ST7735_sDecOut3***************
+typedef struct point {
+    int x;
+    int y;
+} point;
+
+
+/******************************
  converts fixed point number to LCD
  format signed 32-bit with resolution 0.001
  range -9.999 to +9.999
