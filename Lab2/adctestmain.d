@@ -6,6 +6,8 @@
 .\adctestmain.o: ST7735.h
 .\adctestmain.o: fixed.h
 .\adctestmain.o: Timer1.h
+.\adctestmain.o: ../PeriodicTimer2AInts_4C123/Timer2.h
+.\adctestmain.o: histogram.h
 .\adctestmain.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
 .\adctestmain.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
 .\adctestmain.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
