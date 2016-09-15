@@ -83,5 +83,9 @@ void ST7735_XYplot(uint32_t num, int32_t bufX[], int32_t bufY[]);
 */
 void ST7735_PlotBar_Lab2(int32_t x, int32_t y);
 
+void ST7735_drawLine(point a, point b, short color);
+	
+point point_new(int x, int y);
 
+void drawPolygon(point* verticies, int numberOfVerticies, short shade);
 

@@ -32,6 +32,8 @@
 #include "ST7735.h"
 #include "fixed.h"
 #include "Timer1.h"
+#include "../PeriodicTimer2AInts_4C123/Timer2.h"
+#include "histogram.h"
 #include <stdio.h>      /* printf, scanf, NULL */
 #include <stdlib.h>     /* calloc, exit, free */
 #include <string.h>     /* memset */
@@ -40,11 +42,7 @@
 #define PF2       (*((volatile uint32_t *)0x40025010))
 #define PF3       (*((volatile uint32_t *)0x40025020))
 #define LEDS      (*((volatile uint32_t *)0x40025038))
-#define RED       0x02
-#define BLUE      0x04
-#define GREEN     0x08
-#define WHEELSIZE 8           // must be an integer multiple of 2
-                              //    red, yellow,    green, light blue, blue, purple,   white,          dark
+	
 #define MAX_RECORDS 1000
 #define NUM_ADC_OUTPUTS 4095
 #define ADC_HW_AVG_NONE 0
@@ -52,8 +50,9 @@
 #define ADC_HW_AVG_16X 0x4
 #define ADC_HW_AVG_64X 0x6
 
+#define PLOT_MARGIN 10
+
 #define PF4   (*((volatile uint32_t *)0x40025040))
-const uint32_t COLORWHEEL[WHEELSIZE] = {RED, RED+GREEN, GREEN, GREEN+BLUE, BLUE, BLUE+RED, RED+GREEN+BLUE, 0};
 
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
@@ -64,8 +63,8 @@ void WaitForInterrupt(void);  // low power mode
 volatile uint32_t ADCvalue;
 volatile uint32_t ADCRecords[MAX_RECORDS];
 volatile uint32_t timeRecords[MAX_RECORDS];
-volatile int32_t numOcurrences[NUM_ADC_OUTPUTS];
 volatile uint16_t recordIndex;
+
 // This debug function initializes Timer0A to request interrupts
 // at a 100 Hz frequency.  It is similar to FreqMeasure.c.
 void Timer0A_Init100HzInt(void){
@@ -98,17 +97,16 @@ void Timer0A_Handler(void){
 	// stop recording after 1000 records
 	if(recordIndex < 1000){
 		ADCRecords[recordIndex] = ADCvalue; // record ADC value into array
-		time_records[recordIndex] = TIMER1_TAR_R; // record time into array
+		timeRecords[recordIndex] = TIMER1_TAR_R; // record time into array
 		++recordIndex;
 	}
 }
 
 
 void UserTask(void){
-  static uint32_t i = 0;
-  LEDS = COLORWHEEL[i&(WHEELSIZE-1)];
-  i = i + 1;
 }
+
+void UserTask2(void){}
 
 
 void init_hw(void){
@@ -129,85 +127,11 @@ void init_hw(void){
   LEDS = 0;                        // turn LEDs off
 	
   ST7735_InitR(INITR_REDTAB);				//LCD init
-  ST7735_FillScreen(0);  // set screen to black
-  ST7735_SetCursor(0,0);
 	
-  Timer1_Init(&UserTask, 0); // initialize timer1 (16 Hz)
-//  Timer1_Init(&UserTask, 5000000); // initialize timer1 (16 Hz)
-//  Timer1_Init(&UserTask, 4000);    // initialize timer2 (20,000 Hz)
-//  Timer1_Init(&UserTask, 80000000);// initialize timer1 (1 Hz)
-//  Timer1_Init(&UserTask, 0xFFFFFFFF); // initialize timer1 (slowest rate)
+  Timer1_Init(&UserTask, 0xFFFFFFFF); // initialize timer1 (slowest rate)
+	Timer2_Init(&UserTask2, 7920); // initialize timer2 to ~99 us period
 
   EnableInterrupts();
-}
-
-
-double calculateJitter(volatile uint32_t times[], uint16_t length) {
-	uint32_t max = 0;
-	uint32_t min = (uint32_t)-1; // max uint32_t value
-	
-	// assert more than 1 entry
-	for (int i = 0; i < length-1; ++i) {
-		uint32_t diff = times[i+1] - times[i];
-		if (diff < min) {
-			min = diff;
-		}
-		if (diff > max) {
-			max = diff;
-		}
-	}
-	
-	return max - min;
-}
-
-
-typedef struct histogram {
-	uint32_t min;
-	uint32_t max;
-	uint32_t* freq;
-} histogram;
-
-
-void histogramify(volatile uint32_t data[], uint16_t length, histogram* h) {
-	uint32_t min = data[0];
-	uint32_t max = 0;
-	uint16_t index;
-	
-	for (int i = 0; i < length; ++i) {
-		if (data[i] < min) {
-			min = data[i];
-		}
-		if (max < data[i]) {
-			max = data[i];
-		}
-		index = data[i];
-		numOcurrences[index]++;
-	}
-	//assert(min <= max)
-	h->min = min;
-	h->max = max;
-
-	//h->freq = malloc((max - min + 1) * sizeof(uint32_t));
-	/*
-	for (int i = 0; i < length; ++i) {
-		uint32_t offset = data[i] - min;
-		++(h->freq[offset]);
-	}
-	*/
-}
-
-
-void ST_drawData(volatile uint32_t data[], uint16_t length) {
-   // ST7735_XYplot(50,(int32_t *)StarXbuf,(int32_t *)StarYbuf);
-   // Pause();
-	histogram adc_hist;
-	histogramify(data, length, &adc_hist);
-	
-	ST7735_XYplotInit("", adc_hist.min, adc_hist.max, 0, 500);
-	
-	for (int i = adc_hist.min; i <= adc_hist.max; ++i) {
-		ST7735_PlotBar_Lab2(i, numOcurrences[i]);
-	}
 }
 
 void DelayWait10ms(uint32_t n){
@@ -231,7 +155,7 @@ void Pause(void){
 }
 
 void displayRunMode(uint8_t runMode) {
-    ADC0_SAC_R = runMode;
+    ADC0_SAC_R = runMode; // configures ADC hardware averaging 
     switch (runMode) {
         case ADC_HW_AVG_NONE: 
             ST7735_OutString("ADC Averaging: none");
@@ -251,56 +175,68 @@ void displayRunMode(uint8_t runMode) {
 }
 
 
-
+/*
+ * Convenience function to cycle through 
+ * different ADC averaging configurations
+ */
 uint8_t nextRunMode(uint8_t mode) {
-    return (mode + 1) % 4;
+    return (mode + 2) % 8;
 }
 
 
 int main(void){
   init_hw();
-  /* original code
-     PLL_Init(Bus80MHz);                   // 80 MHz
-     SYSCTL_RCGCGPIO_R |= 0x20;            // activate port F
-     ADC0_InitSWTriggerSeq3_Ch9();         // allow time to finish activating
-     Timer0A_Init100HzInt();               // set up Timer0A for 100 Hz interrupts
-     GPIO_PORTF_DIR_R |= 0x06;             // make PF2, PF1 out (built-in LED)
-     GPIO_PORTF_AFSEL_R &= ~0x06;          // disable alt funct on PF2, PF1
-     GPIO_PORTF_DEN_R |= 0x06;             // enable digital I/O on PF2, PF1
-      // configure PF2 as GPIO
-      GPIO_PORTF_PCTL_R = (GPIO_PORTF_PCTL_R&0xFFFFF00F)+0x00000000;
-      GPIO_PORTF_AMSEL_R = 0;               // disable analog functionality on PF
-      PF2 = 0;                      // turn off LED
-      EnableInterrupts();
-  */
-  uint8_t runMode = ADC_HW_AVG_NONE;
-  volatile double jitter;
+
+  uint8_t runMode = ADC_HW_AVG_NONE; // initial hardware averaging configuration 
+  volatile uint32_t jitter;
  
   while(1) {
+		
       recordIndex = 0;
-      // Initialize histogram data
-      memset((void*) numOcurrences, 0, sizeof(int32_t)*NUM_ADC_OUTPUTS);
+		
+      // Reset numOucrrences counts to 0 for next run
+      resetNumOcurrences();
       EnableInterrupts();
-
+			
+			// reset the screen
+      ST7735_FillScreen(0);
+      ST7735_SetCursor(0,0);
+		
       ST7735_OutString("ADC PMF\n");
-      displayRunMode(runMode) // Print what HW avg mode is being used to screen
-
+      displayRunMode(runMode); // Print what HW avg mode is being used to screen
+			
+			ST7735_drawLine(point_new(40,40), point_new(40,70), ST7735_RED);
+			ST7735_drawLine(point_new(70,40), point_new(70,70), ST7735_RED);
+			ST7735_drawLine(point_new(20,80), point_new(40,90), ST7735_RED);
+			ST7735_drawLine(point_new(40,90), point_new(70,90), ST7735_RED);
+			ST7735_drawLine(point_new(70,90), point_new(90,80), ST7735_RED);
+			
+		
+			point star[10];
+			star[0] = point_new(50 + 0, 50 + 4);
+			star[1] = point_new(50 + 4, 50 + 4);
+			star[2] = point_new(50 + 6, 50 + 0);
+			star[3] = point_new(50 + 8, 50 + 4);
+			star[4] = point_new(50 + 12, 50 + 4);
+			star[5] = point_new(50 + 9, 50 + 7);
+			star[6] = point_new(50 + 11, 50 + 8);
+			star[7] = point_new(50 + 6, 50 + 6);
+			star[8] = point_new(50 + 2, 50 + 8);
+			star[9] = point_new(50 + 3, 50 + 7);
+			drawPolygon(star, 10, ST7735_WHITE);
+			
       while(recordIndex < MAX_RECORDS) {
           // toggle LED
           PF1 ^= 0x02;
       }
       DisableInterrupts();
 
-      jitter = calculateJitter(time_records, MAX_RECORDS);
+      jitter = calculateJitter(timeRecords, MAX_RECORDS);
 
       ST_drawData(ADCRecords, MAX_RECORDS);
-
-      // reset the screen
-      ST7735_FillScreen(0);
-      ST7735_SetCursor(0,0);
-
-      runMode = nextRunMode(runMode);
-
+			
+			runMode = nextRunMode(runMode);	
+			
       Pause();
   }
 }

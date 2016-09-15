@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "ST7735.h"
+#include "fixed.h"
 
 
 void ST7735_printBuf(char buffer[], int length) {
@@ -151,5 +152,12 @@ void ST7735_PlotBar_Lab2(int32_t x, int32_t y){
   j = 32 + (127 * (MaxY - y)) / (MaxY - MinY);
   ST7735_DrawFastVLine(i, j, 159-j, ST7735_MAGENTA);
 
+}
+
+void drawPolygon(point* verticies, int numberOfVerticies, short shade) {
+	int i;
+	for(i = 0; i < numberOfVerticies-1; i++) {
+		ST7735_drawLine(verticies[i], verticies[i+1], shade);
+	} ST7735_drawLine(verticies[i], verticies[0], shade);
 }
 

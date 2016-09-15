@@ -1,0 +1,15 @@
+.\main.o: main.c
+.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
+.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
+.\main.o: ADCSWTrigger.h
+.\main.o: ../inc/tm4c123gh6pm.h
+.\main.o: PLL.h
+.\main.o: ST7735.h
+.\main.o: fixed.h
+.\main.o: ../PeriodicTimer0AInts_4C123/Timer0A.h
+.\main.o: Timer1.h
+.\main.o: ../PeriodicTimer2AInts_4C123/Timer2.h
+.\main.o: histogram.h
+.\main.o: speaker.h
