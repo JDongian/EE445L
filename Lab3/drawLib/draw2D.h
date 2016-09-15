@@ -1,31 +1,20 @@
 #include "graphicsUtil.h"
 
 
-extern point rocks[5][ROCK_VERTICIES];
-
-extern bool isExhaustOn;
+#define drawPoint(X, Y, C) setPx((X), (Y), (C))
+//#include "../ST7735.h"
+//#define drawPoint(X, Y, C) ST7735_DrawPixel((X), (Y), (C));
 
 //Basic vector draw
-void drawPoint(point, unsigned char);
-void drawLine(point, point, unsigned char);   //Implements Bresenham's algorithm.
-void drawRect(point, point, unsigned char);    //For convinience.
-void drawFilledRect(point, point, unsigned char);				//Important for enemy entry.
+void drawLine(point, point, uint16_t);   //Implements Bresenham's algorithm.
+void drawCircle(point, int, uint16_t);
+/*
 void drawPolygon(point*, int, unsigned char);   //Connect the dots.
 void drawFilledPolygon(point*, int, unsigned char); //Checks points in
 																										//the fitting box for pairity.
-void drawCircle(point, int, unsigned char);
 //Special vector draw
-void drawPlayer(point, short, bool);    //At angle = 0, player faces to the right.
-void drawPlayerExhaust(point, short);   //Fun animation
-void drawRock(point, unsigned short, unsigned short);
-void drawExplosion(point, short);
-//Sprite draw
-void drawSprite(unsigned char[], point,
 								unsigned int, unsigned int);
-void drawByteSprite(unsigned char[], point, unsigned int, unsigned int);
-void drawSpriteShip(point);
-void drawBullet(point);
 void drawString(unsigned char*, point);
 void drawNumber(int, point);
 	//Warning: draws 999 max
-	
+*/

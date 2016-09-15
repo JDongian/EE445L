@@ -4,44 +4,240 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 C:\Keil\ValvanoWareTM4C123\Lab3\ADCSWTrigger.uvproj
-Project File Date:  09/13/2016
+Project File Date:  09/14/2016
 
 <h2>Output:</h2>
 Build target 'ADCSWTrigger'
-compiling speaker.c...
+compiling ADCTestMain.c...
 linking...
-Program Size: Code=2992 RO-data=2052 RW-data=56 ZI-data=1120  
+Program Size: Code=11428 RO-data=2516 RW-data=48 ZI-data=124008  
 ".\ADCSWTrigger.axf" - 0 Error(s), 0 Warning(s).
-Load "C:\\Keil\\ValvanoWareTM4C123\\Lab3\\ADCSWTrigger.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Connection failed!, error code=&d
-Error: Flash Download failed  -  Target DLL has been cancelled
-Load "C:\\Keil\\ValvanoWareTM4C123\\Lab3\\ADCSWTrigger.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-one.
-Programming Done.
-Verify OK.
-868 RO-data=2052 RW-data=56 ZI-data=1120  
-".\ADCSWTrigger.axf" - 0 Error(s), 2 Warning(s).
-ror messages.
-".\ADCSWTrigger.axf" - 1 Error(s), 1 Warning(s).
+- 0 Error(s), 0 Warning(s).
+ker.c...
+compiling draw2D.c...
+compiling graphicsUtil.c...
+compiling math2.c...
+linking...
+Program Size: Code=11420 RO-data=2516 RW-data=48 ZI-data=124008  
+".\ADCSWTrigger.axf" - 0 Error(s), 0 Warning(s).
+Error(s), 0 Warning(s).
+drawLib\graphicsUtil.c: 0 warnings, 1 error
+compiling math2.c...
+".\ADCSWTrigger.axf" - 1 Error(s), 0 Warning(s).
 Target not created
-" - 1 Error(s), 1 Warning(s).
+icsUtil.c(13): error:  #65: expected a ";"
+  gbuff.queued = -1;
+drawLib\graphicsUtil.c(23): error:  #154: expression must have struct or union type
+    if (gbuff.full) { return; }
+drawLib\graphicsUtil.c(26): error:  #154: expression must have struct or union type
+    memset((uint16_t*)(gbuff.frameBuffers[gbuff.rendering]), BLACK, SCREEN_WIDTH * SCREEN_HEIGHT);
+drawLib\graphicsUtil.c(26): error:  #154: expression must have struct or union type
+    memset((uint16_t*)(gbuff.frameBuffers[gbuff.rendering]), BLACK, SCREEN_WIDTH * SCREEN_HEIGHT);
+drawLib\graphicsUtil.c(31): error:  #154: expression must have struct or union type
+    if (gbuff.full) { return; }
+drawLib\graphicsUtil.c(34): error:  #154: expression must have struct or union type
+      gbuff.frameBuffers[gbuff.rendering][i] = color;
+drawLib\graphicsUtil.c(34): error:  #154: expression must have struct or union type
+      gbuff.frameBuffers[gbuff.rendering][i] = color;
+drawLib\graphicsUtil.c(39): error:  #154: expression must have struct or union type
+    if (gbuff.full) { return; }
+drawLib\graphicsUtil.c(46): error:  #154: expression must have struct or union type
+    gbuff.buffer[gbuff.rendering][xytoindex(x, y)] = color;
+drawLib\graphicsUtil.c(46): error:  #154: expression must have struct or union type
+    gbuff.buffer[gbuff.rendering][xytoindex(x, y)] = color;
+drawLib\graphicsUtil.c(50): error:  #154: expression must have struct or union type
+    if (gbuff.queued == -1) {
+drawLib\graphicsUtil.c(51): error:  #154: expression must have struct or union type
+      gbuff.queued = gbuff.rendering;
+drawLib\graphicsUtil.c(51): error:  #154: expression must have struct or union type
+      gbuff.queued = gbuff.rendering;
+drawLib\graphicsUtil.c(52): error:  #154: expression must have struct or union type
+      gbuff.rendering = nextBufferIndex(gbuff.rendering);
+drawLib\graphicsUtil.c(52): error:  #154: expression must have struct or union type
+      gbuff.rendering = nextBufferIndex(gbuff.rendering);
+drawLib\graphicsUtil.c(54): error:  #154: expression must have struct or union type
+        gbuff.full = true;
+drawLib\graphicsUtil.c(62): error:  #154: expression must have struct or union type
+      if (gbuff.buffer[gbuff.displayed][i] !=
+drawLib\graphicsUtil.c(62): error:  #154: expression must have struct or union type
+      if (gbuff.buffer[gbuff.displayed][i] !=
+drawLib\graphicsUtil.c(63): error:  #154: expression must have struct or union type
+          gbuff.frameBuffers[gbuff.queued][i]) {
+drawLib\graphicsUtil.c(63): error:  #154: expression must have struct or union type
+          gbuff.frameBuffers[gbuff.queued][i]) {
+drawLib\graphicsUtil.c(65): error:  #154: expression must have struct or union type
+                         gbuff.buffer[gbuff.queued][i]);
+drawLib\graphicsUtil.c(65): error:  #154: expression must have struct or union type
+                         gbuff.buffer[gbuff.queued][i]);
+drawLib\graphicsUtil.c(71): error:  #154: expression must have struct or union type
+    if (gbuff.queued != -1) {
+drawLib\graphicsUtil.c(73): error:  #154: expression must have struct or union type
+      gbuff.displayed = gbuff.queued;
+drawLib\graphicsUtil.c(73): error:  #154: expression must have struct or union type
+      gbuff.displayed = gbuff.queued;
+drawLib\graphicsUtil.c(74): error:  #154: expression must have struct or union type
+      gbuff.queued = -1;
+drawLib\graphicsUtil.c(75): error:  #154: expression must have struct or union type
+      gbuff.full = false;
+drawLib\graphicsUtil.c: 0 warnings, 29 errors
+compiling math2.c...
+".\ADCSWTrigger.axf" - 29 Error(s), 0 Warning(s).
 Target not created
-gger.axf: Error: L6200E: Symbol DelayWait10ms multiply defined (by main.o and adctestmain.o).
-.\ADCSWTrigger.axf: Error: L6200E: Symbol Pause multiply defined (by main.o and adctestmain.o).
-.\ADCSWTrigger.axf: Error: L6200E: Symbol Timer0A_Init100HzInt multiply defined (by main.o and adctestmain.o).
-.\ADCSWTrigger.axf: Error: L6200E: Symbol UserTask multiply defined (by main.o and adctestmain.o).
-.\ADCSWTrigger.axf: Error: L6200E: Symbol UserTask2 multiply defined (by main.o and adctestmain.o).
-.\ADCSWTrigger.axf: Error: L6200E: Symbol displayRunMode multiply defined (by main.o and adctestmain.o).
-.\ADCSWTrigger.axf: Error: L6200E: Symbol init_hw multiply defined (by main.o and adctestmain.o).
-.\ADCSWTrigger.axf: Error: L6200E: Symbol main multiply defined (by main.o and adctestmain.o).
-.\ADCSWTrigger.axf: Error: L6200E: Symbol nextRunMode multiply defined (by main.o and adctestmain.o).
-Not enough information to list image symbols.
-Not enough information to list the image map.
-Finished: 2 information, 0 warning and 16 error messages.
-".\ADCSWTrigger.axf" - 16 Error(s), 0 Warning(s).
+Lib\graphicsUtil.c(57): error:  #65: expected a ";"
+          ST7735_DrawPixel(i % SCREEN_WIDTH, i / SCREEN_WIDTH, gbuff[gbuff.index][i]) {
+drawLib\graphicsUtil.c(62): error:  #65: expected a ";"
+  void attemptRender() {
+drawLib\graphicsUtil.c(68): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
+drawLib\graphicsUtil.c(68): error: At end of source:  #67: expected a "}"
+drawLib\graphicsUtil.c: 2 warnings, 11 errors
+compiling math2.c...
+drawLib\math2.c(56): warning:  #223-D: function "makePoint" declared implicitly
+      return dist(v1, makePoint(0,0))*dist(v2, makePoint(0,0))*sinDeg(angle);
+drawLib\math2.c(56): error:  #167: argument of type "int" is incompatible with parameter of type "point"
+      return dist(v1, makePoint(0,0))*dist(v2, makePoint(0,0))*sinDeg(angle);
+drawLib\math2.c(56): error:  #167: argument of type "int" is incompatible with parameter of type "point"
+      return dist(v1, makePoint(0,0))*dist(v2, makePoint(0,0))*sinDeg(angle);
+drawLib\math2.c(59): warning:  #9-D: nested comment is not allowed
+  bool lineIntersect(point a0, point a1, point b0, point b1) { //**Reliable in case a is horizantal. **BUGGED:a1**
+drawLib\math2.c(81): warning:  #223-D: function "makePoint" declared implicitly
+      return makePoint((center.x+(magnitude*sinDeg(angle))),
+drawLib\math2.c(81): error:  #120: return value type does not match the function type
+      return makePoint((center.x+(magnitude*sinDeg(angle))),
+drawLib\math2.c: 3 warnings, 3 errors
+".\ADCSWTrigger.axf" - 31 Error(s), 6 Warning(s).
+Target not created
+ a is horizantal. **BUGGED:a1**
+drawLib\math2.c(81): warning:  #223-D: function "makePoint" declared implicitly
+      return makePoint((center.x+(magnitude*sinDeg(angle))),
+drawLib\math2.c(81): error:  #120: return value type does not match the function type
+      return makePoint((center.x+(magnitude*sinDeg(angle))),
+drawLib\math2.c: 3 warnings, 3 errors
+".\ADCSWTrigger.axf" - 33 Error(s), 6 Warning(s).
+Target not created
+olor;
+drawLib\graphicsUtil.c(45): error:  #142: expression must have pointer-to-object type
+      gbuff[index][y * SCREEN_WIDTH + x] = value;
+drawLib\graphicsUtil.c(45): error:  #20: identifier "value" is undefined
+      gbuff[index][y * SCREEN_WIDTH + x] = value;
+drawLib\graphicsUtil.c(57): error:  #142: expression must have pointer-to-object type
+          ST7735_DrawPixel(i % SCREEN_WIDTH, i / SCREEN_WIDTH, gbuff[gbuff.index][i]) {
+drawLib\graphicsUtil.c(57): error:  #65: expected a ";"
+          ST7735_DrawPixel(i % SCREEN_WIDTH, i / SCREEN_WIDTH, gbuff[gbuff.index][i]) {
+drawLib\graphicsUtil.c(62): error:  #65: expected a ";"
+  void attemptRender() {
+drawLib\graphicsUtil.c(68): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
+drawLib\graphicsUtil.c(68): error: At end of source:  #67: expected a "}"
+drawLib\graphicsUtil.c: 2 warnings, 11 errors
+compiling math2.c...
+drawLib\math2.c(56): warning:  #223-D: function "makePoint" declared implicitly
+      return dist(v1, makePoint(0,0))*dist(v2, makePoint(0,0))*sinDeg(angle);
+drawLib\math2.c(56): error:  #167: argument of type "int" is incompatible with parameter of type "point"
+      return dist(v1, makePoint(0,0))*dist(v2, makePoint(0,0))*sinDeg(angle);
+drawLib\math2.c(56): error:  #167: argument of type "int" is incompatible with parameter of type "point"
+      return dist(v1, makePoint(0,0))*dist(v2, makePoint(0,0))*sinDeg(angle);
+drawLib\math2.c(59): warning:  #9-D: nested comment is not allowed
+  bool lineIntersect(point a0, point a1, point b0, point b1) { //**Reliable in case a is horizantal. **BUGGED:a1**
+drawLib\math2.c(81): warning:  #223-D: function "makePoint" declared implicitly
+      return makePoint((center.x+(magnitude*sinDeg(angle))),
+drawLib\math2.c(81): error:  #120: return value type does not match the function type
+      return makePoint((center.x+(magnitude*sinDeg(angle))),
+drawLib\math2.c: 3 warnings, 3 errors
+".\ADCSWTrigger.axf" - 39 Error(s), 13 Warning(s).
+Target not created
+(angle))),
+drawLib\math2.c: 3 warnings, 3 errors
+".\ADCSWTrigger.axf" - 39 Error(s), 14 Warning(s).
+Target not created
+type
+          gbuff[gbuff.index][i] = color;
+drawLib\graphicsUtil.c(45): error:  #142: expression must have pointer-to-object type
+      gbuff[index][y * SCREEN_WIDTH + x] = value;
+drawLib\graphicsUtil.c(45): error:  #20: identifier "value" is undefined
+      gbuff[index][y * SCREEN_WIDTH + x] = value;
+drawLib\graphicsUtil.c(57): error:  #142: expression must have pointer-to-object type
+          ST7735_DrawPixel(i % SCREEN_WIDTH, i / SCREEN_WIDTH, gbuff[gbuff.index][i]) {
+drawLib\graphicsUtil.c(57): error:  #65: expected a ";"
+          ST7735_DrawPixel(i % SCREEN_WIDTH, i / SCREEN_WIDTH, gbuff[gbuff.index][i]) {
+drawLib\graphicsUtil.c(62): error:  #65: expected a ";"
+  void attemptRender() {
+drawLib\graphicsUtil.c(68): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
+drawLib\graphicsUtil.c(68): error: At end of source:  #67: expected a "}"
+drawLib\graphicsUtil.c: 2 warnings, 11 errors
+compiling math2.c...
+drawLib\math2.c(59): warning:  #9-D: nested comment is not allowed
+  bool lineIntersect(point a0, point a1, point b0, point b1) { //**Reliable in case a is horizantal. **BUGGED:a1**
+drawLib\math2.c: 1 warning, 0 errors
+".\ADCSWTrigger.axf" - 48 Error(s), 12 Warning(s).
+Target not created
+ pointer-to-object type
+          ST7735_DrawPixel(i % SCREEN_WIDTH, i / SCREEN_WIDTH, gbuff[gbuff.index][i]) {
+drawLib\graphicsUtil.c(57): error:  #65: expected a ";"
+          ST7735_DrawPixel(i % SCREEN_WIDTH, i / SCREEN_WIDTH, gbuff[gbuff.index][i]) {
+drawLib\graphicsUtil.c(62): error:  #65: expected a ";"
+  void attemptRender() {
+drawLib\graphicsUtil.c(68): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
+drawLib\graphicsUtil.c(68): error: At end of source:  #67: expected a "}"
+drawLib\graphicsUtil.c: 4 warnings, 13 errors
+compiling math2.c...
+drawLib\math2.c(59): warning:  #9-D: nested comment is not allowed
+  bool lineIntersect(point a0, point a1, point b0, point b1) { //**Reliable in case a is horizantal. **BUGGED:a1**
+drawLib\math2.c: 1 warning, 0 errors
+".\ADCSWTrigger.axf" - 52 Error(s), 16 Warning(s).
+Target not created
++ x] = value;
+drawLib\graphicsUtil.c(45): error:  #20: identifier "value" is undefined
+      gbuff[index][y * SCREEN_WIDTH + x] = value;
+drawLib\graphicsUtil.c(57): error:  #142: expression must have pointer-to-object type
+          ST7735_DrawPixel(i % SCREEN_WIDTH, i / SCREEN_WIDTH, gbuff[gbuff.index][i]) {
+drawLib\graphicsUtil.c(57): error:  #65: expected a ";"
+          ST7735_DrawPixel(i % SCREEN_WIDTH, i / SCREEN_WIDTH, gbuff[gbuff.index][i]) {
+drawLib\graphicsUtil.c(62): error:  #65: expected a ";"
+  void attemptRender() {
+drawLib\graphicsUtil.c(68): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
+drawLib\graphicsUtil.c(68): error: At end of source:  #67: expected a "}"
+drawLib\graphicsUtil.c: 6 warnings, 17 errors
+compiling math2.c...
+drawLib\math2.c(59): warning:  #9-D: nested comment is not allowed
+  bool lineIntersect(point a0, point a1, point b0, point b1) { //**Reliable in case a is horizantal. **BUGGED:a1**
+drawLib\math2.c: 1 warning, 0 errors
+".\ADCSWTrigger.axf" - 60 Error(s), 20 Warning(s).
+Target not created
+arnings, 19 errors
+compiling math2.c...
+drawLib\math2.c(59): warning:  #9-D: nested comment is not allowed
+  bool lineIntersect(point a0, point a1, point b0, point b1) { //**Reliable in case a is horizantal. **BUGGED:a1**
+drawLib\math2.c: 1 warning, 0 errors
+".\ADCSWTrigger.axf" - 63 Error(s), 20 Warning(s).
+Target not created
+\math2.c: 1 warning, 0 errors
+".\ADCSWTrigger.axf" - 74 Error(s), 10 Warning(s).
+Target not created
+nt a0, point a1, point b0, point b1) { //**Reliable in case a is horizantal. **BUGGED:a1**
+drawLib\math2.c: 1 warning, 0 errors
+".\ADCSWTrigger.axf" - 72 Error(s), 10 Warning(s).
+Target not created
+ point b1) { //**Reliable in case a is horizantal. **BUGGED:a1**
+drawLib\math2.c: 1 warning, 0 errors
+".\ADCSWTrigger.axf" - 73 Error(s), 10 Warning(s).
+Target not created
+th2.h(39): error:  #20: identifier "bool" is undefined
+  bool isBetween(int, int, int);   //Endpoint inclusive bound check
+drawLib\math2.h(40): error:  #20: identifier "bool" is undefined
+  bool lineIntersect(point, point, point, point);   //**Reliable in case a is horizantal. **BUGGED:a1**
+drawLib\math2.c(30): error:  #20: identifier "bool" is undefined
+  bool isBetween(int test, int range0, int range1) {//Endpoint inclusive bound check
+drawLib\math2.c(35): error:  #20: identifier "True" is undefined
+          return True;
+drawLib\math2.c(36): error:  #20: identifier "False" is undefined
+      } return False;
+drawLib\math2.c(56): error:  #20: identifier "bool" is undefined
+  bool lineIntersect(point a0, point a1, point b0, point b1) { //**Reliable in case a is horizantal. **BUGGED:a1**
+drawLib\math2.c(63): error:  #20: identifier "False" is undefined
+          return False;
+drawLib\math2.c(66): error:  #20: identifier "True" is undefined
+              return True;
+drawLib\math2.c(70): error:  #20: identifier "False" is undefined
+      return False;
+drawLib\math2.c: 0 warnings, 9 errors
+".\ADCSWTrigger.axf" - 84 Error(s), 9 Warning(s).
 Target not created

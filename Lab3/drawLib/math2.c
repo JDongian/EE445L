@@ -27,6 +27,7 @@ unsigned int dist(point a, point b) {
     int dy = a.y-b.y;
     return fastSqrt(dx*dx + dy*dy);
 }
+/*
 bool isBetween(int test, int range0, int range1) {//Endpoint inclusive bound check
     if(range0 >= range1) {
         intSwap(&range0, &range1);
@@ -35,6 +36,7 @@ bool isBetween(int test, int range0, int range1) {//Endpoint inclusive bound che
         return True;
     }	return False;
 }
+*/
 float floatMod(float f, int m) {
     while(f < 0) { f += m; }
     while(f > m) { f -= m; }
@@ -51,30 +53,15 @@ int easyPow(int n, int exp) {
 int crossP(point v1, point v2) {		//Cross product with respect to the origin
     short angle;
     angle = atan2Deg(v1.x, v1.y) - atan2Deg(v2.x, v2.y);
-    return dist(v1, makePoint(0,0))*dist(v2, makePoint(0,0))*sinDeg(angle);
+    return dist(v1, point_new(0,0))*dist(v2, point_new(0,0))*sinDeg(angle);
 }
-bool lineIntersect(point a0, point a1, point b0, point b1) { //**Reliable in case a is horizantal. **BUGGED:a1**
-    int A0 = a0.x-a1.x, B0 = a1.y-a0.y, C0;//dyX+dxY = C
-    int A1 = b0.x-b1.x, B1 = b1.y-b0.y, C1;//a is horizontal scan
-    int det = A0*B1 - A1*B0;
-    C0 = B0*a0.y-A0*a0.x;
-    C1 = B1*b0.y-A1*b0.x;
-    if(det == 0) {
-        return False;
-    } else {
-        if(isBetween((B1*C0 - B0*C1)/det, b0.x, b1.x)) {
-            return True;
-        }
-        //y = (A0*C1 - A1*C0)/det
-    }
-    return False;
-}
+
 point rotPoint(point center, short dAngle, point myPoint) {
     float angle; unsigned int magnitude;
     angle = atan2Deg((myPoint.x-center.x), (myPoint.y-center.y));
     magnitude = dist(center, myPoint);
     angle -= dAngle;
-    return makePoint((center.x+(magnitude*sinDeg(angle))),
+    return point_new((center.x+(magnitude*sinDeg(angle))),
             (center.y-(magnitude*cosDeg(angle))));
 }
 point scalePoint(point center, short scaleFactor, point target) {

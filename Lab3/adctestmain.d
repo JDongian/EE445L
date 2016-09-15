@@ -11,3 +11,9 @@
 .\adctestmain.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
 .\adctestmain.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
 .\adctestmain.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
+.\adctestmain.o: drawLib/draw2D.h
+.\adctestmain.o: drawLib/graphicsUtil.h
+.\adctestmain.o: drawLib/math2.h
+.\adctestmain.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h
+.\adctestmain.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
+.\adctestmain.o: drawLib/math2.h
