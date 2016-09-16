@@ -1,26 +1,5 @@
 Dependencies for Project 'ADCSWTrigger', Target 'ADCSWTrigger': (DO NOT MODIFY !)
 F (.\startup.s)(0x57DA34D8)(--cpu Cortex-M4 --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary--list .\startup.lst --xref -o .\startup.o --depend .\startup.d)
-F (.\ADCSWTrigger.c)(0x57DA34D8)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\adcswtrigger.o --omf_browse .\adcswtrigger.crf --depend .\adcswtrigger.d)
-I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
-I (../inc/tm4c123gh6pm.h)(0x57C60C3C)
-F (.\ADCTestMain.c)(0x57DA6CBD)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\adctestmain.o --omf_browse .\adctestmain.crf --depend .\adctestmain.d)
-I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
-I (ADCSWTrigger.h)(0x57DA34D8)
-I (../inc/tm4c123gh6pm.h)(0x57C60C3C)
-I (PLL.h)(0x57DA34D8)
-I (ST7735.h)(0x57DA34D8)
-I (fixed.h)(0x57DA46DC)
-I (Timer1.h)(0x57DA34D8)
-I (../PeriodicTimer2AInts_4C123/Timer2.h)(0x57C60C48)
-I (histogram.h)(0x57DA34D8)
-I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C89844)
-I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x51C89844)
-I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C89844)
-I (drawLib/draw2D.h)(0x57DA670C)
-I (drawLib/graphicsUtil.h)(0x57DA5D3C)
-I (drawLib/math2.h)(0x57DA49DD)
-I (C:\Keil\ARM\ARMCC\include\math.h)(0x51C89844)
-I (C:\Keil\ARM\ARMCC\include\stdbool.h)(0x51C89844)
 F (.\PLL.c)(0x57DA34D8)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\pll.o --omf_browse .\pll.crf --depend .\pll.d)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
 I (PLL.h)(0x57DA34D8)
@@ -38,25 +17,62 @@ I (../inc/tm4c123gh6pm.h)(0x57C60C3C)
 F (.\Timer1.c)(0x57DA34D8)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\timer1.o --omf_browse .\timer1.crf --depend .\timer1.d)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
 I (../inc/tm4c123gh6pm.h)(0x57C60C3C)
+F (.\histogram.c)(0x57DA34D8)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\histogram.o --omf_browse .\histogram.crf --depend .\histogram.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C89844)
+I (ST7735.h)(0x57DA34D8)
+I (fixed.h)(0x57DA46DC)
+I (histogram.h)(0x57DA34D8)
+F (.\main.c)(0x57DB2DFB)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\main.o --omf_browse .\main.crf --depend .\main.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C89844)
+I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x51C89844)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C89844)
+I (ADCSWTrigger.h)(0x57DA34D8)
+I (../inc/tm4c123gh6pm.h)(0x57C60C3C)
+I (PLL.h)(0x57DA34D8)
+I (ST7735.h)(0x57DA34D8)
+I (fixed.h)(0x57DA46DC)
+I (../PeriodicTimer0AInts_4C123/Timer0A.h)(0x57C60C47)
+I (Timer1.h)(0x57DA34D8)
+I (../PeriodicTimer2AInts_4C123/Timer2.h)(0x57C60C48)
+I (histogram.h)(0x57DA34D8)
+I (speaker.h)(0x57DA34D8)
+I (switch.h)(0x57DB291D)
+I (drawLib/draw2D.h)(0x57DB2295)
+I (drawLib/graphicsUtil.h)(0x57DB2295)
+I (drawLib/math2.h)(0x57DA49DD)
+I (C:\Keil\ARM\ARMCC\include\math.h)(0x51C89844)
+I (C:\Keil\ARM\ARMCC\include\stdbool.h)(0x51C89844)
 F (.\speaker.c)(0x57DA34D8)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\speaker.o --omf_browse .\speaker.crf --depend .\speaker.d)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
 I (..//inc//tm4c123gh6pm.h)(0x57C60C3C)
-F (.\drawLib\draw2D.c)(0x57DA670C)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\draw2d.o --omf_browse .\draw2d.crf --depend .\draw2d.d)
-I (drawLib\draw2D.h)(0x57DA670C)
-I (drawLib\graphicsUtil.h)(0x57DA5D3C)
+F (.\switch.c)(0x57DB2CCF)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\switch.o --omf_browse .\switch.crf --depend .\switch.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
+I (../inc/tm4c123gh6pm.h)(0x57C60C3C)
+I (PLL.h)(0x57DA34D8)
+I (../PeriodicTimer0AInts_4C123/Timer0A.h)(0x57C60C47)
+I (switch.h)(0x57DB291D)
+F (.\drawLib\graphicsUtil.c)(0x57DB2295)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\graphicsutil.o --omf_browse .\graphicsutil.crf --depend .\graphicsutil.d)
+I (drawLib\graphicsUtil.h)(0x57DB2295)
 I (drawLib\math2.h)(0x57DA49DD)
 I (C:\Keil\ARM\ARMCC\include\math.h)(0x51C89844)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
 I (C:\Keil\ARM\ARMCC\include\stdbool.h)(0x51C89844)
-F (.\drawLib\graphicsUtil.c)(0x57DA6B60)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\graphicsutil.o --omf_browse .\graphicsutil.crf --depend .\graphicsutil.d)
-I (drawLib\graphicsUtil.h)(0x57DA5D3C)
-I (drawLib\math2.h)(0x57DA49DD)
-I (C:\Keil\ARM\ARMCC\include\math.h)(0x51C89844)
-I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
-I (C:\Keil\ARM\ARMCC\include\stdbool.h)(0x51C89844)
-I (drawLib\draw2D.h)(0x57DA670C)
+I (drawLib\draw2D.h)(0x57DB2295)
 I (drawLib\../ST7735.h)(0x57DA34D8)
 I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C89844)
+F (.\drawLib\draw2D.c)(0x57DB2555)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\draw2d.o --omf_browse .\draw2d.crf --depend .\draw2d.d)
+I (drawLib\draw2D.h)(0x57DB2295)
+I (drawLib\graphicsUtil.h)(0x57DB2295)
+I (drawLib\math2.h)(0x57DA49DD)
+I (C:\Keil\ARM\ARMCC\include\math.h)(0x51C89844)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
+I (C:\Keil\ARM\ARMCC\include\stdbool.h)(0x51C89844)
+I (drawLib\../ST7735.h)(0x57DA34D8)
 F (.\drawLib\math2.c)(0x57DA4C0F)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\math2.o --omf_browse .\math2.crf --depend .\math2.d)
 I (drawLib\math2.h)(0x57DA49DD)
 I (C:\Keil\ARM\ARMCC\include\math.h)(0x51C89844)
+F (..\PeriodicTimer0AInts_4C123\Timer0A.c)(0x57DB2D3C)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\timer0a.o --omf_browse .\timer0a.crf --depend .\timer0a.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C89844)
+I (..\PeriodicTimer0AInts_4C123\..//inc//tm4c123gh6pm.h)(0x57C60C3C)

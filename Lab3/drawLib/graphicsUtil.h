@@ -21,7 +21,7 @@
 #ifndef _GBUFFER
 #define _GBUFFER
 typedef struct graphicsBuffer {
-    uint16_t buffer[3][SCREEN_WIDTH * SCREEN_HEIGHT];
+    uint16_t buffer[3][1];//SCREEN_WIDTH * SCREEN_HEIGHT];
     char rendering;
     char queued;
     char displayed;

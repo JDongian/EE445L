@@ -13,3 +13,10 @@
 .\main.o: ../PeriodicTimer2AInts_4C123/Timer2.h
 .\main.o: histogram.h
 .\main.o: speaker.h
+.\main.o: switch.h
+.\main.o: drawLib/draw2D.h
+.\main.o: drawLib/graphicsUtil.h
+.\main.o: drawLib/math2.h
+.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h
+.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
+.\main.o: drawLib/math2.h

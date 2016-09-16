@@ -1,9 +1,9 @@
 #include "graphicsUtil.h"
 
 
-#define drawPoint(X, Y, C) setPx((X), (Y), (C))
-//#include "../ST7735.h"
-//#define drawPoint(X, Y, C) ST7735_DrawPixel((X), (Y), (C));
+//#define drawPoint(X, Y, C) setPx((X), (Y), (C))
+#include "../ST7735.h"
+#define drawPoint(X, Y, C) ST7735_DrawPixel((X), (Y), (C));
 
 //Basic vector draw
 void drawLine(point, point, uint16_t);   //Implements Bresenham's algorithm.

@@ -8,7 +8,7 @@ void drawLine(point a, point b, uint16_t color) {
     int dy = abs(b.y-a.y), sy = a.y < b.y ? 1 : -1; 
     int err = (dx > dy ? dx : -dy) / 2, e2;
     while (a.x != b.x || a.y != b.y) {
-        setPx(a.x, a.y, color);
+        drawPoint(a.x, a.y, color);
         e2 = err;
         if (e2 > -dx) {
             err -= dy;
