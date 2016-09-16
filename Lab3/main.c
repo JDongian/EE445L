@@ -41,6 +41,8 @@ void UserTask(void){
 
 // This debug function initializes Timer0A to request interrupts
 // at a 100 Hz frequency.  It is similar to FreqMeasure.c.
+
+/*
 void Timer0A_Init100HzInt(void){
   volatile uint32_t delay;
   DisableInterrupts();
@@ -61,6 +63,7 @@ void Timer0A_Init100HzInt(void){
   NVIC_PRI4_R = (NVIC_PRI4_R&0x00FFFFFF)|0x40000000; // top 3 bits
   NVIC_EN0_R = 1<<19;              // enable interrupt 19 in NVIC
 }
+*/
 /*void Timer0A_Handler(void){
   TIMER0_ICR_R = TIMER_ICR_TATOCINT;    // acknowledge timer0A timeout
   PF2 ^= 0x04;                   // profile
@@ -71,7 +74,7 @@ void init_lcd(void) {
 }
 
 void init_timers(void){
-  Timer1_Init(&UserTask, 0xFFFFFFFF); // initialize timer1 (slowest rate)
+  //Timer1_Init(&UserTask, 181818); // initialize timer1 (slowest rate)
 	//Timer2_Init(&UserTask2, 7920); // initialize timer2 to ~99 us period
 
   EnableInterrupts();
