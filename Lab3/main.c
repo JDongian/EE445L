@@ -30,6 +30,8 @@ uint16_t COLORS[7] = {
 	ST7735_WHITE
 };
 
+typedef enum {ANALOG, DIGITAL} displayMode;
+
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
 long StartCritical (void);    // previous I bit, disable interrupts
@@ -99,43 +101,51 @@ void Pause(void){
 }
 
 
-void drawHands(int i, point center, int radius, uint16_t color1, uint16_t color2) {
-	// minute hand
-	point mEnd = rotPoint(center, (-1 * i) % 360, point_new(center.x, center.y + (radius - 6)));
+void drawHands(uint32_t time, point center, int radius, uint16_t color1, uint16_t color2) {
+        uint32_t degreesSeconds = (time % 60) * 6;
+        uint32_t degreesMinutes = (time % (60 * 60)) / 10;
+        uint32_t degreesHours = (time % (60 * 60 * 12) / 120;
+
+	// second hand
+	point mEnd = rotPoint(center, degreesSeconds, point_new(center.x, center.y + (radius - 6)));
+	drawLine(center, mEnd, color1);
+	
+        // minute hand
+	point mEnd = rotPoint(center, degreesMinutes, point_new(center.x, center.y + (radius - 6)));
 	drawLine(center, mEnd, color1);
 	
 	// hour hand
-	point hEnd = rotPoint(center, (-1 * i / 12) % 360, point_new(center.x, center.y + (radius/2)));
+	point hEnd = rotPoint(center, degreesHours, point_new(center.x, center.y + (radius/2)));
 	drawLine(center, hEnd, color2);
 }
 
 
 int main(void){
   init_switches();
-	init_lcd();
-	init_timers();
-	Start_Speaker();
- 
-
-	int i = 0;
-
-	static int radius = SCREEN_WIDTH * 2 / 5 + 5;
-	point center = point_new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+  init_lcd();
+  init_timers();
+  Start_Speaker();
+  displayMode = ANALOG;
+  
+  int i = 0;
+  
+  static int radius = SCREEN_WIDTH * 2 / 5 + 5;
+  point center = point_new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
   while(1) {
     i += 1;
-		
-    //clearBuffer();
-    //drawLine(point_new(1,1), point_new(i+i/3,i), colors[i%7]);
-		drawHands(i-1, center, radius, 0, 0);
-		drawHands(i, center, radius, COLORS[(i/30) % 7], COLORS[((i/30) + 1) % 7]);
-		
-		drawCircle(center, radius, COLORS[(i/30)%7]);
-		drawCircle(center, radius - 3, COLORS[(i/30)%7]);
-		
-
-		
-    //finishBuffer();
-		//attemptRender();
+    switch (displayMode) {
+      case ANALOG:
+        drawHands(i-1, center, radius, 0, 0);
+        drawHands(i, center, radius, COLORS[(i/30) % 7], COLORS[((i/30) + 1) % 7]);
+        
+        drawCircle(center, radius, COLORS[(i/30)%7]);
+        drawCircle(center, radius - 3, COLORS[(i/30)%7]);
+        break;
+      case DIGITAL:
+          break;
+      default:
+          break;
+    }
   }
 }
 
