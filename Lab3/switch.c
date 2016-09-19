@@ -3,13 +3,17 @@
 #include "../inc/tm4c123gh6pm.h"
 #include "PLL.h"
 #include "../PeriodicTimer0AInts_4C123/Timer0A.h"
+#include "../PeriodicTimer2AInts_4C123/Timer2.h"
 #include "switch.h"
 
 #define PD0 (*((volatile uint32_t *)0x40007004))
 #define PD1 (*((volatile uint32_t *)0x40007008))
 
-int pd0_count, pd1_count, pb0_count, pf0_count, pf4_count;
-
+bool changeModePressed;
+bool setAlarmPressed;
+bool hourChangePressed;
+bool minuteChangePressed;
+bool alarmOnPressed;	
 
 void SpeakerTask(void){
 	PB1 ^= 0x2;
@@ -48,7 +52,7 @@ void init_switches(void){
 	SYSCTL_RCGCGPIO_R |= 0x2A;       // activate port B, D, F
   delay = SYSCTL_RCGCGPIO_R;       // allow time to finish activating
   //ADC0_InitSWTriggerSeq3_Ch9();    // allow time to finish activating
-  Timer0A_Init(&SpeakerTask, 180000);          // set up Timer0A for 100 Hz interrupts
+  Timer2_Init(&SpeakerTask, 180000);          // set up Timer0A for 100 Hz interrupts
 	
 	// PB0 is switch input, PB1 is output to speaker
 	GPIO_PORTB_DIR_R |= 0x2;        // make PB1 output (for speaker)
@@ -87,6 +91,13 @@ void init_switches(void){
 	
 	SYSCTL_RCGCTIMER_R |= 0x02;   // 0) activate TIMER1   
 	Timer1Arm(50000);
+	
+ changeModePressed = 0;
+ setAlarmPressed = 0;
+ hourChangePressed = 0;
+ minuteChangePressed = 0;
+ alarmOnPressed = 0;	
+
 }
 
 void GPIOPortD_Handler(void) {
@@ -96,11 +107,9 @@ void GPIOPortD_Handler(void) {
 void GPIOPortF_Handler(void){
 	if (!PF0) {
 		GPIO_PORTF_ICR_R = 0x1;      // (e) clear flag0
-		pf0_count++;
 	}
 	if (!PF4) {
 		GPIO_PORTF_ICR_R = 0x10;      // (e) clear flag4
-		pf4_count++;
 	}
 }
 
@@ -110,21 +119,21 @@ void Timer1A_Handler(void){
 	
   static uint16_t pd0State = 0; // Current debounce status
   pd0State=(pd0State<<1) | !PD0 | 0xe000;
-  if(pd0State==0xf000)pd0_count++; 
+  if(pd0State==0xf000)setAlarmPressed = true; 
 	
 	static uint16_t pf4State = 0; // Current debounce status
   pf4State=(pf4State<<1) | !PF4 | 0xe000;
-	if(pf4State==0xf000)pf4_count++;
+	if(pf4State==0xf000)alarmOnPressed = true;
 	
 	static uint16_t pf0State = 0; // Current debounce status
   pf0State=(pf0State<<1) | !PF0 | 0xe000;
-	if(pf0State==0xf000)pf0_count++;
+	if(pf0State==0xf000)changeModePressed = true;
 	
 	static uint16_t pb0State = 0; // Current debounce status
   pb0State=(pb0State<<1) | !PB0 | 0xe000;
-	if(pb0State==0xf000)pb0_count++;
+	if(pb0State==0xf000)hourChangePressed = true;
 	
 	static uint16_t pd1State = 0; // Current debounce status
   pd1State=(pd1State<<1) | !PD1 | 0xe000;
-	if(pd1State==0xf000)pd1_count++;
+	if(pd1State==0xf000)minuteChangePressed = true;;
 }

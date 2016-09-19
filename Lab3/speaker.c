@@ -6,9 +6,9 @@
 #include "..//inc//tm4c123gh6pm.h"
 
 void Start_Speaker(void) {
-	TIMER0_CTL_R = 0x00000001;    // 10) enable TIMER0A
+	TIMER2_CTL_R = 0x00000001;    // 10) enable TIMER0A
 }
 
 void Stop_Speaker(void) {
-	TIMER0_CTL_R = 0x00000000;    // 10) disable TIMER0A
+	TIMER2_CTL_R = 0x00000000;    // 10) disable TIMER0A
 }

@@ -4,39 +4,47 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 C:\Keil\ValvanoWareTM4C123\Lab3\ADCSWTrigger.uvproj
-Project File Date:  09/14/2016
+Project File Date:  09/16/2016
 
 <h2>Output:</h2>
-Build target 'ADCSWTrigger'
+Rebuild target 'ADCSWTrigger'
+assembling startup.s...
+compiling ADCSWTrigger.c...
+compiling ADCTestMain.c...
+compiling PLL.c...
+compiling fixed.c...
+compiling ST7735.c...
+compiling Timer1.c...
+compiling Timer2.c...
+compiling histogram.c...
+compiling main.c...
+main.c(92): warning:  #68-D: integer conversion resulted in a change of sign
+          int32_t degreesSeconds = (time % 60) * -6;
+main.c(93): warning:  #68-D: integer conversion resulted in a change of sign
+          int32_t degreesMinutes = ((-1*(time % (60 * 60)) /10) + 360 )%360; 
+main.c(94): warning:  #68-D: integer conversion resulted in a change of sign
+          int32_t degreesHours = (time % (60 * 60 * 12)) / -120;
+main.c: 3 warnings, 0 errors
+compiling speaker.c...
+compiling switch.c...
+compiling draw2D.c...
+compiling math2.c...
+compiling graphicsUtil.c...
 compiling Timer0A.c...
 linking...
-Program Size: Code=10918 RO-data=2498 RW-data=72 ZI-data=1120  
-".\ADCSWTrigger.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=13754 RO-data=2518 RW-data=100 ZI-data=1124  
+".\ADCSWTrigger.axf" - 0 Error(s), 3 Warning(s).
 Load "C:\\Keil\\ValvanoWareTM4C123\\Lab3\\ADCSWTrigger.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
-Connection failed!, error code=&d
-Error: Flash Download failed  -  Target DLL has been cancelled
-Load "C:\\Keil\\ValvanoWareTM4C123\\Lab3\\ADCSWTrigger.axf" 
+Erase Done.
+Programming Done.
+Verify OK.
+</pre>
+</body>
+</html>
+rify OK.
+r.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
-Connection failed!, error code=&d
-Error: Flash Download failed  -  Target DLL has been cancelled
-218E: Undefined symbol drawLine (referred from main.o).
-.\ADCSWTrigger.axf: Error: L6218E: Undefined symbol point_new (referred from main.o).
-.\ADCSWTrigger.axf: Error: L6218E: Undefined symbol rotPoint (referred from main.o).
-.\ADCSWTrigger.axf: Error: L6218E: Undefined symbol Timer0A_Init (referred from switch.o).
-Not enough information to list image symbols.
-Finished: 1 information, 0 warning and 5 error messages.
-".\ADCSWTrigger.axf" - 5 Error(s), 2 Warning(s).
-Target not created
-ated
-fined as a variable
-           "    CPSID  I                  ; mask all (except faults)\n");
-tm4c123gh6pm_startup_ccs.c(579): error:  #3061: unrecognized instruction opcode
-           "    CPSID  I                  ; mask all (except faults)\n");
-tm4c123gh6pm_startup_ccs.c(587): warning:  #1267-D: Implicit physical register R0 should be defined as a variable
-        __asm  ("    MSR    PRIMASK, R0\n");
-tm4c123gh6pm_startup_ccs.c(587): error:  #549: variable "R0" is used before its value is set
-        __asm  ("    MSR    PRIMASK, R0\n");
-tm4c123gh6pm_startup_ccs.c: 4 warnings, 5 errors
-".\ADCSWTrigger.axf" - 5 Error(s), 6 Warning(s).
-Target not created
+Erase Done.
+Programming Done.
+Verify OK.

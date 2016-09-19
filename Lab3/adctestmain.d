@@ -5,6 +5,7 @@
 .\adctestmain.o: PLL.h
 .\adctestmain.o: ST7735.h
 .\adctestmain.o: fixed.h
+.\adctestmain.o: ../PeriodicTimer0AInts_4C123/Timer0A.h
 .\adctestmain.o: Timer1.h
 .\adctestmain.o: ../PeriodicTimer2AInts_4C123/Timer2.h
 .\adctestmain.o: histogram.h

@@ -1,0 +1,11 @@
+.\graphicsutil.o: drawLib\graphicsUtil.c
+.\graphicsutil.o: drawLib\graphicsUtil.h
+.\graphicsutil.o: drawLib\math2.h
+.\graphicsutil.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h
+.\graphicsutil.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\graphicsutil.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
+.\graphicsutil.o: drawLib\draw2D.h
+.\graphicsutil.o: drawLib\graphicsUtil.h
+.\graphicsutil.o: drawLib\math2.h
+.\graphicsutil.o: drawLib\../ST7735.h
+.\graphicsutil.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
