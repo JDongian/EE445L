@@ -90,8 +90,8 @@ void Pause(void){
 void drawHands(uint32_t time, point center, int radius, bool reset) {
 				//time *= -1;
         int32_t degreesSeconds = (time % 60) * -6;
-        int32_t degreesMinutes = ((-1*(time % (60 * 60)) /10) + 360 )%360; 
-        int32_t degreesHours = (time % (60 * 60 * 12)) / -120;
+        int32_t degreesMinutes = -1*(time % (60 * 60) / 10); 
+        int32_t degreesHours = -1*((time % (60 * 60 * 12)) / 120);
 
 	// second hand
 	point sEnd = rotPoint(center, degreesSeconds, point_new(center.x, center.y + (radius - 4)));
@@ -104,6 +104,18 @@ void drawHands(uint32_t time, point center, int radius, bool reset) {
 	// hour hand
 	point hEnd = rotPoint(center, degreesHours, point_new(center.x, center.y + (radius/2)));
 	drawLine(center, hEnd, reset? 0 : ST7735_WHITE);
+}
+
+void drawHourHand(uint32_t time, point center, int radius, bool reset){
+	int32_t degreesHours = -1*((time % (60 * 60 * 12)) / 120);
+	point hEnd = rotPoint(center, degreesHours, point_new(center.x, center.y + (radius/2)));
+	drawLine(center, hEnd, reset? 0 : ST7735_WHITE);
+}
+
+void drawMinuteHand(uint32_t time, point center, int radius, bool reset) {
+	int32_t degreesMinutes = -1*(time % (60 * 60) / 10); 
+	point mEnd = rotPoint(center, degreesMinutes, point_new(center.x, center.y + (radius - 10)));
+	drawLine(center, mEnd, reset? 0 : ST7735_BLUE);
 }
 
 void drawDigital(uint32_t time){
@@ -126,59 +138,39 @@ void drawString(int16_t x, int16_t y, char* s, int16_t textColor, int16_t bgColo
 		ST7735_DrawCharS(6*i+x, y, s[i], textColor, bgColor, textSize);
 	}
 }
+
 void displayAlarmStatus(bool setAlarm) {
 	char displayText[] = "Setting";
 	char alarmText[] = "Alarm";
 	char timeText[] = "Time ";
 	char on[] = "on ";
 	char off[] = "off";
-	/*
-	for (int i = 0; i < 8; i++){
-		ST7735_DrawCharS(6*i+10, 130, displayText[i], ST7735_WHITE, 0, 1);
-	}
-	*/
+	
 	drawString(10, 130, displayText, ST7735_WHITE, 0, 1, 7);
+	
 	if (setAlarm){
-		/*
-		for (int i = 0; i < 5; i++){
-			ST7735_DrawCharS(6*i+58, 130, alarmText[i], ST7735_WHITE, 0, 1);
-		}*/
 		drawString(58, 130, alarmText, ST7735_WHITE, 0, 1, 5);
 	}
 	else {
-		/*
-		for (int i = 0; i < 5; i++){
-			ST7735_DrawCharS(6*i+58, 130, timeText[i], ST7735_WHITE, 0, 1);
-		}*/
 		drawString(58, 130, timeText, ST7735_WHITE, 0, 1, 5);
 	}
 	
 	char buffer[6];
-	sprintf(buffer, "%02d:%02d", alarmTime.hours, alarmTime.minutes);
-	drawString(10, 140, buffer, ST7735_WHITE, 0, 1, 5);
-	/*
-	for (int i = 0; i < 5; i++) {
-		ST7735_DrawCharS(6*i+10, 140, buffer[i], ST7735_WHITE, 0, 1);
+	if (setAlarm) {
+		sprintf(buffer, "%02d:%02d", alarmTime.hours, alarmTime.minutes);
+		drawString(10, 140, buffer, ST7735_WHITE, 0, 1, 5);
 	}
-	
-	for (int i = 0; i < 5; i++){
-			ST7735_DrawCharS(6*i+10, 150, alarmText[i], ST7735_WHITE, 0, 1);
+	else {
+		sprintf(buffer, "%02d:%02d", (secondsElapsed / 3600) % 24, (secondsElapsed / 60) % 60);
+		drawString(10, 140, buffer, ST7735_WHITE, 0, 1, 5);
 	}
-	*/
+
 	drawString(10, 150, alarmText, ST7735_WHITE, 0, 1, 5);
+	
 	if (alarmSet){
-		/*
-		for (int i = 0; i < 3; i++){
-			ST7735_DrawCharS(6*i+46, 150, on[i], ST7735_WHITE, 0, 1);
-		}*/
 		drawString(46, 150, on, ST7735_WHITE, 0, 1, 3);
 	}
 	else {
-		/*
-		for (int i = 0; i < 3; i++){
-			ST7735_DrawCharS(6*i+46, 150, off[i], ST7735_WHITE, 0, 1);
-		}
-		*/
 		drawString(46, 150, off, ST7735_WHITE, 0, 1, 3);
 	}
 	
@@ -243,6 +235,7 @@ int main(void){
 				alarmTime.hours = (alarmTime.hours + 1) % 24;
 			}
 			else {
+				drawHourHand(secondsElapsed, center, radius, true);
 				secondsElapsed += 3600;
 			}
 			hourChangePressed = false;
@@ -252,6 +245,8 @@ int main(void){
 				alarmTime.minutes = (alarmTime.minutes + 1) % 60;
 			}
 			else {
+				drawHourHand(secondsElapsed, center, radius, true);
+				drawMinuteHand(secondsElapsed, center, radius, true);
 				secondsElapsed += 60;
 			}
 			minuteChangePressed = false;
