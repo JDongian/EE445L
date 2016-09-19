@@ -47,7 +47,9 @@ void Timer1_Init(void(*task)(void), uint32_t period){
   TIMER1_CTL_R = 0x00000001;    // 10) enable TIMER1A
 }
 
+/*
 void Timer1A_Handler(void){
   TIMER1_ICR_R = TIMER_ICR_TATOCINT;// acknowledge TIMER1A timeout
   (*PeriodicTask)();                // execute user task
 }
+*/
