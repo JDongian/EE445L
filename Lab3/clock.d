@@ -1,1 +1,0 @@
-.\clock.o: clock.c
