@@ -14,6 +14,7 @@ bool setAlarmPressed;
 bool hourChangePressed;
 bool minuteChangePressed;
 bool alarmOnPressed;	
+bool buttonHold = false;
 
 void SpeakerTask(void){
 	PB1 ^= 0x2;
@@ -133,7 +134,27 @@ void Timer1A_Handler(void){
   pb0State=(pb0State<<1) | !PB0 | 0xe000;
 	if(pb0State==0xf000)hourChangePressed = true;
 	
+	static uint32_t pb0Count = 0;
+	if (!PB0) pb0Count++;
+	else pb0Count = 0;
+	if (pb0Count > 400){
+		if (pb0Count % 150 == 0){
+			hourChangePressed = true;
+		}
+	}
+	
 	static uint16_t pd1State = 0; // Current debounce status
-  pd1State=(pd1State<<1) | !PD1 | 0xe000;
-	if(pd1State==0xf000)minuteChangePressed = true;;
+	pd1State=(pd1State<<1) | !PD1 | 0xe000;
+	if(pd1State==0xf000){
+		minuteChangePressed = true;
+	}
+	
+	static uint32_t pd1Count = 0;
+	if (!PD1) pd1Count++;
+	else pd1Count = 0;
+	if (pd1Count > 400){
+		if (pd1Count % 150 == 0){
+			minuteChangePressed = true;
+		}
+	}
 }

@@ -181,7 +181,7 @@ bool timeEquals(uint32_t t1, uint32_t t2) {
 }
 
 int main(void){
-	bool settingAlarm = false;
+	bool settingAlarm = true;
   init_switches();
   init_lcd();
   init_timers();
