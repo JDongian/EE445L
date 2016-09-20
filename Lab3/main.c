@@ -118,6 +118,15 @@ void drawString(int16_t x, int16_t y, char* s, int16_t textColor, int16_t bgColo
 	}
 }
 
+void drawNumbers(point center, int radius) {
+	char buf[2];
+	for (int i = 1; i < 13; i++) {
+		sprintf(buf, "%d", i);
+		point end = rotPoint(center, 360/12*-i , point_new(center.x, center.y + (radius-15)));
+		drawString(end.x-2, end.y-3, buf, ST7735_WHITE, 0, 1, 2);
+	}
+}
+
 void displayAlarmStatus(bool setAlarm) {
 	char displayText[] = "Setting";
 	char alarmText[] = "Alarm";
@@ -170,6 +179,7 @@ int main(void){
   static int radius = SCREEN_WIDTH * 2 / 5 + 5;
   point center = point_new(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - 16);
 
+	
   while(1) {
 		if (alarmOn) {
 			Start_Speaker();
@@ -197,6 +207,7 @@ int main(void){
 		
     switch (mode) {
       case ANALOG:
+				drawNumbers(center, radius+2);
         // Clear out previous hands
         drawHands(secondsElapsed - 1, center, radius, true);
         // Draw new second, minute, hour hands
