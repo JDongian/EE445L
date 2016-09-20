@@ -18,4 +18,4 @@ extern bool hourChangePressed;
 extern bool minuteChangePressed;
 extern bool alarmOnPressed;	
 
-void init_switches(void);
+void Init_Switches(void);

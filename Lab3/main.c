@@ -6,14 +6,13 @@
 #include <stdio.h>      /* printf, scanf, NULL */
 #include <stdlib.h>     /* calloc, exit, free */
 #include <string.h>     /* memset */
+
 #include "ADCSWTrigger.h"
 #include "../inc/tm4c123gh6pm.h"
 #include "PLL.h"
 #include "ST7735.h"
 #include "fixed.h"
-#include "../PeriodicTimer0AInts_4C123/Timer0A.h"
-#include "Timer1.h"
-#include "../PeriodicTimer2AInts_4C123/Timer2.h"
+#include "Timers.h"
 #include "histogram.h"
 #include "speaker.h"
 #include "switch.h"
@@ -29,14 +28,16 @@ uint16_t COLORS[7] = {
 	ST7735_YELLOW,
 	ST7735_WHITE
 };
+
 typedef enum {ANALOG, DIGITAL} displayMode;
-uint32_t secondsElapsed = 0;
 
 typedef struct timeStamp {
 	uint8_t hours;
 	uint8_t minutes;
 } timeStamp;
 
+
+uint32_t secondsElapsed = 0;
 timeStamp alarmTime;
 bool alarmOn = false;
 bool alarmSet = false;
@@ -55,49 +56,27 @@ void Timer0A_Handler(void){
   secondsElapsed = (secondsElapsed+1)%86400;
 }
 
-void init_lcd(void) {
+void Init_LCD(void) {
   ST7735_InitR(INITR_REDTAB);				//LCD init
 }
 
-void init_timers(void){
+void Init_Timers(void){
 	Timer0A_Init(&UserTask, 80000000);
 	alarmTime.hours = 0;
 	alarmTime.minutes = 0;
 }
-void DelayWait10ms(uint32_t n){
-	uint32_t volatile time;
-  while(n){
-    time = 727240*2/91;  // 10msec
-    while(time){
-	  	time--;
-    }
-    n--;
-  }
-}
-
-void Pause(void){
-  while(PF4==0x00){ 
-    DelayWait10ms(10);
-		Start_Speaker();
-  }
-  while(PF4==0x10){
-    DelayWait10ms(10);
-		Stop_Speaker();
-  }
-}
-
 
 void drawHands(uint32_t time, point center, int radius, bool reset) {
-				//time *= -1;
-        int32_t degreesSeconds = (time % 60) * -6;
-        int32_t degreesMinutes = -1*(time % (60 * 60) / 10); 
-        int32_t degreesHours = -1*((time % (60 * 60 * 12)) / 120);
+
+	int32_t degreesSeconds = (time % 60) * -6;
+  int32_t degreesMinutes = -1*(time % (60 * 60) / 10); 
+  int32_t degreesHours = -1*((time % (60 * 60 * 12)) / 120);
 
 	// second hand
 	point sEnd = rotPoint(center, degreesSeconds, point_new(center.x, center.y + (radius - 4)));
 	drawLine(center, sEnd, reset? 0 : ST7735_RED);
 	
-        // minute hand
+  // minute hand
 	point mEnd = rotPoint(center, degreesMinutes, point_new(center.x, center.y + (radius - 10)));
 	drawLine(center, mEnd, reset? 0 : ST7735_BLUE);
 	
@@ -149,10 +128,10 @@ void displayAlarmStatus(bool setAlarm) {
 	drawString(10, 130, displayText, ST7735_WHITE, 0, 1, 7);
 	
 	if (setAlarm){
-		drawString(58, 130, alarmText, ST7735_WHITE, 0, 1, 5);
+		drawString(58, 130, alarmText, ST7735_RED, 0, 1, 5);
 	}
 	else {
-		drawString(58, 130, timeText, ST7735_WHITE, 0, 1, 5);
+		drawString(58, 130, timeText, ST7735_CYAN, 0, 1, 5);
 	}
 	
 	char buffer[6];
@@ -168,10 +147,10 @@ void displayAlarmStatus(bool setAlarm) {
 	drawString(10, 150, alarmText, ST7735_WHITE, 0, 1, 5);
 	
 	if (alarmSet){
-		drawString(46, 150, on, ST7735_WHITE, 0, 1, 3);
+		drawString(46, 150, on, ST7735_GREEN, 0, 1, 3);
 	}
 	else {
-		drawString(46, 150, off, ST7735_WHITE, 0, 1, 3);
+		drawString(46, 150, off, ST7735_RED, 0, 1, 3);
 	}
 	
 }
@@ -181,10 +160,11 @@ bool timeEquals(uint32_t t1, uint32_t t2) {
 }
 
 int main(void){
+	int color = 0;
 	bool settingAlarm = true;
-  init_switches();
-  init_lcd();
-  init_timers();
+  Init_Switches();
+  Init_LCD();
+  Init_Timers();
   displayMode mode = ANALOG;
 	  
   static int radius = SCREEN_WIDTH * 2 / 5 + 5;
@@ -213,6 +193,8 @@ int main(void){
 			settingAlarm ^= 1;
 		}
 		
+		color = (color+1) % 105;
+		
     switch (mode) {
       case ANALOG:
         // Clear out previous hands
@@ -221,8 +203,14 @@ int main(void){
         drawHands(secondsElapsed, center, radius, false);
        
         // Redraw analog clock border
-        drawCircle(center, radius, COLORS[(secondsElapsed/30)%7]);
-        drawCircle(center, radius - 3, COLORS[(secondsElapsed/30)%7]);
+				if (alarmOn) {
+					drawCircle(center, radius, COLORS[color/15]);
+					drawCircle(center, radius - 3, COLORS[color/15]);
+				}
+				else {
+					drawCircle(center, radius, ST7735_GREEN);
+					drawCircle(center, radius - 3, ST7735_GREEN);
+				}
         break;
       case DIGITAL:
 					drawDigital(secondsElapsed);

@@ -431,16 +431,6 @@
               <FilePath>.\ST7735.c</FilePath>
             </File>
             <File>
-              <FileName>Timer1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Timer1.c</FilePath>
-            </File>
-            <File>
-              <FileName>Timer2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\PeriodicTimer2AInts_4C123\Timer2.c</FilePath>
-            </File>
-            <File>
               <FileName>histogram.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\histogram.c</FilePath>
@@ -476,9 +466,9 @@
               <FilePath>.\drawLib\graphicsUtil.c</FilePath>
             </File>
             <File>
-              <FileName>Timer0A.c</FileName>
+              <FileName>Timers.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\PeriodicTimer0AInts_4C123\Timer0A.c</FilePath>
+              <FilePath>.\Timers.c</FilePath>
             </File>
           </Files>
         </Group>
