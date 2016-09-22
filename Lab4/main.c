@@ -267,6 +267,8 @@ int main(void){int32_t retVal;  SlSecParams_t secParams;
 
         char temperature[64] = {0};
         getTemperature(temperature, Recvbuff);
+
+        ST7735_OutString(temperature);
       }
     }
     while(Board_Input()==0){}; // wait for touch
