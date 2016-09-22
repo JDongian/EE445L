@@ -203,12 +203,25 @@ void Crash(uint32_t time){
     LED_RedToggle();
   }
 }
+
+void getTemperature(char* output, char* data) {
+    /*char* json = strstr(data, "
+     */
+    char* temp = strstr(data, "\"temp\":");
+    // set temp to the beginning of the number
+    temp += 7;
+    double temperature = atof(temp);
+    //strtof(temp, NULL)
+    sprintf(output, "Temp = %d C", temperature);
+}
+
+
 /*
  * Application's entry point
  */
 // 1) change Austin Texas to your city
 // 2) you can change metric to imperial if you want temperature in F
-#define REQUEST "GET /data/2.5/weather?q=Austin%20Texas&APPID=1bc54f645c5f1c75e681c102ed4bbca4&units=metric HTTP/1.1\r\nUser-Agent: Keil\r\nHost:api.openweathermap.org\r\nAccept: */*\r\n\r\n"
+#define REQUEST "GET /data/2.5/weather?q=Austin%20Texas&APPID=b68243dabebd57d34bb4226631a5247f&units=metric HTTP/1.1\r\nUser-Agent: Keil\r\nHost:api.openweathermap.org\r\nAccept: */*\r\n\r\n"
 // 1) go to http://openweathermap.org/appid#use 
 // 2) Register on the Sign up page
 // 3) get an API key (APPID) replace the 1234567890abcdef1234567890abcdef with your APPID
@@ -251,6 +264,9 @@ int main(void){int32_t retVal;  SlSecParams_t secParams;
         LED_GreenOn();
         UARTprintf("\r\n\r\n");
         UARTprintf(Recvbuff);  UARTprintf("\r\n");
+
+        char temperature[64] = {0};
+        getTemperature(temperature, Recvbuff);
       }
     }
     while(Board_Input()==0){}; // wait for touch
