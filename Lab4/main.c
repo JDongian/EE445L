@@ -93,13 +93,32 @@ Port A, SSI0 (PA2, PA3, PA5, PA6, PA7) sends data to Nokia5110 LCD
 #include "application_commands.h"
 #include "LED.h"
 #include "Nokia5110.h"
+#include "ST7735.h"
+#include "ADCSWTrigger.h"
+#include "../inc/tm4c123gh6pm.h"
+
+#include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 //#define SSID_NAME  "valvanoAP" /* Access point name to connect to */
 //#define PASSKEY    "12345678"  /* Password in case of secure AP */ 
-#define SSID_NAME  "utexas-wireless"
-#define PASSKEY    "450keyboard"
+
+
+#define SSID_NAME  "Tfon"
+#define PASSKEY    "matt66matt66"
 #define SEC_TYPE   SL_SEC_TYPE_WPA
+
+
+
+/*
+#define SSID_NAME  "utexas-wifi-help"
+#define PASSKEY    ""
+#define SEC_TYPE   SL_SEC_TYPE_OPEN
+*/
+
+
+#define ADC_HW_AVG_64X 0x6
 
 #define BAUD_RATE   115200
 
@@ -212,7 +231,7 @@ void getTemperature(char* output, char* data) {
     temp += 7;
     double temperature = atof(temp);
     //strtof(temp, NULL)
-    sprintf(output, "Temp = %d C", temperature);
+    sprintf(output, "Temp = %.2f C\n\r", temperature);
 }
 
 
@@ -221,7 +240,7 @@ void getTemperature(char* output, char* data) {
  */
 // 1) change Austin Texas to your city
 // 2) you can change metric to imperial if you want temperature in F
-#define REQUEST "GET /data/2.5/weather?q=Austin%20Texas&APPID=b68243dabebd57d34bb4226631a5247f&units=metric HTTP/1.1\r\nUser-Agent: Keil\r\nHost:api.openweathermap.org\r\nAccept: */*\r\n\r\n"
+#define REQUEST "GET /data/2.5/weather?q=Austin,Texas&APPID=b68243dabebd57d34bb4226631a5247f&units=metric HTTP/1.1\r\nUser-Agent: Keil\r\nHost:api.openweathermap.org\r\nAccept: */*\r\n\r\n"
 // 1) go to http://openweathermap.org/appid#use 
 // 2) Register on the Sign up page
 // 3) get an API key (APPID) replace the 1234567890abcdef1234567890abcdef with your APPID
@@ -230,6 +249,10 @@ int main(void){int32_t retVal;  SlSecParams_t secParams;
   initClk();        // PLL 50 MHz
   UART_Init();      // Send data to PC, 115200 bps
   LED_Init();       // initialize LaunchPad I/O 
+	ADC0_InitSWTriggerSeq3_Ch9();
+	ADC0_SAC_R = ADC_HW_AVG_64X;
+	ST7735_InitR(INITR_REDTAB);
+	ST7735_OutString("Weather App\n\r");
   UARTprintf("Weather App\n");
   retVal = configureSimpleLinkToDefaultState(pConfig); // set policies
   if(retVal < 0)Crash(4000000);
@@ -239,10 +262,12 @@ int main(void){int32_t retVal;  SlSecParams_t secParams;
   secParams.KeyLen = strlen(PASSKEY);
   secParams.Type = SEC_TYPE; // OPEN, WPA, or WEP
   sl_WlanConnect(SSID_NAME, strlen(SSID_NAME), 0, &secParams, 0);
+	ST7735_OutString("connecting...\n\r");
   while((0 == (g_Status&CONNECTED)) || (0 == (g_Status&IP_AQUIRED))){
     _SlNonOsMainLoopTask();
   }
   UARTprintf("Connected\n");
+	ST7735_OutString("Connected\n\r");
   while(1){
     strcpy(HostName,"api.openweathermap.org"); // works 9/2016
     retVal = sl_NetAppDnsGetHostByName(HostName,
@@ -269,6 +294,12 @@ int main(void){int32_t retVal;  SlSecParams_t secParams;
         getTemperature(temperature, Recvbuff);
 
         ST7735_OutString(temperature);
+				
+				uint32_t adcData = ADC0_InSeq3();
+				double voltage = 3.3 / adcData;
+				char adc[64] = {0};
+				sprintf(adc, "Voltage: %f V", voltage);
+				ST7735_OutString(adc);
       }
     }
     while(Board_Input()==0){}; // wait for touch
