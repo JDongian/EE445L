@@ -215,6 +215,36 @@ void getTemperature(char* output, char* data) {
     sprintf(output, "Temp = %d C", temperature);
 }
 
+void valvanoDisplayWeatherData() {
+    strcpy(HostName,"api.openweathermap.org"); // works 9/2016
+    retVal = sl_NetAppDnsGetHostByName(HostName,
+            strlen(HostName),&DestinationIP, SL_AF_INET);
+    if(retVal == 0){
+        Addr.sin_family = SL_AF_INET;
+        Addr.sin_port = sl_Htons(80);
+        Addr.sin_addr.s_addr = sl_Htonl(DestinationIP);// IP to big endian 
+        ASize = sizeof(SlSockAddrIn_t);
+        SockID = sl_Socket(SL_AF_INET,SL_SOCK_STREAM, 0);
+        if( SockID >= 0 ){
+            retVal = sl_Connect(SockID, ( SlSockAddr_t *)&Addr, ASize);
+        }
+        if((SockID >= 0)&&(retVal >= 0)){
+            strcpy(SendBuff,REQUEST); 
+            sl_Send(SockID, SendBuff, strlen(SendBuff), 0);// Send the HTTP GET 
+            sl_Recv(SockID, Recvbuff, MAX_RECV_BUFF_SIZE, 0);// Receive response 
+            sl_Close(SockID);
+            LED_GreenOn();
+            UARTprintf("\r\n\r\n");
+            UARTprintf(Recvbuff);  UARTprintf("\r\n");
+
+            char temperature[64] = {0};
+            getTemperature(temperature, Recvbuff);
+
+            ST7735_OutString(temperature);
+        }
+    } 
+}
+
 
 /*
  * Application's entry point
@@ -244,33 +274,10 @@ int main(void){int32_t retVal;  SlSecParams_t secParams;
   }
   UARTprintf("Connected\n");
   while(1){
-    strcpy(HostName,"api.openweathermap.org"); // works 9/2016
-    retVal = sl_NetAppDnsGetHostByName(HostName,
-             strlen(HostName),&DestinationIP, SL_AF_INET);
-    if(retVal == 0){
-      Addr.sin_family = SL_AF_INET;
-      Addr.sin_port = sl_Htons(80);
-      Addr.sin_addr.s_addr = sl_Htonl(DestinationIP);// IP to big endian 
-      ASize = sizeof(SlSockAddrIn_t);
-      SockID = sl_Socket(SL_AF_INET,SL_SOCK_STREAM, 0);
-      if( SockID >= 0 ){
-        retVal = sl_Connect(SockID, ( SlSockAddr_t *)&Addr, ASize);
-      }
-      if((SockID >= 0)&&(retVal >= 0)){
-        strcpy(SendBuff,REQUEST); 
-        sl_Send(SockID, SendBuff, strlen(SendBuff), 0);// Send the HTTP GET 
-        sl_Recv(SockID, Recvbuff, MAX_RECV_BUFF_SIZE, 0);// Receive response 
-        sl_Close(SockID);
-        LED_GreenOn();
-        UARTprintf("\r\n\r\n");
-        UARTprintf(Recvbuff);  UARTprintf("\r\n");
-
-        char temperature[64] = {0};
-        getTemperature(temperature, Recvbuff);
-
-        ST7735_OutString(temperature);
-      }
-    }
+    valvanoDisplayWeatherData();
+    //
+    data = 0;
+    adcUploadData(data);
     while(Board_Input()==0){}; // wait for touch
     LED_GreenOff();
   }
