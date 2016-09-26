@@ -109,6 +109,8 @@ Port A, SSI0 (PA2, PA3, PA5, PA6, PA7) sends data to Nokia5110 LCD
 #define PASSKEY    "matt66matt66"
 #define SEC_TYPE   SL_SEC_TYPE_WPA
 
+#define REQUEST "GET /data/2.5/weather?q=Austin,Texas&APPID=b68243dabebd57d34bb4226631a5247f&units=metric HTTP/1.1\r\nUser-Agent: Keil\r\nHost:api.openweathermap.org\r\nAccept: */*\r\n\r\n"
+#define REQUEST2 "GET /query?city=Austin&id=Trevor,Josh&greet=%f&edxcode=8086 HTTP/1.1\r\nUser-Agent: Keil\r\nHost: embedded-systems-server.appspot.com\r\n\r\n"
 
 
 /*
@@ -234,17 +236,83 @@ void getTemperature(char* output, char* data) {
     sprintf(output, "Temp = %.2f C\n\r", temperature);
 }
 
+double makeADCMeasurement(){
+				uint32_t adcData = ADC0_InSeq3();
+				return 3.3 / adcData;
+}
+
+int getWeatherData() {
+		INT32 ASize = 0; SlSockAddrIn_t  Addr;
+		int retVal = -1;
+	    strcpy(HostName,"api.openweathermap.org"); // works 9/2016
+    retVal = sl_NetAppDnsGetHostByName(HostName,
+             strlen(HostName),&DestinationIP, SL_AF_INET);
+    if(retVal == 0){
+      Addr.sin_family = SL_AF_INET;
+      Addr.sin_port = sl_Htons(80);
+      Addr.sin_addr.s_addr = sl_Htonl(DestinationIP);// IP to big endian 
+      ASize = sizeof(SlSockAddrIn_t);
+      SockID = sl_Socket(SL_AF_INET,SL_SOCK_STREAM, 0);
+      if( SockID >= 0 ){
+        retVal = sl_Connect(SockID, ( SlSockAddr_t *)&Addr, ASize);
+      }
+      if((SockID >= 0)&&(retVal >= 0)){
+        strcpy(SendBuff,REQUEST); 
+        retVal = sl_Send(SockID, SendBuff, strlen(SendBuff), 0);// Send the HTTP GET 
+        sl_Recv(SockID, Recvbuff, MAX_RECV_BUFF_SIZE, 0);// Receive response 
+        sl_Close(SockID);
+        LED_GreenOn();
+				
+      }
+    }
+		return retVal;
+}
+
+int uploadADCData(float adcData){
+		INT32 ASize = 0; SlSockAddrIn_t  Addr;
+		int retVal = -1;
+	  strcpy(HostName,"embedded-systems-server.appspot.com"); 
+    retVal = sl_NetAppDnsGetHostByName(HostName,
+             strlen(HostName),&DestinationIP, SL_AF_INET);
+    if(retVal == 0){
+      Addr.sin_family = SL_AF_INET;
+      Addr.sin_port = sl_Htons(80);
+      Addr.sin_addr.s_addr = sl_Htonl(DestinationIP);// IP to big endian 
+      ASize = sizeof(SlSockAddrIn_t);
+      SockID = sl_Socket(SL_AF_INET,SL_SOCK_STREAM, 0);
+      if( SockID >= 0 ){
+        retVal = sl_Connect(SockID, ( SlSockAddr_t *)&Addr, ASize);
+      }
+      if((SockID >= 0)&&(retVal >= 0)){
+        sprintf(SendBuff, REQUEST2, adcData); 
+        retVal = sl_Send(SockID, SendBuff, strlen(SendBuff), 0);// Send the HTTP GET 
+        sl_Recv(SockID, Recvbuff, MAX_RECV_BUFF_SIZE, 0);// Receive response 
+        sl_Close(SockID);
+        LED_GreenOn();
+				
+      }
+    }
+		return retVal;
+}
+
 
 /*
  * Application's entry point
  */
 // 1) change Austin Texas to your city
 // 2) you can change metric to imperial if you want temperature in F
-#define REQUEST "GET /data/2.5/weather?q=Austin,Texas&APPID=b68243dabebd57d34bb4226631a5247f&units=metric HTTP/1.1\r\nUser-Agent: Keil\r\nHost:api.openweathermap.org\r\nAccept: */*\r\n\r\n"
 // 1) go to http://openweathermap.org/appid#use 
 // 2) Register on the Sign up page
 // 3) get an API key (APPID) replace the 1234567890abcdef1234567890abcdef with your APPID
-int main(void){int32_t retVal;  SlSecParams_t secParams;
+int main(void){
+	uint32_t elapsedTime = 0;
+	uint32_t minTime = 50 * TICKS_IN_SEC; 
+	uint32_t maxTime = 0;
+	uint32_t sumTime = 0;
+	uint32_t packetsLost = 0;
+	uint16_t loopCount = 0;
+	int32_t retVal;	  
+	SlSecParams_t secParams;
   char *pConfig = NULL; INT32 ASize = 0; SlSockAddrIn_t  Addr;
   initClk();        // PLL 50 MHz
   UART_Init();      // Send data to PC, 115200 bps
@@ -269,41 +337,39 @@ int main(void){int32_t retVal;  SlSecParams_t secParams;
   UARTprintf("Connected\n");
 	ST7735_OutString("Connected\n\r");
   while(1){
-    strcpy(HostName,"api.openweathermap.org"); // works 9/2016
-    retVal = sl_NetAppDnsGetHostByName(HostName,
-             strlen(HostName),&DestinationIP, SL_AF_INET);
-    if(retVal == 0){
-      Addr.sin_family = SL_AF_INET;
-      Addr.sin_port = sl_Htons(80);
-      Addr.sin_addr.s_addr = sl_Htonl(DestinationIP);// IP to big endian 
-      ASize = sizeof(SlSockAddrIn_t);
-      SockID = sl_Socket(SL_AF_INET,SL_SOCK_STREAM, 0);
-      if( SockID >= 0 ){
-        retVal = sl_Connect(SockID, ( SlSockAddr_t *)&Addr, ASize);
-      }
-      if((SockID >= 0)&&(retVal >= 0)){
-        strcpy(SendBuff,REQUEST); 
-        sl_Send(SockID, SendBuff, strlen(SendBuff), 0);// Send the HTTP GET 
-        sl_Recv(SockID, Recvbuff, MAX_RECV_BUFF_SIZE, 0);// Receive response 
-        sl_Close(SockID);
-        LED_GreenOn();
+				elapsedTime = resetTimer();
+				if (getWeatherData()) == -1) packetsLost++;
+				else {
+					elapsedTime = timeElapsed();
+					sumTime += elapsedTime;
+					if (elapsedTime < minTime) minTime = elapsedTime;
+					if (elapsedTime > maxTime) maxTime = elapsedTime;
+				}
         UARTprintf("\r\n\r\n");
-        UARTprintf(Recvbuff);  UARTprintf("\r\n");
+        UARTprintf(Recvbuff);  
+				UARTprintf("\r\n");
 
         char temperature[64] = {0};
         getTemperature(temperature, Recvbuff);
 
         ST7735_OutString(temperature);
 				
-				uint32_t adcData = ADC0_InSeq3();
-				double voltage = 3.3 / adcData;
 				char adc[64] = {0};
-				sprintf(adc, "Voltage: %f V", voltage);
-				ST7735_OutString(adc);
-      }
-    }
-    while(Board_Input()==0){}; // wait for touch
-    LED_GreenOff();
+				double voltage = makeADCMeasurement();
+				sprintf(adc, "Voltage: %fV\n\r", voltage);
+				ST7735_OutString(adc);	
+				elapsedTime = resetTimer();
+				if (uploadADCData(voltage) == -1) packetsLost++;
+				else {
+					elapsedTime = timeElapsed();
+					sumTime += elapsedTime;
+					if (elapsedTime < minTime) minTime = elapsedTime;
+					if (elapsedTime > maxTime) maxTime = elapsedTime;
+				}
+					
+				while(Board_Input()==0){}; // wait for touch
+				LED_GreenOff();
+				loopCount++;
   }
 }
 
