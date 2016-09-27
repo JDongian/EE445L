@@ -105,16 +105,21 @@ Port A, SSI0 (PA2, PA3, PA5, PA6, PA7) sends data to Nokia5110 LCD
 
 //#define SSID_NAME  "valvanoAP" /* Access point name to connect to */
 //#define PASSKEY    "12345678"  /* Password in case of secure AP */ 
+
 #define PACKET_LOST -1
 
-
-#define SSID_NAME  "Tfon"
-#define PASSKEY    "matt66matt66"
+#define SSID_NAME  "Galaxy S5 6476"
+#define PASSKEY    "onjv4083"
 #define SEC_TYPE   SL_SEC_TYPE_WPA
 
 #define REQUEST "GET /data/2.5/weather?q=Austin,Texas&APPID=b68243dabebd57d34bb4226631a5247f&units=metric HTTP/1.1\r\nUser-Agent: Keil\r\nHost:api.openweathermap.org\r\nAccept: */*\r\n\r\n"
-#define REQUEST2 "GET /query?city=Austin&id=Trevor,Josh&greet=%f&edxcode=8086 HTTP/1.1\r\nUser-Agent: Keil\r\nHost: embedded-systems-server.appspot.com\r\n\r\n"
+#define REQUEST2 "GET /query?city=Austin&id=Trevor,Josh&greet=%f&edxcode=2729 HTTP/1.1\r\nUser-Agent: Keil\r\nHost: http://embsysmooc.appspot.com\r\n\r\n"
 
+#define TICKS_IN_SEC 50000000
+
+#define ADC_VOLTAGE_CONVERSION 3.3/4095
+
+#define SAMPLE_SIZE 10
 
 /*
 #define SSID_NAME  "utexas-wifi-help"
@@ -126,6 +131,15 @@ Port A, SSI0 (PA2, PA3, PA5, PA6, PA7) sends data to Nokia5110 LCD
 #define ADC_HW_AVG_64X 0x6
 
 #define BAUD_RATE   115200
+
+typedef struct timeStats{
+	uint32_t minTime;
+	uint32_t maxTime;
+	uint32_t sumTime;
+	uint32_t packetsLost;
+} stats;
+
+stats sessionStats = {-1, 0, 0, 0};
 
 void UART_Init(void){
   SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);
@@ -241,7 +255,7 @@ void getTemperature(char* output, char* data) {
 
 double makeADCMeasurement(){
 				uint32_t adcData = ADC0_InSeq3();
-				return 3.3 / adcData;
+				return adcData*ADC_VOLTAGE_CONVERSION;
 }
 
 int getWeatherData() {
@@ -298,14 +312,43 @@ int uploadADCData(float adcData){
 		return retVal;
 }
 
-uint32_t resetTimer() {
-	Timer0A_Reset(0xffffffff);
-    return 0;
+void resetTimer() {
+		Timer0A_Reset(0xffffffff);
 }
 
 // return ticks since timer was reset.
 uint32_t timeElapsed() {
-    return 0xffffffff - TIEMR0A_TAMR;
+    uint32_t time = 0xffffffff - TIMER0_TAR_R;
+		char buf[64] = {0};
+		sprintf(buf, "Latency: %f\n\r", (double)time/TICKS_IN_SEC);
+		ST7735_OutString(buf);
+		return time;
+}
+
+void printTimeData(stats s) {
+	char buff[128] = {0};
+	sprintf(buff, "Min: %f\n\rMax: %f\n\rAvg: %f\n\r", 
+					(double)s.minTime/TICKS_IN_SEC, 
+					(double)s.maxTime/TICKS_IN_SEC, 
+					(double)s.sumTime/SAMPLE_SIZE/TICKS_IN_SEC);
+	ST7735_OutString(buff);
+}
+
+void updateStats(int status, uint32_t elapsedTime){
+	if (status == PACKET_LOST) {
+		sessionStats.packetsLost++;
+	}
+	
+	// average time is sumTime/number of recordings
+	sessionStats.sumTime += elapsedTime;
+	
+	// Update min, max response times
+  if (elapsedTime < sessionStats.minTime) {
+      sessionStats.minTime = elapsedTime;
+  }
+  if (elapsedTime > sessionStats.maxTime) {
+      sessionStats.maxTime = elapsedTime;
+  }
 }
 
 /*
@@ -319,24 +362,26 @@ uint32_t timeElapsed() {
 int main(void){
   char temperatureBuff[64] = {0};
   char adcBuff[64] = {0};
-  uint32_t elapsedTime = 0;
-  uint32_t minTime = 50 * TICKS_IN_SEC; 
-  uint32_t maxTime = 0;
-  uint32_t sumTime = 0;
-  uint32_t packetsLost = 0;
   uint16_t loopCount = 0;
   int32_t retVal;	  
+	
   SlSecParams_t secParams;
-  char *pConfig = NULL; INT32 ASize = 0; SlSockAddrIn_t  Addr;
+  char *pConfig = NULL; 
+	
   initClk();        // PLL 50 MHz
   UART_Init();      // Send data to PC, 115200 bps
   LED_Init();       // initialize LaunchPad I/O 
+	
 	ADC0_InitSWTriggerSeq3_Ch9();
 	ADC0_SAC_R = ADC_HW_AVG_64X;
+	
 	Timer0A_Init(0xffffffff, false);
+	
 	ST7735_InitR(INITR_REDTAB);
 	ST7735_OutString("Weather App\n\r");
+	
   UARTprintf("Weather App\n");
+	
   retVal = configureSimpleLinkToDefaultState(pConfig); // set policies
   if(retVal < 0)Crash(4000000);
   retVal = sl_Start(0, pConfig, 0);
@@ -354,62 +399,46 @@ int main(void){
   ST7735_OutString("Connected\n\r");
 
   while(1) {
-      if (loopCount < 10) {
+			ST7735_FillScreen(0);
+			ST7735_SetCursor(0,0);
+			//ST7735_OutString("Weather App\n\r");
 
-          elapsedTime = resetTimer(); // always returns 0, but resets the timer
-          // Save weather data to Recvbuff
-          if (getWeatherData() == PACKET_LOST) {
-              packetsLost++;
-          } else {
-            elapsedTime = timeElapsed();
-            // The average is the (sum of the elapsed times)/number of recordings
-            sumTime += elapsedTime;
-            // Update min, max response times
-            if (elapsedTime < minTime) {
-                minTime = elapsedTime;
-            }
-            if (elapsedTime > maxTime) {
-                maxTime = elapsedTime;
-            }
-          }
-      } else {
-          getWeatherData();
-      }
-      UARTprintf("\r\n\r\n");
-      UARTprintf(Recvbuff);  
-      UARTprintf("\r\n");
+			double voltage = makeADCMeasurement();
+			sprintf(adcBuff, "Voltage: %fV\n\r", voltage);
+		
+      if (loopCount < SAMPLE_SIZE) {
+        resetTimer(); 
+        // Save weather data to Recvbuff
+				int status = getWeatherData();
+				updateStats(status, timeElapsed());
+			
+				UARTprintf("\r\n\r\n");
+				UARTprintf(Recvbuff);  
+				UARTprintf("\r\n");
   
-      getTemperature(temperatureBuff, Recvbuff);
-      ST7735_OutString(temperatureBuff);
+				getTemperature(temperatureBuff, Recvbuff);
+				ST7735_OutString(temperatureBuff);
+				
+				ST7735_OutString(adcBuff);
   
-      double voltage = makeADCMeasurement();
-      sprintf(adcBuff, "Voltage: %fV\n\r", voltage);
-      ST7735_OutString(adcBuff);
-
-      if (loopCount < 10) {
-        elapsedTime = resetTimer(); // always returns 0, but resets the timer
-        // upload ADC reading to valvano's site
-        if (uploadADCData(voltage) == PACKET_LOST) {
-            packetsLost++;
-        } else {
-          // The average is the (sum of the elapsed times)/number of recordings
-          elapsedTime = timeElapsed();
-          sumTime += elapsedTime;
-          // Update min, max response times
-          if (elapsedTime < minTime) {
-              minTime = elapsedTime;
-          }
-          if (elapsedTime > maxTime) {
-              maxTime = elapsedTime;
-          }
-        }
+        // upload ADC reading to valvano's site       
+				resetTimer(); 
+				status = uploadADCData(voltage);
+				updateStats(status, timeElapsed());
+        
       } else {
         uploadADCData(voltage);
+				getWeatherData();
+				getTemperature(temperatureBuff, Recvbuff);
+				ST7735_OutString(temperatureBuff);
+				
+				// print statistics of first 10 loops
+				printTimeData(sessionStats);
       }
-  
+
       while(Board_Input()==0){}; // wait for touch
       LED_GreenOff();
-
+			
       loopCount++;
   }
 }
