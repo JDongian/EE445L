@@ -93,13 +93,35 @@ Port A, SSI0 (PA2, PA3, PA5, PA6, PA7) sends data to Nokia5110 LCD
 #include "application_commands.h"
 #include "LED.h"
 #include "Nokia5110.h"
+#include "ST7735.h"
+#include "ADCSWTrigger.h"
+#include "../inc/tm4c123gh6pm.h"
+
+#include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 //#define SSID_NAME  "valvanoAP" /* Access point name to connect to */
 //#define PASSKEY    "12345678"  /* Password in case of secure AP */ 
-#define SSID_NAME  "utexas-wireless"
-#define PASSKEY    "450keyboard"
+#define PACKET_LOST -1
+
+
+#define SSID_NAME  "Tfon"
+#define PASSKEY    "matt66matt66"
 #define SEC_TYPE   SL_SEC_TYPE_WPA
+
+#define REQUEST "GET /data/2.5/weather?q=Austin,Texas&APPID=b68243dabebd57d34bb4226631a5247f&units=metric HTTP/1.1\r\nUser-Agent: Keil\r\nHost:api.openweathermap.org\r\nAccept: */*\r\n\r\n"
+#define REQUEST2 "GET /query?city=Austin&id=Trevor,Josh&greet=%f&edxcode=8086 HTTP/1.1\r\nUser-Agent: Keil\r\nHost: embedded-systems-server.appspot.com\r\n\r\n"
+
+
+/*
+#define SSID_NAME  "utexas-wifi-help"
+#define PASSKEY    ""
+#define SEC_TYPE   SL_SEC_TYPE_OPEN
+*/
+
+
+#define ADC_HW_AVG_64X 0x6
 
 #define BAUD_RATE   115200
 
@@ -212,54 +234,104 @@ void getTemperature(char* output, char* data) {
     temp += 7;
     double temperature = atof(temp);
     //strtof(temp, NULL)
-    sprintf(output, "Temp = %d C", temperature);
+    sprintf(output, "Temp = %.2f C\n\r", temperature);
 }
 
-void valvanoDisplayWeatherData() {
-    strcpy(HostName,"api.openweathermap.org"); // works 9/2016
+double makeADCMeasurement(){
+				uint32_t adcData = ADC0_InSeq3();
+				return 3.3 / adcData;
+}
+
+int getWeatherData() {
+		INT32 ASize = 0; SlSockAddrIn_t  Addr;
+		int retVal = -1;
+	    strcpy(HostName,"api.openweathermap.org"); // works 9/2016
     retVal = sl_NetAppDnsGetHostByName(HostName,
-            strlen(HostName),&DestinationIP, SL_AF_INET);
+             strlen(HostName),&DestinationIP, SL_AF_INET);
     if(retVal == 0){
-        Addr.sin_family = SL_AF_INET;
-        Addr.sin_port = sl_Htons(80);
-        Addr.sin_addr.s_addr = sl_Htonl(DestinationIP);// IP to big endian 
-        ASize = sizeof(SlSockAddrIn_t);
-        SockID = sl_Socket(SL_AF_INET,SL_SOCK_STREAM, 0);
-        if( SockID >= 0 ){
-            retVal = sl_Connect(SockID, ( SlSockAddr_t *)&Addr, ASize);
-        }
-        if((SockID >= 0)&&(retVal >= 0)){
-            strcpy(SendBuff,REQUEST); 
-            sl_Send(SockID, SendBuff, strlen(SendBuff), 0);// Send the HTTP GET 
-            sl_Recv(SockID, Recvbuff, MAX_RECV_BUFF_SIZE, 0);// Receive response 
-            sl_Close(SockID);
-            LED_GreenOn();
-            UARTprintf("\r\n\r\n");
-            UARTprintf(Recvbuff);  UARTprintf("\r\n");
-
-            char temperature[64] = {0};
-            getTemperature(temperature, Recvbuff);
-
-            ST7735_OutString(temperature);
-        }
-    } 
+      Addr.sin_family = SL_AF_INET;
+      Addr.sin_port = sl_Htons(80);
+      Addr.sin_addr.s_addr = sl_Htonl(DestinationIP);// IP to big endian 
+      ASize = sizeof(SlSockAddrIn_t);
+      SockID = sl_Socket(SL_AF_INET,SL_SOCK_STREAM, 0);
+      if( SockID >= 0 ){
+        retVal = sl_Connect(SockID, ( SlSockAddr_t *)&Addr, ASize);
+      }
+      if((SockID >= 0)&&(retVal >= 0)){
+        strcpy(SendBuff,REQUEST); 
+        retVal = sl_Send(SockID, SendBuff, strlen(SendBuff), 0);// Send the HTTP GET 
+        sl_Recv(SockID, Recvbuff, MAX_RECV_BUFF_SIZE, 0);// Receive response 
+        sl_Close(SockID);
+        LED_GreenOn();
+				
+      }
+    }
+		return retVal;
 }
 
+int uploadADCData(float adcData){
+		INT32 ASize = 0; SlSockAddrIn_t  Addr;
+		int retVal = -1;
+	  strcpy(HostName,"embedded-systems-server.appspot.com"); 
+    retVal = sl_NetAppDnsGetHostByName(HostName,
+             strlen(HostName),&DestinationIP, SL_AF_INET);
+    if(retVal == 0){
+      Addr.sin_family = SL_AF_INET;
+      Addr.sin_port = sl_Htons(80);
+      Addr.sin_addr.s_addr = sl_Htonl(DestinationIP);// IP to big endian 
+      ASize = sizeof(SlSockAddrIn_t);
+      SockID = sl_Socket(SL_AF_INET,SL_SOCK_STREAM, 0);
+      if( SockID >= 0 ){
+        retVal = sl_Connect(SockID, ( SlSockAddr_t *)&Addr, ASize);
+      }
+      if((SockID >= 0)&&(retVal >= 0)){
+        sprintf(SendBuff, REQUEST2, adcData); 
+        retVal = sl_Send(SockID, SendBuff, strlen(SendBuff), 0);// Send the HTTP GET 
+        sl_Recv(SockID, Recvbuff, MAX_RECV_BUFF_SIZE, 0);// Receive response 
+        sl_Close(SockID);
+        LED_GreenOn();
+				
+      }
+    }
+		return retVal;
+}
+
+uint32_t resetTimer() {
+    return 0;
+}
+
+// return ticks since timer was reset.
+uint32_t timeElapsed() {
+    return 1000;
+}
 
 /*
  * Application's entry point
  */
 // 1) change Austin Texas to your city
 // 2) you can change metric to imperial if you want temperature in F
-#define REQUEST "GET /data/2.5/weather?q=Austin%20Texas&APPID=b68243dabebd57d34bb4226631a5247f&units=metric HTTP/1.1\r\nUser-Agent: Keil\r\nHost:api.openweathermap.org\r\nAccept: */*\r\n\r\n"
 // 1) go to http://openweathermap.org/appid#use 
 // 2) Register on the Sign up page
 // 3) get an API key (APPID) replace the 1234567890abcdef1234567890abcdef with your APPID
-int main(void){int32_t retVal;  SlSecParams_t secParams;
+int main(void){
+  char temperatureBuff[64] = {0};
+  char adcBuff[64] = {0};
+  uint32_t elapsedTime = 0;
+  uint32_t minTime = 50 * TICKS_IN_SEC; 
+  uint32_t maxTime = 0;
+  uint32_t sumTime = 0;
+  uint32_t packetsLost = 0;
+  uint16_t loopCount = 0;
+  int32_t retVal;	  
+  SlSecParams_t secParams;
   char *pConfig = NULL; INT32 ASize = 0; SlSockAddrIn_t  Addr;
   initClk();        // PLL 50 MHz
   UART_Init();      // Send data to PC, 115200 bps
   LED_Init();       // initialize LaunchPad I/O 
+	ADC0_InitSWTriggerSeq3_Ch9();
+	ADC0_SAC_R = ADC_HW_AVG_64X;
+	ST7735_InitR(INITR_REDTAB);
+	ST7735_OutString("Weather App\n\r");
   UARTprintf("Weather App\n");
   retVal = configureSimpleLinkToDefaultState(pConfig); // set policies
   if(retVal < 0)Crash(4000000);
@@ -269,17 +341,70 @@ int main(void){int32_t retVal;  SlSecParams_t secParams;
   secParams.KeyLen = strlen(PASSKEY);
   secParams.Type = SEC_TYPE; // OPEN, WPA, or WEP
   sl_WlanConnect(SSID_NAME, strlen(SSID_NAME), 0, &secParams, 0);
+	ST7735_OutString("connecting...\n\r");
   while((0 == (g_Status&CONNECTED)) || (0 == (g_Status&IP_AQUIRED))){
     _SlNonOsMainLoopTask();
   }
   UARTprintf("Connected\n");
-  while(1){
-    valvanoDisplayWeatherData();
-    //
-    data = 0;
-    adcUploadData(data);
-    while(Board_Input()==0){}; // wait for touch
-    LED_GreenOff();
+  ST7735_OutString("Connected\n\r");
+
+  while(1) {
+      if (loopCount < 10) {
+          elapsedTime = resetTimer(); // always returns 0, but resets the timer
+          // Save weather data to Recvbuff
+          if (getWeatherData() == PACKET_LOST) {
+              packetsLost++;
+          } else {
+            elapsedTime = timeElapsed();
+            // The average is the (sum of the elapsed times)/number of recordings
+            sumTime += elapsedTime;
+            // Update min, max response times
+            if (elapsedTime < minTime) {
+                minTime = elapsedTime;
+            }
+            if (elapsedTime > maxTime) {
+                maxTime = elapsedTime;
+            }
+          }
+      } else {
+          getWeatherData();
+      }
+      UARTprintf("\r\n\r\n");
+      UARTprintf(Recvbuff);  
+      UARTprintf("\r\n");
+  
+      getTemperature(temperatureBuff, Recvbuff);
+      ST7735_OutString(temperatureBuff);
+  
+      double voltage = makeADCMeasurement();
+      sprintf(adcBuff, "Voltage: %fV\n\r", voltage);
+      ST7735_OutString(adcBuff);
+
+      if (loopCount < 10) {
+        elapsedTime = resetTimer(); // always returns 0, but resets the timer
+        // upload ADC reading to valvano's site
+        if (uploadADCData(voltage) == PACKET_LOST) {
+            packetsLost++;
+        } else {
+          // The average is the (sum of the elapsed times)/number of recordings
+          elapsedTime = timeElapsed();
+          sumTime += elapsedTime;
+          // Update min, max response times
+          if (elapsedTime < minTime) {
+              minTime = elapsedTime;
+          }
+          if (elapsedTime > maxTime) {
+              maxTime = elapsedTime;
+          }
+        }
+      } else {
+        uploadADCData(voltage);
+      }
+  
+      while(Board_Input()==0){}; // wait for touch
+      LED_GreenOff();
+
+      loopCount++;
   }
 }
 
