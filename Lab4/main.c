@@ -105,6 +105,7 @@ Port A, SSI0 (PA2, PA3, PA5, PA6, PA7) sends data to Nokia5110 LCD
 
 //#define SSID_NAME  "valvanoAP" /* Access point name to connect to */
 //#define PASSKEY    "12345678"  /* Password in case of secure AP */ 
+#define PACKET_LOST -1
 
 
 #define SSID_NAME  "Tfon"
@@ -297,6 +298,15 @@ int uploadADCData(float adcData){
 		return retVal;
 }
 
+uint32_t resetTimer() {
+	Timer0A_Reset(0xffffffff);
+    return 0;
+}
+
+// return ticks since timer was reset.
+uint32_t timeElapsed() {
+    return 0xffffffff - TIEMR0A_TAMR;
+}
 
 /*
  * Application's entry point
@@ -307,14 +317,16 @@ int uploadADCData(float adcData){
 // 2) Register on the Sign up page
 // 3) get an API key (APPID) replace the 1234567890abcdef1234567890abcdef with your APPID
 int main(void){
-	uint32_t elapsedTime = 0;
-	uint32_t minTime = 50 * TICKS_IN_SEC; 
-	uint32_t maxTime = 0;
-	uint32_t sumTime = 0;
-	uint32_t packetsLost = 0;
-	uint16_t loopCount = 0;
-	int32_t retVal;	  
-	SlSecParams_t secParams;
+  char temperatureBuff[64] = {0};
+  char adcBuff[64] = {0};
+  uint32_t elapsedTime = 0;
+  uint32_t minTime = 50 * TICKS_IN_SEC; 
+  uint32_t maxTime = 0;
+  uint32_t sumTime = 0;
+  uint32_t packetsLost = 0;
+  uint16_t loopCount = 0;
+  int32_t retVal;	  
+  SlSecParams_t secParams;
   char *pConfig = NULL; INT32 ASize = 0; SlSockAddrIn_t  Addr;
   initClk();        // PLL 50 MHz
   UART_Init();      // Send data to PC, 115200 bps
@@ -338,41 +350,67 @@ int main(void){
     _SlNonOsMainLoopTask();
   }
   UARTprintf("Connected\n");
-	ST7735_OutString("Connected\n\r");
-  while(1){
-				Timer0A_Reset(0xffffffff);
-				if (getWeatherData()) == -1) packetsLost++;
-				else {
-					elapsedTime = timeElapsed();
-					sumTime += elapsedTime;
-					if (elapsedTime < minTime) minTime = elapsedTime;
-					if (elapsedTime > maxTime) maxTime = elapsedTime;
-				}
-        UARTprintf("\r\n\r\n");
-        UARTprintf(Recvbuff);  
-				UARTprintf("\r\n");
 
-        char temperature[64] = {0};
-        getTemperature(temperature, Recvbuff);
+  ST7735_OutString("Connected\n\r");
 
-        ST7735_OutString(temperature);
-				
-				char adc[64] = {0};
-				double voltage = makeADCMeasurement();
-				sprintf(adc, "Voltage: %fV\n\r", voltage);
-				ST7735_OutString(adc);	
-				elapsedTime = resetTimer();
-				if (uploadADCData(voltage) == -1) packetsLost++;
-				else {
-					elapsedTime = timeElapsed();
-					sumTime += elapsedTime;
-					if (elapsedTime < minTime) minTime = elapsedTime;
-					if (elapsedTime > maxTime) maxTime = elapsedTime;
-				}
-					
-				while(Board_Input()==0){}; // wait for touch
-				LED_GreenOff();
-				loopCount++;
+  while(1) {
+      if (loopCount < 10) {
+
+          elapsedTime = resetTimer(); // always returns 0, but resets the timer
+          // Save weather data to Recvbuff
+          if (getWeatherData() == PACKET_LOST) {
+              packetsLost++;
+          } else {
+            elapsedTime = timeElapsed();
+            // The average is the (sum of the elapsed times)/number of recordings
+            sumTime += elapsedTime;
+            // Update min, max response times
+            if (elapsedTime < minTime) {
+                minTime = elapsedTime;
+            }
+            if (elapsedTime > maxTime) {
+                maxTime = elapsedTime;
+            }
+          }
+      } else {
+          getWeatherData();
+      }
+      UARTprintf("\r\n\r\n");
+      UARTprintf(Recvbuff);  
+      UARTprintf("\r\n");
+  
+      getTemperature(temperatureBuff, Recvbuff);
+      ST7735_OutString(temperatureBuff);
+  
+      double voltage = makeADCMeasurement();
+      sprintf(adcBuff, "Voltage: %fV\n\r", voltage);
+      ST7735_OutString(adcBuff);
+
+      if (loopCount < 10) {
+        elapsedTime = resetTimer(); // always returns 0, but resets the timer
+        // upload ADC reading to valvano's site
+        if (uploadADCData(voltage) == PACKET_LOST) {
+            packetsLost++;
+        } else {
+          // The average is the (sum of the elapsed times)/number of recordings
+          elapsedTime = timeElapsed();
+          sumTime += elapsedTime;
+          // Update min, max response times
+          if (elapsedTime < minTime) {
+              minTime = elapsedTime;
+          }
+          if (elapsedTime > maxTime) {
+              maxTime = elapsedTime;
+          }
+        }
+      } else {
+        uploadADCData(voltage);
+      }
+  
+      while(Board_Input()==0){}; // wait for touch
+      LED_GreenOff();
+
+      loopCount++;
   }
 }
 
