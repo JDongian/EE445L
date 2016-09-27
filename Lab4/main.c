@@ -96,10 +96,12 @@ Port A, SSI0 (PA2, PA3, PA5, PA6, PA7) sends data to Nokia5110 LCD
 #include "ST7735.h"
 #include "ADCSWTrigger.h"
 #include "../inc/tm4c123gh6pm.h"
+#include "Timers.h"
 
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 //#define SSID_NAME  "valvanoAP" /* Access point name to connect to */
 //#define PASSKEY    "12345678"  /* Password in case of secure AP */ 
@@ -319,6 +321,7 @@ int main(void){
   LED_Init();       // initialize LaunchPad I/O 
 	ADC0_InitSWTriggerSeq3_Ch9();
 	ADC0_SAC_R = ADC_HW_AVG_64X;
+	Timer0A_Init(0xffffffff, false);
 	ST7735_InitR(INITR_REDTAB);
 	ST7735_OutString("Weather App\n\r");
   UARTprintf("Weather App\n");
@@ -337,7 +340,7 @@ int main(void){
   UARTprintf("Connected\n");
 	ST7735_OutString("Connected\n\r");
   while(1){
-				elapsedTime = resetTimer();
+				Timer0A_Reset(0xffffffff);
 				if (getWeatherData()) == -1) packetsLost++;
 				else {
 					elapsedTime = timeElapsed();
