@@ -5,9 +5,10 @@
 #include <stdint.h>
 
 
-#define INSTR_RES 32
+#define INSTR_RES 64
 #define INSTR_CENTER 1024
-typedef uint16_t* Instrument;
+#define WAVE_RES 16
+typedef const uint16_t* Instrument;
 
 uint16_t Wave_Value(Instrument inst, double index, uint16_t freq, uint8_t amp);
 

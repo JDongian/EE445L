@@ -27,13 +27,16 @@
 #define G5          784
 #define A5          880
 #define B5					988
+#define As4					466
+#define Ds5					622
+#define Gs4					415
 
 //Times
 #define semibreve		16*semiquaver
 #define minim				8*semiquaver
 #define crotchet		4*semiquaver
 #define quaver			2*semiquaver
-#define semiquaver	10
+#define semiquaver	1
 
 typedef struct Note {
     uint16_t frequency;
@@ -52,3 +55,5 @@ typedef struct MusicIndex {
     uint8_t note;
     double time;
 } MusicIndex;
+
+void Play_Music(void);

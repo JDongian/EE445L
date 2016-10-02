@@ -32,6 +32,8 @@
 #include "Timers.h"
 #include "PLL.h"
 #include "../inc/tm4c123gh6pm.h"
+#include "Music.h"
+#include "Wave.h"
 
 #define PF1       (*((volatile uint32_t *)0x40025008))
 	
@@ -63,7 +65,6 @@ void UserTask(){
 int main(void){
 	volatile uint32_t delay;
 	PLL_Init(Bus80MHz);
-  uint32_t i=0;
   DAC_Init();                  // initialize with command: Vout = Vref
 	
 	SYSCTL_RCGCGPIO_R |= 0x20;       // activate port F
@@ -76,11 +77,14 @@ int main(void){
   GPIO_PORTF_PCTL_R = (GPIO_PORTF_PCTL_R&0xFFFF000F)+0x00000000;
   GPIO_PORTF_AMSEL_R = 0;          // disable analog functionality on PF
 	
-	Timer0A_Init(&UserTask, 80000);
+	//Timer0A_Init(&UserTask, 80000/WAVE_RES);
+	Timer1_Init(80000000/440/64);
+	Timer2_Init(80000*100);
   SysTick_Init();
 	EnableInterrupts();
 	PF1 = 0x02;
   while(1){
+		//Play_Music();
     //DAC_OutValue(wave[i&0x1F]);
     //i = i + 1;
     // calculated frequencies are not exact, due to the impreciseness of delay loops
