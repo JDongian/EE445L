@@ -1,5 +1,18 @@
 #include "Music.h"
 #include "Wave.h"
+#include "MAX5353.h"
+#include "../inc/tm4c123gh6pm.h"
+
+double currentTimeMili = 0;
+MusicIndex i = {0, 0};
+
+#define PF1       (*((volatile uint32_t *)0x40025008))
+
+uint16_t flute[INSTR_RES] = {
+    1007, 1252, 1374, 1548, 1698, 1797, 1825, 1797,
+    1675, 1562, 1383, 1219, 1092, 1007, 913, 890,
+    833, 847, 810, 777, 744, 674, 598, 551,
+    509, 476, 495, 533, 589, 659, 758, 876};
 
 Note GreenHills[] = {
     {C5, quaver}, {A4, crotchet}, {C5, quaver}, 
@@ -50,10 +63,31 @@ Note GuilesTheme[] = {
     {A4, 0}
 };
 
-void Music_Play(Music song) {
-    MusicIndex i = {0, 0};
-    while (1) {
-        currentTime = 0.1;
-        Wave_Value(flute, currentTime - i.time, GreenHills[i.note], 1);
-    }
+const uint16_t wave2[32] = {
+  2048*2,2448*2,2832*2,3186*2,3496*2,3751*2,3940*2,4057*2,4095*2,4057*2,3940*2,
+  3751*2,3496*2,3186*2,2832*2,2448*2,2048*2,1648*2,1264*2,910*2,600*2,345*2,
+  156*2,39*2,0*2,39*2,156*2,345*2,600*2,910*2,1264*2,1648*2};
+
+void Timer0A_Handler(void) {
+	TIMER0_ICR_R = TIMER_ICR_TATOCINT;
+	if (fmod(currentTimeMili,1000) == 0) PF1 ^= 0x02;
+	/*
+  static int i = 0;
+	DAC_OutValue(wave2[i&0x1F]);
+	i++;
+	*/
+	
+	
+	currentTimeMili += 1;
+        double currentTime = currentTimeMili / 1000;
+        double delta = currentTime - i.time;
+        if (delta >= GreenHills[i.note].time) {
+            i.note += 1;
+            i.time = currentTime;
+            delta = 0;
+				}
+				uint16_t val = Wave_Value(flute, delta, GreenHills[i.note].frequency, 1);
+        DAC_OutValue(val);
+	
+	
 }

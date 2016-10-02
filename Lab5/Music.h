@@ -1,5 +1,7 @@
 // Music.h
 
+#include <stdint.h>
+
 #define Off         0		
 #define As2					117
 #define C3					131
@@ -39,7 +41,7 @@ typedef struct Note {
 } Note;
 
 typedef struct Music {
-    note notes[1024];
+    Note notes[1024];
     uint16_t durations[1024];
     uint8_t volumes[1024];
     uint16_t tempo;

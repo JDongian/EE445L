@@ -3,7 +3,7 @@
 // Joshua Dong - jid295
 
 #include <stdint.h>
-#include "..//inc//tm4c123gh6pm.h"
+#include "../inc/tm4c123gh6pm.h"
 
 
 
@@ -25,9 +25,9 @@ void (*PeriodicTask2)(void);   // user function
 // Outputs: none
 void Timer0A_Init(void(*task)(void), uint32_t period){
 	long sr;
-  sr = StartCritical(); 
+  //sr = StartCritical(); 
   SYSCTL_RCGCTIMER_R |= 0x01;   // 0) activate TIMER0
-  PeriodicTask0 = task;          // user function
+	PeriodicTask0 = task;
   TIMER0_CTL_R = 0x00000000;    // 1) disable TIMER0A during setup
   TIMER0_CFG_R = 0x00000000;    // 2) configure for 32-bit mode
   TIMER0_TAMR_R = 0x00000002;   // 3) configure for periodic mode, default down-count settings
@@ -40,7 +40,7 @@ void Timer0A_Init(void(*task)(void), uint32_t period){
 // vector number 35, interrupt number 19
   NVIC_EN0_R = 1<<19;           // 9) enable IRQ 19 in NVIC
   TIMER0_CTL_R = 0x00000001;    // 10) enable TIMER0A
-  EndCritical(sr);
+  //EndCritical(sr);
 }
 
 // ***************** TIMER1_Init ****************

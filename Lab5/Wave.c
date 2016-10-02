@@ -1,19 +1,14 @@
 #include "Wave.h"
 #include "systick.h"
 
-unsigned int waveform[TABLE_SIZE];
-volatile int sampleIndex = 0;
-int tempo = 180;
-int play = 0;
-
 // Linear interpolation
 uint16_t interpolate(Instrument inst,
                      uint16_t freq, double index, uint8_t res) {
     double fpart, ipart;
-    fpart = modf((freq * index * (res + 1)) % (res + 1), &ipart);
+    fpart = modf(fmod(freq * index * (res + 1) , (res + 1)), &ipart);
     uint16_t begin = inst[(int)ipart];
     // modulo again in case of edge case
-    uint16_t end = inst[(int)((ipart + 1) % (res + 1))];
+    uint16_t end = inst[(int)fmod(ipart + 1, res + 1)];
     return begin + (end - begin) * fpart;
 }
 
