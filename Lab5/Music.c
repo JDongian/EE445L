@@ -111,34 +111,6 @@ Note GuilesTheme[] = {
     {A4, 0}
 };
 
-Note GuilesTheme2[] = {
-    {Ds5, quaver}, {Ds5, semiquaver}, {D5, semiquaver}, {Off, semiquaver},
-        {D5, semiquaver}, {Ds5, quaver+crotchet}, {D5, quaver},
-    {Ds5, quaver}, {Ds5, semiquaver}, {D5, semiquaver}, {Off, semiquaver},
-        {D5, semiquaver}, {Ds5, quaver+crotchet}, {D5, quaver},
-    {Ds5, semiquaver}, {D5, quaver}, {Ds5, semiquaver}, {Off, semiquaver},
-        {D5, quaver}, {F5, semiquaver}, {Off, semiquaver}, {F5, semiquaver},
-        {Ds5, quaver}, {D5, quaver}, {As4, quaver},
-    {Ds5, quaver}, {Ds5, semiquaver}, {D5, semiquaver}, {Off, semiquaver},
-        {D5, semiquaver}, {Ds5, quaver+crotchet}, {D5, quaver},
-    {Ds5, quaver}, {Ds5, semiquaver}, {D5, semiquaver}, {Off, semiquaver},
-        {D5, semiquaver}, {Ds5, quaver+crotchet}, {D5, quaver},
-    {Ds5, semiquaver}, {D5, quaver}, {Ds5, semiquaver}, {Off, semiquaver},
-        {D5, quaver}, {F5, semiquaver}, {Off, semiquaver}, {F5, semiquaver},
-        {Ds5, quaver}, {D5, quaver}, {As4, quaver},
-    {C4, minim+quaver}, {D4, quaver}, {Ds4, semiquaver},
-        {F4, quaver+semiquaver},
-    {G4, quaver+semiquaver}, {G4, semiquaver}, {F4, quaver},
-        {As4, quaver+quaver}, {Gs4, quaver}, {G4, semiquaver},
-        {Gs4, quaver+semiquaver},
-    {D4, quaver+semiquaver}, {Ds4, semiquaver+quaver}, {F4, quaver},
-        {Off, quaver}, {As2, quaver}, {D4, quaver}, {F4, quaver},
-    {Gs4, quaver+semiquaver}, {As4, semiquaver+quaver}, {G4, quaver},
-        {Off, quaver}, {G4, quaver}, {F4, quaver}, {D4, quaver},
-    {C4, semibreve},
-    {A5, 0}
-};
-
 Note Lamb[] = {
 	/*
     {B4, quaver}, {A4, quaver},{G4, quaver},{A4, quaver},
@@ -155,6 +127,116 @@ Note Scale[] = {
 	{Off, 0},{A4, quaver},{B4, quaver},{C4, quaver},{D4, quaver},{E4, quaver},{F4, quaver},{G4, quaver}, {A5, quaver},
 	{A4, semiquaver},{B4, semiquaver},{C4, semiquaver},{D4, semiquaver},{E4, semiquaver},{F4, semiquaver},{G4, semiquaver}
 	, {A5, semiquaver}
+};
+
+Note GuilesThemeTrombone[] = {
+	{Ef3, eighth}, {Ef3, sixteenth}, {D3, eighth}, 
+	{D3, sixteenth}, {Ef3, eighth+quarter}+eighth, {Ef3, sixteenth}, {D3, sixteenth},
+	
+	{Ef3, eighth}, {Ef3, sixteenth}, {D3, eighth}, 
+	{D3, sixteenth}, {Ef3, eighth+quarter}+eighth, {Ef3, sixteenth}, {D3, sixteenth},
+	
+	{Ef3, sixteenth}, {D3, eighth}, {Ef3, eighth},
+	{D3, eighth}, {F3, eighth}, {F3, sixteenth},
+	{Ef3, eighth}, {D3, eighth}, {B3, eighth},
+	
+	{Ef3, eighth}, {Ef3, sixteenth}, {D3, eighth}, 
+	{D3, sixteenth}, {Ef3, eighth+quarter}+eighth, {Ef3, sixteenth}, {D3, sixteenth},
+	
+	{Ef3, eighth}, {Ef3, sixteenth}, {D3, eighth}, 
+	{D3, sixteenth}, {Ef3, eighth+quarter}+eighth, {Ef3, sixteenth}, {D3, sixteenth},
+	
+	{Ef3, sixteenth}, {D3, eighth}, {Ef3, eighth},
+	{D3, eighth}, {F3, eighth}, {F3, sixteenth},
+	{Ef3, eighth}, {D3, eighth}, {B3, eighth},
+	
+	{C4, quarter+eighth+quarter}, {D4, eighth}, {Ef4, sixteenth}, {F4, eighth+sixteenth},
+	
+	{G4, eighth+sixteenth}, {F4, sixteenth}, {Off, eighth},
+	{Bf3, quarter}, {Af3, eighth}, {G4, sixteenth}, {Af3, eighth+sixteenth},
+	
+	{D4, quarter}, {Ef4, eighth+sixteenth}, {F4, sixteenth},
+	{Off, eighth}, {Bf3, eighth}, {D4, eighth}, {F4, eighth},
+	
+	{A5f, quarter}, {B5f, eighth+sixteenth}, {G4, sixteenth},
+	{Off, eighth}, {G4, eighth}, {F4, sixteenth}, {D4, eighth+sixteenth},
+	
+	{C4, quarter+eighth+quarter}, {D4, eighth}, {Ef4, sixteenth}, {F4, eighth+sixteenth},
+	
+	{G4, eighth+ sixteenth}, {A4, sixteenth},{Off, eighth}, {F4, quarter}, 
+	{F4, eighth}, {G4, sixteenth}, {A4, eighth+sixteenth},
+	
+	{B5f, quarter+eighth+quarter}, {C5, eighth}, {D5, sixteenth}, 
+	{E5F, eithth+sixteenth}, 
+	
+	{G5, quarter}, {F5, quarter}, {D5, quarter}, {B5f, quarter},
+
+	{C5, quarter+eighth+quarter}, {D5, eighth}, {E5f, sixteenth}, 
+	{F5, eighth+sixteenth},
+	
+	{C5, quarter+eighth+quarter}, {D5, eighth}, {E5f, sixteenth}, 
+	{F5, eighth+sixteenth},
+	
+	{G5, whole+whole}, 
+	
+	{A5, quarter+eighth+quarter}, {G5, eighth}, {F5, sixteenth},
+	{G5, eighth+sixteenth},
+	
+	{G5, quarter}, {F5, quarter}, {D5, quarter}, {B5f, quarter},
+	
+	{C4, quarter}, {G4, whole+half}, {B5f, eighth}, {B5f, eighth},	
+
+};
+
+Note GuilesThemeTuba[] = {
+	{C2, half+eighth}, {F2, sixteenth}, {Ef2, sixteenth},
+	{F2, sixteenth}, {G2, sixteenth}, {F2, sixteenth}, {D2, sixteenth},
+	
+	{C2, half+eighth}, {F2, sixteenth}, {Ef2, sixteenth},
+	{F2, sixteenth}, {G2, sixteenth}, {F2, sixteenth}, {D2, sixteenth},
+	
+	{F1, sixteenth}, {F1, eighth}, {F1, eighth},{F1, eighth},
+	{G1, eighth}, {G1, sixteenth}, {G1, eighth},{G1, eighth},
+	{Bf1, eighth},
+	
+	{C2, eighth}, {C3, sixteenth}, {C3, eighth}, 
+	{C2, eighth}, {C3, eighth},{C2, sixteenth}, 
+	{F2, sixteenth}, {Ef2, sixteenth}, {F2, sixteenth}, 
+	{G2, sixteenth}, {F2, sixteenth}, {D2, sixteenth},
+	
+	{Af1, eighth}, {Af2, sixteenth}, {Af2, eighth}, 
+	{Af1, eighth}, {Af2, eighth}, {Af1, sixteenth}, 
+	{Ef2, sixteenth}, {G2, sixteenth}, {Af2, sixteenth},
+	{Af2, eighth}, {Af2, sixteenth},
+	
+	{F1, sixteenth}, {F1, eighth}, {F1, eighth},{F1, eighth},
+	{G1, eighth}, {G1, sixteenth}, {G1, eighth},{G1, eighth},
+	{Bf1, eighth},
+	
+	{C2, sixteenth}, {C2, eighth}, 	{C2, sixteenth}, {C2, eighth},
+	{C2, sixteenth}, {C2, eighth}, {Off, sixteenth}, 
+	{C2, eighth}, {C2, sixteenth}, {C2, eighth}, {C2, sixteenth},
+	
+	{Af1, sixteenth}, {Af1, eighth}, 	{Af1, sixteenth}, {Af1, eighth},
+	{Af1, sixteenth}, {Af1, eighth}, {Off, sixteenth}, 
+	{Af1, eighth}, {Af1, sixteenth}, {Af1, eighth}, {Af1, sixteenth},
+	
+	{Bf1, sixteenth}, {Bf1, eighth}, 	{Bf1, sixteenth}, {Bf1, eighth},
+	{Bf1, sixteenth}, {Bf1, eighth}, {Off, sixteenth}, 
+	{Bf1, eighth}, {Bf1, sixteenth}, {Bf1, eighth}, {Bf1, sixteenth},
+	
+	{G1, sixteenth}, {G1, eighth}, 	{G1, sixteenth}, {G1, eighth},
+	{G1, sixteenth}, {G1, eighth}, {Off, sixteenth}, 
+	{C2, sixteenth}, {D2, sixteenth}, {Ef2, sixteenth}, 
+	{D2, sixteenth}, {Bf2, sixteenth}, {C2, sixteenth}, 
+	
+	{C2, sixteenth}, {C2, eighth}, 	{C2, sixteenth}, {C2, eighth},
+	{C2, sixteenth}, {C2, eighth}, {Off, sixteenth}, 
+	{C2, eighth}, {C2, sixteenth}, {C2, eighth}, {C2, sixteenth},
+	
+	{Af1, sixteenth}, {Af1, eighth}, 	{Af1, sixteenth}, {Af1, eighth},
+	{Af1, sixteenth}, {Af1, eighth}, {Off, sixteenth}, 
+	{Af1, eighth}, {Af1, sixteenth}, {Af1, eighth}, {Af1, sixteenth},
 };
 
 uint16_t h(uint16_t h1, uint16_t h2, uint16_t h3) {

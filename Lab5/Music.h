@@ -38,6 +38,12 @@
 #define quaver			2*semiquaver
 #define semiquaver	1
 
+#define whole semibreve		
+#define half minim				
+#define quarter crotchet	
+#define eighth quaver			
+#define sixteenth semiquaver	
+
 #define TEMPO 120.
 #define TIME_UNIT 1000./((TEMPO/60)*4)
 
