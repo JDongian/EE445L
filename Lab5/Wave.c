@@ -17,6 +17,10 @@ void Wave_Init() {
     return;
 }
 
+double scale(uint16_t v, double s) {
+	return (v - INSTR_CENTER) * s + INSTR_CENTER;
+}
+
 // Return value for the DAC to use at a given time
 // inst/DAC[32]
 // index/sec
@@ -26,6 +30,6 @@ uint16_t Wave_Value(Instrument inst, double index, uint16_t freq, uint8_t amp) {
     if (freq == 0) {
         return 0;
     } else {
-        return amp * interpolate(inst, freq, index, INSTR_RES);
+        return scale(interpolate(inst, freq, index, INSTR_RES), amp);
     }
 }

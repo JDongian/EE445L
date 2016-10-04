@@ -5,7 +5,8 @@
 
 double sysTime = 0;
 MusicIndex i = {0, 0};
-int j = 0;
+volatile uint32_t reload = 0;
+volatile double ticks = 0;
 
 #define PF1       (*((volatile uint32_t *)0x40025008))
 
@@ -14,6 +15,40 @@ const uint16_t flute[INSTR_RES] = {
     1675, 1562, 1383, 1219, 1092, 1007, 913, 890,
     833, 847, 810, 777, 744, 674, 598, 551,
     509, 476, 495, 533, 589, 659, 758, 876};
+
+const uint16_t sawtooth[INSTR_RES] = {0,
+ 128,
+ 256,
+ 384,
+ 512,
+ 640,
+ 768,
+ 896,
+ 1024,
+ 1152,
+ 1280,
+ 1408,
+ 1536,
+ 1664,
+ 1792,
+ 1920,
+ 2048,
+ 2176,
+ 2304,
+ 2432,
+ 2560,
+ 2688,
+ 2816,
+ 2944,
+ 3072,
+ 3200,
+ 3328,
+ 3456,
+ 3584,
+ 3712,
+ 3840,
+ 3968}
+;
 
 const uint16_t Oboe[64]={
 1024, 1024, 1014, 1008, 1022, 1065, 1093, 1006, 858, 711, 612, 596, 672, 806, 952, 1074, 1154, 1191, 
@@ -105,75 +140,69 @@ Note GuilesTheme2[] = {
 };
 
 Note Lamb[] = {
+	/*
     {B4, quaver}, {A4, quaver},{G4, quaver},{A4, quaver},
     {B4, quaver},{B4, quaver}, {B4, crotchet}, {A4,quaver},
     {A4, quaver},{A4, crotchet}, {B4, quaver}, {D5, quaver}, {D5, crotchet}, {B4,quaver},
 		{A4, quaver}, {G4, quaver}, {A4, crotchet}, {B4,quaver},{B4,quaver},
 		{B4,quaver}, {B4,quaver},{A4, quaver}, {Off, semiquaver},{A4, quaver}, 
 		{B4, quaver}, {A4, quaver}, {G4, minim}
+	*/
+	{B4, quaver},{B4, quaver},{B4, quaver},{B4, quaver},{B4, quaver},{B4, quaver}
 };
 
-
-const uint16_t wave2[32] = {
-  2048*2,2448*2,2832*2,3186*2,3496*2,3751*2,3940*2,4057*2,4095*2,4057*2,3940*2,
-  3751*2,3496*2,3186*2,2832*2,2448*2,2048*2,1648*2,1264*2,910*2,600*2,345*2,
-  156*2,39*2,0*2,39*2,156*2,345*2,600*2,910*2,1264*2,1648*2};
-
-double tempo(int duration){
-	return duration/8.;
-}
-
-
-double scale(uint16_t v, double s) {
-	return (v - INSTR_CENTER) * s + INSTR_CENTER;
-}
+Note Scale[] = {
+	{Off, 0},{A4, quaver},{B4, quaver},{C4, quaver},{D4, quaver},{E4, quaver},{F4, quaver},{G4, quaver}, {A5, quaver},
+	{A4, semiquaver},{B4, semiquaver},{C4, semiquaver},{D4, semiquaver},{E4, semiquaver},{F4, semiquaver},{G4, semiquaver}
+	, {A5, semiquaver}
+};
 
 uint16_t h(uint16_t h1, uint16_t h2, uint16_t h3) {
 	return (uint16_t)(scale(h1, 0.9) + scale(h2, 0.1));// + scale(h3, 0.1));
 }
 
-void Timer0A_Handler(void) {
-	TIMER0_ICR_R = TIMER_ICR_TATOCINT;
-	uint16_t val = 0;
-	uint16_t val2 = 0;
-	if (fmod(sysTime,1000) == 0) {
-		PF1 ^= 0x02;
-	}
-	
-	double currentTime = sysTime / 1000;
-  double delta = currentTime - i.time;
-
-	if (delta >= tempo(GreenHills[i.note].time)) {
-      i.note = (i.note + 1) % 59;
-      i.time = currentTime;
-      delta = 0;
-	}
-	//val2 = Wave_Value(Oboe, delta, GreenHills2[i.note].frequency, 1);
-	//uint16_t harmonic = h(Wave_Value(Oboe, delta, GreenHills[i.note].frequency, 1),
-	             //Wave_Value(Oboe, delta, GreenHills[i.note].frequency * 2, 1),
-	            // Wave_Value(Oboe, delta, GreenHills[i.note].frequency / 2., 1));
-	val = Wave_Value(flute, delta, GreenHills[i.note].frequency, 1);
-  DAC_OutValue(val);
-	sysTime += 1./WAVE_RES;
+uint16_t envelope(uint16_t original, double proportion){
+	double d = proportion;
+	/*
+	if (proportion < 0.1) proportion = 0;
+	else if (proportion > 0.9) proportion = 1;
+	*/
+	uint16_t s = scale(original, (1-proportion));
+	return s;
 }
 
+void PlayInstrument(double proportion) {
+	static int waveIndex = 0;
+	DAC_OutValue(envelope(flute[waveIndex], proportion));
+	//DAC_OutValue(envelope(flute[waveIndex], 1));
+
+	waveIndex = (waveIndex+1) % INSTR_RES;
+}
+
+void PlayNote() {
+	i.noteIndex = (i.noteIndex+1) % 60;
+	uint16_t time = GreenHills[i.noteIndex].time;
+	reload = time*TIME_UNIT*80000;
+	PF1 ^= 0x02;
+}
+
+/*
+void Timer0A_Handler() {
+	TIMER0_ICR_R = TIMER_ICR_TATOCINT;
+	ticks++;
+}
+*/
+double counter = 0;
 void Timer1A_Handler() {
 	TIMER1_ICR_R = TIMER_ICR_TATOCINT;
-	DAC_OutValue(flute[j]);
-	j = (j+1) % 64;
+	PlayInstrument(	TIMER1_TAILR_R*counter/(GreenHills[i.noteIndex].time*TIME_UNIT*80000));
+	counter++;
 }
 
 void Timer2A_Handler() {
 	TIMER2_ICR_R = TIMER_ICR_TATOCINT;
-	TIMER1_CTL_R = 0x00000000;    // 10) disable TIMER1A
-	TIMER1_TAILR_R = 80000000/GreenHills[i.note].frequency/64;
-	TIMER1_CTL_R = 0x00000001;    // 10) enable TIMER1A
-	i.note = (i.note+1) % 59;
-	uint16_t time = GreenHills[i.note].time ;
-	uint32_t reload = time*150*80000;
+	TIMER1_TAILR_R = 80000000./GreenHills[i.noteIndex].frequency/INSTR_RES;//80000000./Lamb[i.note].frequency/INSTR_RES;
+	PlayNote();
+	counter = 0;
 	TIMER2_TAILR_R = reload;
-}
-
-void Play_Music(){
-
 }

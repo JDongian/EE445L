@@ -34,6 +34,7 @@
 #include "../inc/tm4c123gh6pm.h"
 #include "Music.h"
 #include "Wave.h"
+#include "switch.h"
 
 #define PF1       (*((volatile uint32_t *)0x40025008))
 	
@@ -55,20 +56,18 @@ const uint16_t wave[32] = {
   3751*2,3496*2,3186*2,2832*2,2448*2,2048*2,1648*2,1264*2,910*2,600*2,345*2,
   156*2,39*2,0*2,39*2,156*2,345*2,600*2,910*2,1264*2,1648*2};
 
-void UserTask(){
-	//static int i = 0;
-	//DAC_OutValue(wave2[i&0x1F]);
-	//i++;
-	PF1 ^= 0x02;
-}
+const uint16_t flute2[INSTR_RES] = {
+    1007, 1252, 1374, 1548, 1698, 1797, 1825, 1797,
+    1675, 1562, 1383, 1219, 1092, 1007, 913, 890,
+    833, 847, 810, 777, 744, 674, 598, 551,
+    509, 476, 495, 533, 589, 659, 758, 876};
 
 int main(void){
 	volatile uint32_t delay;
 	PLL_Init(Bus80MHz);
+	DisableInterrupts();
   DAC_Init();                  // initialize with command: Vout = Vref
-	
-	SYSCTL_RCGCGPIO_R |= 0x20;       // activate port F
-	delay = SYSCTL_RCGCGPIO_R;       // allow time to finish activating?
+	Init_Switches();
   GPIO_PORTF_DIR_R |= 0x6;        // make PF2, PF1 out (built-in LED)
   GPIO_PORTF_AFSEL_R &= ~0x16;     // disable alt funct on PF2, PF1, PF4
   GPIO_PORTF_DEN_R |= 0x16;        // enable digital I/O on PF2, PF1, PF4
@@ -77,27 +76,17 @@ int main(void){
   GPIO_PORTF_PCTL_R = (GPIO_PORTF_PCTL_R&0xFFFF000F)+0x00000000;
   GPIO_PORTF_AMSEL_R = 0;          // disable analog functionality on PF
 	
-	//Timer0A_Init(&UserTask, 80000/WAVE_RES);
-	Timer1_Init(80000000/440/64);
-	Timer2_Init(80000*100);
+	Timer1_Init(80000000/440/32);
+	Timer2_Init(1);
   SysTick_Init();
 	EnableInterrupts();
 	PF1 = 0x02;
+	int i = 0;
   while(1){
-		//Play_Music();
-    //DAC_OutValue(wave[i&0x1F]);
-    //i = i + 1;
-    // calculated frequencies are not exact, due to the impreciseness of delay loops
-    // assumes using 16 MHz PIOSC (default setting for clock source)
-    // maximum frequency with 16 MHz PIOSC: (8,000,000 bits/1 sec)*(1 sample/16 bits)*(1 wave/32 sample) = 15,625 Hz
-    // maximum frequency with 20 MHz PLL: (10,000,000 bits/1 sec)*(1 sample/16 bits)*(1 wave/32 sample) = 19,531.25 Hz
-//    SysTick_Wait(0);                 // ?? kHz sine wave (actually 12,000 Hz)
-//    SysTick_Wait(9);                 // 55.6 kHz sine wave (actually 10,000 Hz)
-//    SysTick_Wait(15);                // 33.3 kHz sine wave (actually 8,500 Hz)
-//    SysTick_Wait(19);                // 26.3 kHz sine wave (actually 8,500 Hz)
-//    SysTick_Wait(64);                // 7.81 kHz sine wave (actually 4,800 Hz)
-//    SysTick_Wait(99);                // 5.05 kHz sine wave (actually 3,500 Hz)
-    //SysTick_Wait(1136);              // 440 Hz sine wave (actually 420 Hz)
-//    SysTick_Wait(50000);             // 10 Hz sine wave (actually 9.9 Hz)
+		if (playPressed){
+			TIMER1_CTL_R ^= 1;
+			TIMER2_CTL_R ^= 1;
+			playPressed = false;
+		}
   }
 }

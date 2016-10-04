@@ -38,6 +38,9 @@
 #define quaver			2*semiquaver
 #define semiquaver	1
 
+#define TEMPO 120.
+#define TIME_UNIT 1000./((TEMPO/60)*4)
+
 typedef struct Note {
     uint16_t frequency;
     uint16_t time; // could be reduced
@@ -52,7 +55,7 @@ typedef struct Music {
 } Music;
 
 typedef struct MusicIndex {
-    uint8_t note;
+    uint8_t noteIndex;
     double time;
 } MusicIndex;
 
