@@ -1,35 +1,18 @@
 #include "Wave.h"
+#include "Wave.h"
 #include "systick.h"
 
-// Linear interpolation
-uint16_t interpolate(Instrument inst,
-                     uint16_t freq, double index, uint8_t res) {
-    double fpart, ipart;
-    fpart = modf(fmod(freq * index * (res + 1) , (res + 1)), &ipart);
-    uint16_t begin = inst[(int)ipart];
-    // modulo again in case of edge case
-    uint16_t end = inst[(int)fmod(ipart + 1, res + 1)];
-    return begin + (end - begin) * fpart;
-}
-
-void Wave_Init() {
-    // Could possibly extrapolate values for instruments here.
-    return;
-}
-
 double scale(uint16_t v, double s) {
-	return (v - INSTR_CENTER) * s + INSTR_CENTER;
+  // Appropriate scaling for non-zero-centered values
+  return (v - INSTR_CENTER) * s + INSTR_CENTER;
 }
 
-// Return value for the DAC to use at a given time
-// inst/DAC[32]
-// index/sec
-// freq/Hz
-// amp
-uint16_t Wave_Value(Instrument inst, double index, uint16_t freq, uint8_t amp) {
-    if (freq == 0) {
-        return 0;
-    } else {
-        return scale(interpolate(inst, freq, index, INSTR_RES), amp);
-    }
+uint16_t envelope(uint16_t original, double proportion){
+  // Simple hard attack, trailing decay envelope
+  uint16_t s = scale(original, (1-proportion));
+  return s;
 }
+
+//uint16_t add_harmonic(uint16_t h1, uint16_t h2, uint16_t h3) {
+//  return (uint16_t)(scale(h1, 0.9) + scale(h2, 0.1));// + scale(h3, 0.1));
+//}
