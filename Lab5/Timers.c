@@ -34,7 +34,7 @@ void Timer0A_Init(uint32_t period){
   TIMER0_TAPR_R = 0;            // 5) bus clock resolution
   TIMER0_ICR_R = 0x00000001;    // 6) clear TIMER0A timeout flag
   TIMER0_IMR_R = 0x00000001;    // 7) arm timeout interrupt
-  NVIC_PRI4_R = (NVIC_PRI4_R&0x00FFFFFF)|0x60000000; // 8) priority 3
+  NVIC_PRI4_R = (NVIC_PRI4_R&0x00FFFFFF)|0x80000000; // 8) priority 4
 // interrupts enabled in the main program after all devices initialized
 // vector number 35, interrupt number 19
   NVIC_EN0_R = 1<<19;           // 9) enable IRQ 19 in NVIC
@@ -56,11 +56,11 @@ void Timer1_Init(uint32_t period){
   TIMER1_TAPR_R = 0;            // 5) bus clock resolution
   TIMER1_ICR_R = 0x00000001;    // 6) clear TIMER1A timeout flag
   TIMER1_IMR_R = 0x00000001;    // 7) arm timeout interrupt
-  NVIC_PRI5_R = (NVIC_PRI5_R&0xFFFF00FF)|0x00008000; // 8) priority 4
+  NVIC_PRI5_R = (NVIC_PRI5_R&0xFFFF00FF)|0x00002000; // 8) priority 1
 // interrupts enabled in the main program after all devices initialized
 // vector number 37, interrupt number 21
   NVIC_EN0_R = 1<<21;           // 9) enable IRQ 21 in NVIC
-  TIMER1_CTL_R = 0x00000001;    // 10) enable TIMER1A
+  //TIMER1_CTL_R = 0x00000001;    // 10) enable TIMER1A
 }
 
 
@@ -78,9 +78,57 @@ void Timer2_Init(unsigned long period){
   TIMER2_TAPR_R = 0;            // 5) bus clock resolution
   TIMER2_ICR_R = 0x00000001;    // 6) clear timer2A timeout flag
   TIMER2_IMR_R = 0x00000001;    // 7) arm timeout interrupt
-  NVIC_PRI5_R = (NVIC_PRI5_R&0x00FFFFFF)|0x20000000; // 8) priority 2
+  NVIC_PRI5_R = (NVIC_PRI5_R&0x00FFFFFF)|0x20000000; // 8) priority 1
 // interrupts enabled in the main program after all devices initialized
 // vector number 39, interrupt number 23
   NVIC_EN0_R = 1<<23;           // 9) enable IRQ 23 in NVIC
-  TIMER2_CTL_R = 0x00000001;    // 10) enable timer2A
+  //TIMER2_CTL_R = 0x00000001;    // 10) enable timer2A
+}
+
+void Timer3_Init(unsigned long period) {
+	SYSCTL_RCGCTIMER_R |= 0x08;   // 0) activate timer3
+  TIMER3_CTL_R = 0x00000000;    // 1) disable timer2A during setup
+  TIMER3_CFG_R = 0x00000000;    // 2) configure for 32-bit mode
+  TIMER3_TAMR_R = 0x00000002;   // 3) configure for periodic mode, default down-count settings
+  TIMER3_TAILR_R = period-1;    // 4) reload value
+  TIMER3_TAPR_R = 0;            // 5) bus clock resolution
+  TIMER3_ICR_R = 0x00000001;    // 6) clear timer2A timeout flag
+  TIMER3_IMR_R = 0x00000001;    // 7) arm timeout interrupt
+  NVIC_PRI8_R = (NVIC_PRI8_R&0x00FFFFFF)|0x20000000; // 8) priority 1
+// interrupts enabled in the main program after all devices initialized
+// vector number 39, interrupt number 23
+  NVIC_EN1_R = 1<<3;           // 9) enable IRQ 23 in NVIC
+  //TIMER2_CTL_R = 0x00000001;    // 10) enable timer2A
+}
+
+void Timer4_Init(unsigned long period) {
+	SYSCTL_RCGCTIMER_R |= 0x10;   // 0) activate timer3
+  TIMER4_CTL_R = 0x00000000;    // 1) disable timer2A during setup
+  TIMER4_CFG_R = 0x00000000;    // 2) configure for 32-bit mode
+  TIMER4_TAMR_R = 0x00000002;   // 3) configure for periodic mode, default down-count settings
+  TIMER4_TAILR_R = period-1;    // 4) reload value
+  TIMER4_TAPR_R = 0;            // 5) bus clock resolution
+  TIMER4_ICR_R = 0x00000001;    // 6) clear timer2A timeout flag
+  TIMER4_IMR_R = 0x00000001;    // 7) arm timeout interrupt
+  NVIC_PRI17_R = (NVIC_PRI17_R&0xFF0FFFFF)|0x00200000; // 8) priority 1
+// interrupts enabled in the main program after all devices initialized
+// vector number 39, interrupt number 23
+  NVIC_EN2_R = 1<<6;           // 9) enable IRQ 23 in NVIC
+  //TIMER2_CTL_R = 0x00000001;    // 10) enable timer2A
+}
+
+void Timer5_Init(unsigned long period) {
+	SYSCTL_RCGCTIMER_R |= 0x20;   // 0) activate timer3
+  TIMER5_CTL_R = 0x00000000;    // 1) disable timer2A during setup
+  TIMER5_CFG_R = 0x00000000;    // 2) configure for 32-bit mode
+  TIMER5_TAMR_R = 0x00000002;   // 3) configure for periodic mode, default down-count settings
+  TIMER5_TAILR_R = period-1;    // 4) reload value
+  TIMER5_TAPR_R = 0;            // 5) bus clock resolution
+  TIMER5_ICR_R = 0x00000001;    // 6) clear timer2A timeout flag
+  TIMER5_IMR_R = 0x00000001;    // 7) arm timeout interrupt
+  NVIC_PRI23_R = (NVIC_PRI22_R&0xFFFFFF0F)|0x00000060; // 8) priority 4
+// interrupts enabled in the main program after all devices initialized
+// vector number 39, interrupt number 23
+  NVIC_EN2_R = 1<<28;           // 9) enable IRQ 23 in NVIC
+  TIMER5_CTL_R = 0x00000001;    // 10) enable timer2A
 }

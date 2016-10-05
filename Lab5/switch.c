@@ -9,6 +9,7 @@
 #define PD1 (*((volatile uint32_t *)0x40007008))
 
 bool playPressed;
+bool changeInstrumentPressed;
 
 void Init_Switches(void){
 	volatile uint32_t delay;
@@ -43,9 +44,10 @@ void Init_Switches(void){
 	GPIO_PORTF_IS_R &= ~0x11;     // (d) PF4 is edge-sensitive
 	GPIO_PORTF_ICR_R = 0x11;      // (e) clear flag4
   //GPIO_PORTF_IM_R |= 0x11;      // (f) arm interrupt on PF4 *** No IME bit as mentioned in Book ***
-  NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|0x00A00000; // (g) priority 5
+  NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|0x00400000; // (g) priority 2
   //NVIC_EN0_R = 0x40000000;      // (h) enable interrupt 30 in NVIC  
 	playPressed = false;
+	changeInstrumentPressed = false;
 	
 }
 
@@ -61,7 +63,9 @@ void Timer0A_Handler(void){
 	
 	static uint16_t pf0State = 0; // Current debounce status
   pf0State=(pf0State<<1) | !PF0 | 0xe000;
-	//if(pf0State==0xf000) 
+	if(pf0State==0xf000) {
+		changeInstrumentPressed = true;
+	}
 	
 	/*
   static uint16_t pd0State = 0; // Current debounce status

@@ -35,6 +35,7 @@
 #include "Music.h"
 #include "Wave.h"
 #include "switch.h"
+#include "Song.h"
 
 #define PF1       (*((volatile uint32_t *)0x40025008))
 	
@@ -44,49 +45,47 @@ long StartCritical (void);    // previous I bit, disable interrupts
 void EndCritical(long sr);    // restore I bit to previous value
 void WaitForInterrupt(void);  // low power mode
 
-// 12-bit 32-element sine wave
-// multiply each value by 2 to shift into bits 12:1 of SSI packet
-// three control bits in 15:13 are all zero for immediate DAC update
-// book figure shows MAX5353 in unipolar rail-to-rail configuration
-// that means when wave[n] = 0x0000 (LSB = 0), output = 0
-//                 wave[n] = 0x1000 (LSB = 0), output = Vref
-//                 wave[n] = 0x1FFE (LSB = 0), output = 2*Vref
-const uint16_t wave[32] = {
-  2048*2,2448*2,2832*2,3186*2,3496*2,3751*2,3940*2,4057*2,4095*2,4057*2,3940*2,
-  3751*2,3496*2,3186*2,2832*2,2448*2,2048*2,1648*2,1264*2,910*2,600*2,345*2,
-  156*2,39*2,0*2,39*2,156*2,345*2,600*2,910*2,1264*2,1648*2};
-
-const uint16_t flute2[INSTR_RES] = {
-    1007, 1252, 1374, 1548, 1698, 1797, 1825, 1797,
-    1675, 1562, 1383, 1219, 1092, 1007, 913, 890,
-    833, 847, 810, 777, 744, 674, 598, 551,
-    509, 476, 495, 533, 589, 659, 758, 876};
-
-int main(void){
-	volatile uint32_t delay;
-	PLL_Init(Bus80MHz);
-	DisableInterrupts();
-  DAC_Init();                  // initialize with command: Vout = Vref
-	Init_Switches();
-  GPIO_PORTF_DIR_R |= 0x6;        // make PF2, PF1 out (built-in LED)
+void Init_LED(){
+	 GPIO_PORTF_DIR_R |= 0x6;        // make PF2, PF1 out (built-in LED)
   GPIO_PORTF_AFSEL_R &= ~0x16;     // disable alt funct on PF2, PF1, PF4
   GPIO_PORTF_DEN_R |= 0x16;        // enable digital I/O on PF2, PF1, PF4
                                    // configure PF2 as GPIO
   GPIO_PORTF_PUR_R |= 0x10;         // pullup for PF4
   GPIO_PORTF_PCTL_R = (GPIO_PORTF_PCTL_R&0xFFFF000F)+0x00000000;
   GPIO_PORTF_AMSEL_R = 0;          // disable analog functionality on PF
+}
+
+int main(void){
+	PLL_Init(Bus80MHz);
 	
-	Timer1_Init(80000000/440/32);
+	DisableInterrupts();
+	
+  DAC_Init();                
+	Init_Switches();
+	Init_LED();
+	
+	Timer1_Init(1);
 	Timer2_Init(1);
+	Timer3_Init(1);
+	Timer4_Init(1);
   SysTick_Init();
+	
+	init_songs();
+	PlayMusic(&guiles_melody, &guiles_tuba);
+	//Timer5_Init(8000*2);
 	EnableInterrupts();
-	PF1 = 0x02;
-	int i = 0;
+	
   while(1){
 		if (playPressed){
 			TIMER1_CTL_R ^= 1;
 			TIMER2_CTL_R ^= 1;
+			TIMER3_CTL_R ^= 1;
+			TIMER4_CTL_R ^= 1;
 			playPressed = false;
+		}
+		if (changeInstrumentPressed) {
+			ChangeInstrument();
+			changeInstrumentPressed = false;
 		}
   }
 }

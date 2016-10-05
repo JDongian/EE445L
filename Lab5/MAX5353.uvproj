@@ -450,6 +450,16 @@
               <FileType>1</FileType>
               <FilePath>.\switch.c</FilePath>
             </File>
+            <File>
+              <FileName>Instrument.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Instrument.c</FilePath>
+            </File>
+            <File>
+              <FileName>Song.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Song.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

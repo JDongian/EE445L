@@ -13,5 +13,6 @@
 #include <stdbool.h>
 
 extern bool playPressed;	
+extern bool changeInstrumentPressed;
 
 void Init_Switches(void);
