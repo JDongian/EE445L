@@ -37,6 +37,7 @@
 #include "switch.h"
 #include "Song.h"
 
+// DEBUG LED
 #define PF1       (*((volatile uint32_t *)0x40025008))
 	
 void DisableInterrupts(void); // Disable interrupts
@@ -46,46 +47,55 @@ void EndCritical(long sr);    // restore I bit to previous value
 void WaitForInterrupt(void);  // low power mode
 
 void Init_LED(){
-	 GPIO_PORTF_DIR_R |= 0x6;        // make PF2, PF1 out (built-in LED)
-  GPIO_PORTF_AFSEL_R &= ~0x16;     // disable alt funct on PF2, PF1, PF4
-  GPIO_PORTF_DEN_R |= 0x16;        // enable digital I/O on PF2, PF1, PF4
-                                   // configure PF2 as GPIO
-  GPIO_PORTF_PUR_R |= 0x10;         // pullup for PF4
-  GPIO_PORTF_PCTL_R = (GPIO_PORTF_PCTL_R&0xFFFF000F)+0x00000000;
-  GPIO_PORTF_AMSEL_R = 0;          // disable analog functionality on PF
+    GPIO_PORTF_DIR_R |= 0x6;        // make PF2, PF1 out (built-in LED)
+    GPIO_PORTF_AFSEL_R &= ~0x16;     // disable alt funct on PF2, PF1, PF4
+    GPIO_PORTF_DEN_R |= 0x16;        // enable digital I/O on PF2, PF1, PF4
+    // configure PF2 as GPIO
+    GPIO_PORTF_PUR_R |= 0x10;         // pullup for PF4
+    GPIO_PORTF_PCTL_R = (GPIO_PORTF_PCTL_R&0xFFFF000F)+0x00000000;
+    GPIO_PORTF_AMSEL_R = 0;          // disable analog functionality on PF
 }
 
-int main(void){
-	PLL_Init(Bus80MHz);
-	
-	DisableInterrupts();
-	
-  DAC_Init();                
-	Init_Switches();
-	Init_LED();
-	
-	Timer1_Init(1);
-	Timer2_Init(1);
-	Timer3_Init(1);
-	Timer4_Init(1);
-  SysTick_Init();
-	
-	init_songs();
-	PlayMusic(&guiles_melody, &guiles_tuba);
-	//Timer5_Init(8000*2);
-	EnableInterrupts();
-	
-  while(1){
-		if (playPressed){
-			TIMER1_CTL_R ^= 1;
-			TIMER2_CTL_R ^= 1;
-			TIMER3_CTL_R ^= 1;
-			TIMER4_CTL_R ^= 1;
-			playPressed = false;
-		}
-		if (changeInstrumentPressed) {
-			ChangeInstrument();
-			changeInstrumentPressed = false;
-		}
-  }
+int main(void)
+{
+    PLL_Init(Bus80MHz);
+
+    DisableInterrupts();
+
+    // initialize hardware
+    DAC_Init();                
+    Init_Switches();
+    Init_LED();
+
+    // initialize timers used for music playing
+    Timer1_Init(1);
+    Timer2_Init(1);
+    Timer3_Init(1);
+    Timer4_Init(1);
+    //Timer5_Init(8000*2);
+
+    SysTick_Init();
+
+    // initialize song data
+    init_songs();
+
+    // play a song with two lines
+    PlayMusic(&guiles_melody, &guiles_tuba);
+
+    EnableInterrupts();
+
+    while(1){
+        // handle hardware buttons
+        if (playPressed){
+            TIMER1_CTL_R ^= 1;
+            TIMER2_CTL_R ^= 1;
+            TIMER3_CTL_R ^= 1;
+            TIMER4_CTL_R ^= 1;
+            playPressed = false;
+        }
+        if (changeInstrumentPressed) {
+            ChangeInstrument();
+            changeInstrumentPressed = false;
+        }
+    }
 }
