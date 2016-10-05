@@ -15,18 +15,18 @@ Note notes_greenhills[] = {
   {B4, crotchet}, {C5, quaver}, {B4, crotchet}, {G4, minim+crotchet+quaver},
 
   {C5, quaver}, {A4, crotchet}, {C5, quaver}, 
-  {B4, crotchet}, {C5, quaver}, {B4, crotchet}, {G4, minim+quaver}, 		
+  {B4, crotchet}, {C5, quaver}, {B4, crotchet}, {G4, minim+quaver},     
   {A4, crotchet}, {F4, crotchet}, {A4, quaver},
-  {G4, crotchet}, {A4, quaver}, {G4, crotchet},	{C4, minim+crotchet},
+  {G4, crotchet}, {A4, quaver}, {G4, crotchet}, {C4, minim+crotchet},
   {C5, quaver}, {A4, crotchet}, {C5, quaver}, 
   {B4, crotchet}, {C5, quaver}, {B4, crotchet}, {G4, minim+quaver}, 
   {A4, quaver}, {E5, quaver}, {D5, crotchet}, {C5, quaver},
   {B4, crotchet}, {C5, quaver}, {B4, crotchet}, {G4, minim+crotchet+quaver},
 
   {C5, quaver}, {A4, crotchet}, {C5, quaver}, 
-  {B4, crotchet}, {C5, quaver}, {B4, crotchet}, {G4, minim+quaver}, 		
+  {B4, crotchet}, {C5, quaver}, {B4, crotchet}, {G4, minim+quaver},     
   {A4, crotchet}, {F4, crotchet}, {A4, quaver},
-  {G4, crotchet}, {A4, quaver}, {G4, crotchet},	{C4, minim+crotchet},
+  {G4, crotchet}, {A4, quaver}, {G4, crotchet}, {C4, minim+crotchet},
   {Off, 0}
 };
 uint8_t volumes_greenhills[] = {
@@ -165,34 +165,34 @@ Note notes_guiles_tuba[] = {
   {Af0, sixteenth}, {Af0, eighth},  {Af0, sixteenth}, {Af0, eighth},
   {Af0, sixteenth}, {Af0, eighth}, {Off, sixteenth}, 
   {Af0, eighth}, {Af0, sixteenth}, {Af0, eighth}, {Af0, sixteenth},
-	
-	 {Bf0, sixteenth}, {Bf0, eighth},  {Bf0, sixteenth}, {Bf0, eighth},
+  
+   {Bf0, sixteenth}, {Bf0, eighth},  {Bf0, sixteenth}, {Bf0, eighth},
   {Bf0, sixteenth}, {Bf0, eighth}, {Off, sixteenth}, 
   {Bf0, eighth}, {Bf0, sixteenth}, {Bf0, eighth}, {Bf0, sixteenth},
-	
-	{G0, quarter}, {G0, quarter+eighth}, {C1, sixteenth}, {D1, sixteenth}, 
-	{G1, sixteenth}, {Ef1, sixteenth}, {C1, sixteenth}, {Ef1, sixteenth},
-	
-	{Af0, eighth+sixteenth}, {Af0, eighth}, {Af0, eighth}, {Af0, sixteenth}, 
-	{Af0, eighth+sixteenth}, {Af0, eighth}, {Af0, eighth}, {Af0, sixteenth}, 
-	
-	{Bf0, eighth+sixteenth}, {Bf0, eighth}, {Bf0, eighth}, {Bf0, sixteenth}, 
-	{Bf0, eighth+sixteenth}, {Bf0, eighth}, {Bf0, eighth}, {Bf0, sixteenth}, 
-	
-	{C1, sixteenth}, {C1, eighth}, {C1, half}, {C1, sixteenth}, 
-	{C1, eighth+sixteenth}, {C1, sixteenth}, 
-	
-	{C1, eighth}, {C1, sixteenth}, {C1, eighth}, {C1, sixteenth}, 
-	{C1, half+eighth},
+  
+  {G0, quarter}, {G0, quarter+eighth}, {C1, sixteenth}, {D1, sixteenth}, 
+  {G1, sixteenth}, {Ef1, sixteenth}, {C1, sixteenth}, {Ef1, sixteenth},
+  
+  {Af0, eighth+sixteenth}, {Af0, eighth}, {Af0, eighth}, {Af0, sixteenth}, 
+  {Af0, eighth+sixteenth}, {Af0, eighth}, {Af0, eighth}, {Af0, sixteenth}, 
+  
+  {Bf0, eighth+sixteenth}, {Bf0, eighth}, {Bf0, eighth}, {Bf0, sixteenth}, 
+  {Bf0, eighth+sixteenth}, {Bf0, eighth}, {Bf0, eighth}, {Bf0, sixteenth}, 
+  
+  {C1, sixteenth}, {C1, eighth}, {C1, half}, {C1, sixteenth}, 
+  {C1, eighth+sixteenth}, {C1, sixteenth}, 
+  
+  {C1, eighth}, {C1, sixteenth}, {C1, eighth}, {C1, sixteenth}, 
+  {C1, half+eighth},
 
-	{Af0, eighth+sixteenth}, {Af0, eighth}, {Af0, eighth}, {Af0, sixteenth}, 
-	{Af0, eighth+sixteenth}, {Af0, eighth}, {Af0, eighth}, {Af0, sixteenth}, 
-	
-	{Bf0, eighth+sixteenth}, {Bf0, eighth}, {Bf0, eighth}, {Bf0, sixteenth}, 
-	{Bf0, eighth+sixteenth}, {Bf0, eighth}, {Bf0, eighth}, {Bf0, sixteenth}, 
-	
-	{C1, sixteenth}, {C1, eighth}, {C1, half}, {C1, sixteenth}, {C1, eighth+sixteenth},
-	{C1, sixteenth}
+  {Af0, eighth+sixteenth}, {Af0, eighth}, {Af0, eighth}, {Af0, sixteenth}, 
+  {Af0, eighth+sixteenth}, {Af0, eighth}, {Af0, eighth}, {Af0, sixteenth}, 
+  
+  {Bf0, eighth+sixteenth}, {Bf0, eighth}, {Bf0, eighth}, {Bf0, sixteenth}, 
+  {Bf0, eighth+sixteenth}, {Bf0, eighth}, {Bf0, eighth}, {Bf0, sixteenth}, 
+  
+  {C1, sixteenth}, {C1, eighth}, {C1, half}, {C1, sixteenth}, {C1, eighth+sixteenth},
+  {C1, sixteenth}
 };
 
 /*
@@ -250,31 +250,31 @@ Note GuilesThemeTuba[] = {
 
 
 void init_songs(){
-	greenhills.notes = notes_greenhills;
-	greenhills.volumes = volumes_greenhills;
-	greenhills.tempo = 150;
-	greenhills.instr = &oboe;
-	greenhills.length = 60;
-	greenhills.timeUnit = 80000*(60000/greenhills.tempo/4);
-	
-	guiles_melody.notes = notes_guiles_melody;
-	guiles_melody.volumes = volumes_guile_melody;
-	guiles_melody.tempo = 100;
-	guiles_melody.instr = &flute;
-	guiles_melody.length = 111;
-	guiles_melody.timeUnit = 80000*(60000/guiles_melody.tempo/4);
-	
-	guiles_tuba.notes = notes_guiles_tuba;
-	guiles_tuba.volumes = volumes_guile_tuba;
-	guiles_tuba.tempo = 100;
-	guiles_tuba.instr = &horn;
-	guiles_tuba.length = 111;
-	guiles_tuba.timeUnit = 80000*(60000/guiles_tuba.tempo/4);
-	
-	test_scale.notes = notes_scale;
-	test_scale.volumes = volumes_scale;
-	test_scale.tempo = 61;
-	test_scale.instr = &oboe;
-	test_scale.length = 15;
-	test_scale.timeUnit = 80000*(60000/test_scale.tempo/4);
+  greenhills.notes = notes_greenhills;
+  greenhills.volumes = volumes_greenhills;
+  greenhills.tempo = 150;
+  greenhills.instr = &oboe;
+  greenhills.length = 60;
+  greenhills.timeUnit = 80000*(60000/greenhills.tempo/4);
+  
+  guiles_melody.notes = notes_guiles_melody;
+  guiles_melody.volumes = volumes_guile_melody;
+  guiles_melody.tempo = 100;
+  guiles_melody.instr = &flute;
+  guiles_melody.length = 111;
+  guiles_melody.timeUnit = 80000*(60000/guiles_melody.tempo/4);
+  
+  guiles_tuba.notes = notes_guiles_tuba;
+  guiles_tuba.volumes = volumes_guile_tuba;
+  guiles_tuba.tempo = 100;
+  guiles_tuba.instr = &horn;
+  guiles_tuba.length = 111;
+  guiles_tuba.timeUnit = 80000*(60000/guiles_tuba.tempo/4);
+  
+  test_scale.notes = notes_scale;
+  test_scale.volumes = volumes_scale;
+  test_scale.tempo = 61;
+  test_scale.instr = &oboe;
+  test_scale.length = 15;
+  test_scale.timeUnit = 80000*(60000/test_scale.tempo/4);
 }

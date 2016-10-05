@@ -229,7 +229,11 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
+<<<<<<< HEAD
       <TopLine>259</TopLine>
+=======
+      <TopLine>266</TopLine>
+>>>>>>> 9f88debea64c827130dce21dc2cc09e57b7f44e9
       <CurrentLine>277</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\startup.s</PathWithFileName>
@@ -259,10 +263,17 @@
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <Focus>0</Focus>
+<<<<<<< HEAD
       <ColumnNumber>3</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>26</TopLine>
       <CurrentLine>90</CurrentLine>
+=======
+      <ColumnNumber>2</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>59</TopLine>
+      <CurrentLine>89</CurrentLine>
+>>>>>>> 9f88debea64c827130dce21dc2cc09e57b7f44e9
       <bDave2>0</bDave2>
       <PathWithFileName>.\MAX5353TestMain.c</PathWithFileName>
       <FilenameWithoutPath>MAX5353TestMain.c</FilenameWithoutPath>
@@ -309,8 +320,13 @@
       <Focus>0</Focus>
       <ColumnNumber>52</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
+<<<<<<< HEAD
       <TopLine>69</TopLine>
       <CurrentLine>129</CurrentLine>
+=======
+      <TopLine>17</TopLine>
+      <CurrentLine>29</CurrentLine>
+>>>>>>> 9f88debea64c827130dce21dc2cc09e57b7f44e9
       <bDave2>0</bDave2>
       <PathWithFileName>.\Timers.c</PathWithFileName>
       <FilenameWithoutPath>Timers.c</FilenameWithoutPath>
@@ -325,8 +341,13 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
+<<<<<<< HEAD
       <TopLine>1</TopLine>
       <CurrentLine>4</CurrentLine>
+=======
+      <TopLine>2</TopLine>
+      <CurrentLine>21</CurrentLine>
+>>>>>>> 9f88debea64c827130dce21dc2cc09e57b7f44e9
       <bDave2>0</bDave2>
       <PathWithFileName>.\Wave.c</PathWithFileName>
       <FilenameWithoutPath>Wave.c</FilenameWithoutPath>
@@ -339,10 +360,15 @@
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>1</ColumnNumber>
+      <ColumnNumber>24</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
+<<<<<<< HEAD
       <TopLine>19</TopLine>
       <CurrentLine>61</CurrentLine>
+=======
+      <TopLine>226</TopLine>
+      <CurrentLine>247</CurrentLine>
+>>>>>>> 9f88debea64c827130dce21dc2cc09e57b7f44e9
       <bDave2>0</bDave2>
       <PathWithFileName>.\Music.c</PathWithFileName>
       <FilenameWithoutPath>Music.c</FilenameWithoutPath>
@@ -357,8 +383,13 @@
       <Focus>0</Focus>
       <ColumnNumber>70</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
+<<<<<<< HEAD
       <TopLine>19</TopLine>
       <CurrentLine>47</CurrentLine>
+=======
+      <TopLine>47</TopLine>
+      <CurrentLine>59</CurrentLine>
+>>>>>>> 9f88debea64c827130dce21dc2cc09e57b7f44e9
       <bDave2>0</bDave2>
       <PathWithFileName>.\switch.c</PathWithFileName>
       <FilenameWithoutPath>switch.c</FilenameWithoutPath>

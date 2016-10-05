@@ -11,10 +11,10 @@ typedef struct Note {
 typedef struct Song {
   Note* notes;
   uint8_t* volumes;
-	uint16_t length;
+  uint16_t length;
   uint16_t tempo;
   Instr* instr;
-	double timeUnit;
+  double timeUnit;
 } Song;
 
 extern Song greenhills;
