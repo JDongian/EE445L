@@ -72,7 +72,8 @@ int main(void)
     Timer2_Init(1);
     Timer3_Init(1);
     Timer4_Init(1);
-    //Timer5_Init(8000*2);
+    // an arbitrarily small value
+    Timer5_Init(2000);
 
     SysTick_Init();
 

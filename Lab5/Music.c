@@ -20,8 +20,8 @@ double envelopeIndex = 0;
 double envelopeIndex2 = 0;
 uint8_t instrIndex = 0;
 uint8_t instrIndex2 = 0;
-uint16_t song1_value = 0;
-uint16_t song2_value = 0;
+volatile uint16_t song1_value = 0;
+volatile uint16_t song2_value = 0;
 
 
 // an array of instruments allows one to toggle between instruments
@@ -182,5 +182,6 @@ void Timer4A_Handler()
 // hardware output
 void Timer5A_Handler()
 {
+    TIMER5_ICR_R = TIMER_ICR_TATOCINT;
     DAC_OutValue(song1_value + song2_value);
 }
