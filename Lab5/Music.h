@@ -87,10 +87,10 @@
 #define B8	7902.13
 
 //Times
-#define semibreve		16*semiquaver
-#define minim				8*semiquaver
-#define crotchet		4*semiquaver
-#define quaver			2*semiquaver
+#define semibreve	16*semiquaver
+#define minim		8*semiquaver
+#define crotchet	4*semiquaver
+#define quaver		2*semiquaver
 #define semiquaver	1
 
 #define whole semibreve		
