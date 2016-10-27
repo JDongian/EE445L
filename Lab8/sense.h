@@ -11,7 +11,6 @@ typedef struct {
     int gyro_z;
 } RobotState;
 
-
 //void update_state(RobotState*);
 
 #endif /* __SENSE__ */

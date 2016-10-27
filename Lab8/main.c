@@ -25,13 +25,15 @@ void WaitForInterrupt(void);  // low power mode
 
 
 int main(void){
+	PLL_Init(Bus80MHz);       // set system clock to 80 MHz
+	motor_init();
   //Init_Timers();
   motor_set(PORT, FORWARD);
   motor_set(STARBOARD, FORWARD);
 	  
   while(1) {
     //handleButtons();
-
+		motor_run();
     //switch (mode) {
     //} 
   }

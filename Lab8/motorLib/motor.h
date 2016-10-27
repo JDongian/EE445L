@@ -12,5 +12,6 @@ struct MotorState {
 
 void motor_set(Side, Dir);
 void motor_run(void);
+void motor_init(void);
 
 #endif /* __MOTOR__ */
