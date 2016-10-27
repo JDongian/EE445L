@@ -1,11 +1,12 @@
-// filename ******** main.c ************** 
-// Trevor Eggenberger - tae498
-// Joshua Dong - jid295
+/* main.c
+ * Trevor Eggenberger - tae498
+ * Joshua Dong - jid295
+ */
 
 #include <stdint.h>
-#include <stdio.h>      /* printf, scanf, NULL */
-#include <stdlib.h>     /* calloc, exit, free */
-#include <string.h>     /* memset */
+//#include <stdio.h>      /* printf, scanf, NULL */
+//#include <stdlib.h>     /* calloc, exit, free */
+//#include <string.h>     /* memset */
 
 //#include "ADCSWTrigger.h"
 #include "../inc/tm4c123gh6pm.h"
@@ -13,6 +14,7 @@
 //#include "ST7735.h"
 #include "fixed.h"
 //#include "Timers.h"
+#include "motorLib/motor.h"
 
 
 void DisableInterrupts(void); // Disable interrupts
