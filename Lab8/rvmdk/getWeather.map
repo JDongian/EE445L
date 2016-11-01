@@ -221,7 +221,16 @@ Section Cross References
     i2c.o(i.i2c_readPacket) refers to i2c.o(i.i2c_isBusy) for i2c_isBusy
     i2c.o(i.i2c_sendData) refers to i2c.o(i.i2c_isBusy) for i2c_isBusy
     i2c.o(i.i2c_sendPacket) refers to i2c.o(i.i2c_isBusy) for i2c_isBusy
+    motor.o(i.motor_init) refers to pwm.o(i.PWM0A_Init) for PWM0A_Init
+    motor.o(i.motor_init) refers to pwm.o(i.PWM0B_Init) for PWM0B_Init
+    motor.o(i.motor_init) refers to pwm.o(i.PWM1A_Init) for PWM1A_Init
+    motor.o(i.motor_init) refers to pwm.o(i.PWM1B_Init) for PWM1B_Init
     motor.o(i.motor_init) refers to motor.o(.data) for .data
+    motor.o(i.motor_run) refers to motor.o(i.getDuty) for getDuty
+    motor.o(i.motor_run) refers to pwm.o(i.PWM0A_Duty) for PWM0A_Duty
+    motor.o(i.motor_run) refers to pwm.o(i.PWM0B_Duty) for PWM0B_Duty
+    motor.o(i.motor_run) refers to pwm.o(i.PWM1B_Duty) for PWM1B_Duty
+    motor.o(i.motor_run) refers to pwm.o(i.PWM1A_Duty) for PWM1A_Duty
     motor.o(i.motor_run) refers to motor.o(.data) for .data
     motor.o(i.motor_set) refers to motor.o(.data) for .data
     motor.o(i.motor_state) refers to motor.o(.data) for .data
@@ -470,7 +479,6 @@ Removing Unused input sections from the image.
     Removing i2c.o(i.i2c_readPacket), (120 bytes).
     Removing i2c.o(i.i2c_sendData), (32 bytes).
     Removing motor.o(i.motor_state), (24 bytes).
-    Removing motor.o(i.pwm_phase), (4 bytes).
     Removing mpu6050.o(i.MPU6050_SetAccelOffestX), (16 bytes).
     Removing mpu6050.o(i.MPU6050_SetGyroOffestX), (16 bytes).
     Removing mpu6050.o(i.MPU6050_SetGyroOffestY), (16 bytes).
@@ -675,7 +683,7 @@ Removing Unused input sections from the image.
     Removing uart.o(.constdata), (128 bytes).
     Removing cpu.o(.emb_text), (38 bytes).
 
-314 unused section(s) (total 16467 bytes) removed from the image.
+313 unused section(s) (total 16463 bytes) removed from the image.
 
 ==============================================================================
 
@@ -686,19 +694,19 @@ Image Symbol Table
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
     RESET                                    0x00000000   Section      648  startup_rvmdk.o(RESET)
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
     ..\cc3100\platform\ek-tm4c123gxl\board.c 0x00000000   Number         0  board.o ABSOLUTE
     ..\cc3100\platform\ek-tm4c123gxl\spi.c   0x00000000   Number         0  spi.o ABSOLUTE
     ..\cc3100\platform\ek-tm4c123gxl\uart.c  0x00000000   Number         0  uart.o ABSOLUTE
@@ -708,6 +716,7 @@ Image Symbol Table
     LED.c                                    0x00000000   Number         0  led.o ABSOLUTE
     MPU6050.c                                0x00000000   Number         0  mpu6050.o ABSOLUTE
     PLL.c                                    0x00000000   Number         0  pll.o ABSOLUTE
+    PWM.c                                    0x00000000   Number         0  pwm.o ABSOLUTE
     ST7735.c                                 0x00000000   Number         0  st7735.o ABSOLUTE
     SysTick.c                                0x00000000   Number         0  systick.o ABSOLUTE
     Timers.c                                 0x00000000   Number         0  timers.o ABSOLUTE
@@ -764,45 +773,54 @@ Image Symbol Table
     i.MPU6050_Init                           0x000005ce   Section        0  mpu6050.o(i.MPU6050_Init)
     i.MPU6050_ReadAccel                      0x000005e6   Section        0  mpu6050.o(i.MPU6050_ReadAccel)
     i.MPU6050_ReadGyro                       0x00000618   Section        0  mpu6050.o(i.MPU6050_ReadGyro)
-    i.SysCtlClockSet                         0x0000064c   Section        0  sysctl.o(i.SysCtlClockSet)
-    i.SysCtlPeripheralEnable                 0x0000076c   Section        0  sysctl.o(i.SysCtlPeripheralEnable)
-    i.Timer0AHandler                         0x00000794   Section        0  switch.o(i.Timer0AHandler)
-    i.Timer0A_Init                           0x000007cc   Section        0  timers.o(i.Timer0A_Init)
-    i.UARTFlushRx                            0x00000818   Section        0  uartstdio.o(i.UARTFlushRx)
-    i.UARTFlushTx                            0x00000840   Section        0  uartstdio.o(i.UARTFlushTx)
-    i.UARTPrimeTransmit                      0x00000878   Section        0  uartstdio.o(i.UARTPrimeTransmit)
-    UARTPrimeTransmit                        0x00000879   Thumb Code   108  uartstdio.o(i.UARTPrimeTransmit)
-    i.UARTStdioConfig                        0x000008f0   Section        0  uartstdio.o(i.UARTStdioConfig)
-    i.UARTStdioIntHandler                    0x00000988   Section        0  uartstdio.o(i.UARTStdioIntHandler)
-    i.UART_Init                              0x00000a90   Section        0  main.o(i.UART_Init)
-    i.UARTprintf                             0x00000ad4   Section        0  uartstdio.o(i.UARTprintf)
-    i.UARTvprintf                            0x00000ae8   Section        0  uartstdio.o(i.UARTvprintf)
-    i.UARTwrite                              0x00000c9c   Section        0  uartstdio.o(i.UARTwrite)
-    i.__scatterload_copy                     0x00000d2c   Section       14  handlers.o(i.__scatterload_copy)
-    i.__scatterload_null                     0x00000d3a   Section        2  handlers.o(i.__scatterload_null)
-    i.__scatterload_zeroinit                 0x00000d3c   Section       14  handlers.o(i.__scatterload_zeroinit)
-    i.handleButtons                          0x00000d4c   Section        0  main.o(i.handleButtons)
-    i.i2c_init                               0x00000d94   Section        0  i2c.o(i.i2c_init)
-    i.i2c_isBusy                             0x00000dfc   Section        0  i2c.o(i.i2c_isBusy)
-    i.i2c_readData                           0x00000e0c   Section        0  i2c.o(i.i2c_readData)
-    i.i2c_sendPacket                         0x00000e44   Section        0  i2c.o(i.i2c_sendPacket)
-    i.initClk                                0x00000e9c   Section        0  board.o(i.initClk)
-    i.main                                   0x00000eb4   Section        0  main.o(i.main)
-    i.motor_init                             0x00000f88   Section        0  motor.o(i.motor_init)
-    i.motor_run                              0x00001004   Section        0  motor.o(i.motor_run)
-    i.motor_set                              0x000010a0   Section        0  motor.o(i.motor_set)
-    i.update_state                           0x000010c0   Section        0  sense.o(i.update_state)
-    .constdata                               0x000010f8   Section       71  main.o(.constdata)
-    .constdata                               0x00001140   Section       40  uartstdio.o(.constdata)
-    g_pcHex                                  0x00001140   Data           4  uartstdio.o(.constdata)
-    g_ui32UARTBase                           0x00001144   Data          12  uartstdio.o(.constdata)
-    g_ui32UARTInt                            0x00001150   Data          12  uartstdio.o(.constdata)
-    g_ui32UARTPeriph                         0x0000115c   Data          12  uartstdio.o(.constdata)
-    .constdata                               0x00001168   Section      528  gpio.o(.constdata)
-    g_ppui32GPIOIntMapBlizzard               0x00001168   Data         192  gpio.o(.constdata)
-    g_ppui32GPIOIntMapSnowflake              0x00001228   Data         192  gpio.o(.constdata)
-    g_pui32GPIOBaseAddrs                     0x000012e8   Data         144  gpio.o(.constdata)
-    .conststring                             0x00001378   Section       17  uartstdio.o(.conststring)
+    i.PWM0A_Duty                             0x0000064c   Section        0  pwm.o(i.PWM0A_Duty)
+    i.PWM0A_Init                             0x00000658   Section        0  pwm.o(i.PWM0A_Init)
+    i.PWM0B_Duty                             0x000006f4   Section        0  pwm.o(i.PWM0B_Duty)
+    i.PWM0B_Init                             0x00000700   Section        0  pwm.o(i.PWM0B_Init)
+    i.PWM1A_Duty                             0x000007a0   Section        0  pwm.o(i.PWM1A_Duty)
+    i.PWM1A_Init                             0x000007ac   Section        0  pwm.o(i.PWM1A_Init)
+    i.PWM1B_Duty                             0x0000084c   Section        0  pwm.o(i.PWM1B_Duty)
+    i.PWM1B_Init                             0x00000858   Section        0  pwm.o(i.PWM1B_Init)
+    i.SysCtlClockSet                         0x000008f8   Section        0  sysctl.o(i.SysCtlClockSet)
+    i.SysCtlPeripheralEnable                 0x00000a18   Section        0  sysctl.o(i.SysCtlPeripheralEnable)
+    i.Timer0AHandler                         0x00000a40   Section        0  switch.o(i.Timer0AHandler)
+    i.Timer0A_Init                           0x00000a78   Section        0  timers.o(i.Timer0A_Init)
+    i.UARTFlushRx                            0x00000ac4   Section        0  uartstdio.o(i.UARTFlushRx)
+    i.UARTFlushTx                            0x00000aec   Section        0  uartstdio.o(i.UARTFlushTx)
+    i.UARTPrimeTransmit                      0x00000b24   Section        0  uartstdio.o(i.UARTPrimeTransmit)
+    UARTPrimeTransmit                        0x00000b25   Thumb Code   108  uartstdio.o(i.UARTPrimeTransmit)
+    i.UARTStdioConfig                        0x00000b9c   Section        0  uartstdio.o(i.UARTStdioConfig)
+    i.UARTStdioIntHandler                    0x00000c34   Section        0  uartstdio.o(i.UARTStdioIntHandler)
+    i.UART_Init                              0x00000d3c   Section        0  main.o(i.UART_Init)
+    i.UARTprintf                             0x00000d80   Section        0  uartstdio.o(i.UARTprintf)
+    i.UARTvprintf                            0x00000d94   Section        0  uartstdio.o(i.UARTvprintf)
+    i.UARTwrite                              0x00000f48   Section        0  uartstdio.o(i.UARTwrite)
+    i.__scatterload_copy                     0x00000fd8   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x00000fe6   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x00000fe8   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i.getDuty                                0x00000ff8   Section        0  motor.o(i.getDuty)
+    i.handleButtons                          0x00001014   Section        0  main.o(i.handleButtons)
+    i.i2c_init                               0x0000105c   Section        0  i2c.o(i.i2c_init)
+    i.i2c_isBusy                             0x000010c4   Section        0  i2c.o(i.i2c_isBusy)
+    i.i2c_readData                           0x000010d4   Section        0  i2c.o(i.i2c_readData)
+    i.i2c_sendPacket                         0x0000110c   Section        0  i2c.o(i.i2c_sendPacket)
+    i.initClk                                0x00001164   Section        0  board.o(i.initClk)
+    i.main                                   0x0000117c   Section        0  main.o(i.main)
+    i.motor_init                             0x0000124c   Section        0  motor.o(i.motor_init)
+    i.motor_run                              0x00001288   Section        0  motor.o(i.motor_run)
+    i.motor_set                              0x00001300   Section        0  motor.o(i.motor_set)
+    i.update_state                           0x00001320   Section        0  sense.o(i.update_state)
+    .constdata                               0x00001358   Section       71  main.o(.constdata)
+    .constdata                               0x000013a0   Section       40  uartstdio.o(.constdata)
+    g_pcHex                                  0x000013a0   Data           4  uartstdio.o(.constdata)
+    g_ui32UARTBase                           0x000013a4   Data          12  uartstdio.o(.constdata)
+    g_ui32UARTInt                            0x000013b0   Data          12  uartstdio.o(.constdata)
+    g_ui32UARTPeriph                         0x000013bc   Data          12  uartstdio.o(.constdata)
+    .constdata                               0x000013c8   Section      528  gpio.o(.constdata)
+    g_ppui32GPIOIntMapBlizzard               0x000013c8   Data         192  gpio.o(.constdata)
+    g_ppui32GPIOIntMapSnowflake              0x00001488   Data         192  gpio.o(.constdata)
+    g_pui32GPIOBaseAddrs                     0x00001548   Data         144  gpio.o(.constdata)
+    .conststring                             0x000015d8   Section       17  uartstdio.o(.conststring)
     .data                                    0x20000000   Section        1  main.o(.data)
     .data                                    0x20000004   Section        8  board.o(.data)
     .data                                    0x2000000c   Section       28  uartstdio.o(.data)
@@ -862,34 +880,43 @@ Image Symbol Table
     MPU6050_Init                             0x000005cf   Thumb Code    24  mpu6050.o(i.MPU6050_Init)
     MPU6050_ReadAccel                        0x000005e7   Thumb Code    50  mpu6050.o(i.MPU6050_ReadAccel)
     MPU6050_ReadGyro                         0x00000619   Thumb Code    50  mpu6050.o(i.MPU6050_ReadGyro)
-    SysCtlClockSet                           0x0000064d   Thumb Code   270  sysctl.o(i.SysCtlClockSet)
-    SysCtlPeripheralEnable                   0x0000076d   Thumb Code    36  sysctl.o(i.SysCtlPeripheralEnable)
-    Timer0AHandler                           0x00000795   Thumb Code    44  switch.o(i.Timer0AHandler)
-    Timer0A_Init                             0x000007cd   Thumb Code    62  timers.o(i.Timer0A_Init)
-    UARTFlushRx                              0x00000819   Thumb Code    36  uartstdio.o(i.UARTFlushRx)
-    UARTFlushTx                              0x00000841   Thumb Code    52  uartstdio.o(i.UARTFlushTx)
-    UARTStdioConfig                          0x000008f1   Thumb Code   142  uartstdio.o(i.UARTStdioConfig)
-    UARTStdioIntHandler                      0x00000989   Thumb Code   248  uartstdio.o(i.UARTStdioIntHandler)
-    UART_Init                                0x00000a91   Thumb Code    54  main.o(i.UART_Init)
-    UARTprintf                               0x00000ad5   Thumb Code    18  uartstdio.o(i.UARTprintf)
-    UARTvprintf                              0x00000ae9   Thumb Code   420  uartstdio.o(i.UARTvprintf)
-    UARTwrite                                0x00000c9d   Thumb Code   134  uartstdio.o(i.UARTwrite)
-    __scatterload_copy                       0x00000d2d   Thumb Code    14  handlers.o(i.__scatterload_copy)
-    __scatterload_null                       0x00000d3b   Thumb Code     2  handlers.o(i.__scatterload_null)
-    __scatterload_zeroinit                   0x00000d3d   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    handleButtons                            0x00000d4d   Thumb Code    50  main.o(i.handleButtons)
-    i2c_init                                 0x00000d95   Thumb Code    90  i2c.o(i.i2c_init)
-    i2c_isBusy                               0x00000dfd   Thumb Code    10  i2c.o(i.i2c_isBusy)
-    i2c_readData                             0x00000e0d   Thumb Code    50  i2c.o(i.i2c_readData)
-    i2c_sendPacket                           0x00000e45   Thumb Code    82  i2c.o(i.i2c_sendPacket)
-    initClk                                  0x00000e9d   Thumb Code    20  board.o(i.initClk)
-    main                                     0x00000eb5   Thumb Code   198  main.o(i.main)
-    motor_init                               0x00000f89   Thumb Code   104  motor.o(i.motor_init)
-    motor_run                                0x00001005   Thumb Code   146  motor.o(i.motor_run)
-    motor_set                                0x000010a1   Thumb Code    28  motor.o(i.motor_set)
-    update_state                             0x000010c1   Thumb Code    54  sense.o(i.update_state)
-    Region$$Table$$Base                      0x0000138c   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x000013ac   Number         0  anon$$obj.o(Region$$Table)
+    PWM0A_Duty                               0x0000064d   Thumb Code     8  pwm.o(i.PWM0A_Duty)
+    PWM0A_Init                               0x00000659   Thumb Code   130  pwm.o(i.PWM0A_Init)
+    PWM0B_Duty                               0x000006f5   Thumb Code     8  pwm.o(i.PWM0B_Duty)
+    PWM0B_Init                               0x00000701   Thumb Code   138  pwm.o(i.PWM0B_Init)
+    PWM1A_Duty                               0x000007a1   Thumb Code     8  pwm.o(i.PWM1A_Duty)
+    PWM1A_Init                               0x000007ad   Thumb Code   140  pwm.o(i.PWM1A_Init)
+    PWM1B_Duty                               0x0000084d   Thumb Code     8  pwm.o(i.PWM1B_Duty)
+    PWM1B_Init                               0x00000859   Thumb Code   140  pwm.o(i.PWM1B_Init)
+    SysCtlClockSet                           0x000008f9   Thumb Code   270  sysctl.o(i.SysCtlClockSet)
+    SysCtlPeripheralEnable                   0x00000a19   Thumb Code    36  sysctl.o(i.SysCtlPeripheralEnable)
+    Timer0AHandler                           0x00000a41   Thumb Code    44  switch.o(i.Timer0AHandler)
+    Timer0A_Init                             0x00000a79   Thumb Code    62  timers.o(i.Timer0A_Init)
+    UARTFlushRx                              0x00000ac5   Thumb Code    36  uartstdio.o(i.UARTFlushRx)
+    UARTFlushTx                              0x00000aed   Thumb Code    52  uartstdio.o(i.UARTFlushTx)
+    UARTStdioConfig                          0x00000b9d   Thumb Code   142  uartstdio.o(i.UARTStdioConfig)
+    UARTStdioIntHandler                      0x00000c35   Thumb Code   248  uartstdio.o(i.UARTStdioIntHandler)
+    UART_Init                                0x00000d3d   Thumb Code    54  main.o(i.UART_Init)
+    UARTprintf                               0x00000d81   Thumb Code    18  uartstdio.o(i.UARTprintf)
+    UARTvprintf                              0x00000d95   Thumb Code   420  uartstdio.o(i.UARTvprintf)
+    UARTwrite                                0x00000f49   Thumb Code   134  uartstdio.o(i.UARTwrite)
+    __scatterload_copy                       0x00000fd9   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x00000fe7   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x00000fe9   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    getDuty                                  0x00000ff9   Thumb Code    24  motor.o(i.getDuty)
+    handleButtons                            0x00001015   Thumb Code    50  main.o(i.handleButtons)
+    i2c_init                                 0x0000105d   Thumb Code    90  i2c.o(i.i2c_init)
+    i2c_isBusy                               0x000010c5   Thumb Code    10  i2c.o(i.i2c_isBusy)
+    i2c_readData                             0x000010d5   Thumb Code    50  i2c.o(i.i2c_readData)
+    i2c_sendPacket                           0x0000110d   Thumb Code    82  i2c.o(i.i2c_sendPacket)
+    initClk                                  0x00001165   Thumb Code    20  board.o(i.initClk)
+    main                                     0x0000117d   Thumb Code   194  main.o(i.main)
+    motor_init                               0x0000124d   Thumb Code    54  motor.o(i.motor_init)
+    motor_run                                0x00001289   Thumb Code   116  motor.o(i.motor_run)
+    motor_set                                0x00001301   Thumb Code    28  motor.o(i.motor_set)
+    update_state                             0x00001321   Thumb Code    54  sense.o(i.update_state)
+    Region$$Table$$Base                      0x000015ec   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x0000160c   Number         0  anon$$obj.o(Region$$Table)
     mode                                     0x20000000   Data           1  main.o(.data)
     IntIsMasked                              0x20000004   Data           1  board.o(.data)
     pIrqEventHandler                         0x20000008   Data           4  board.o(.data)
@@ -910,36 +937,36 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_IROM (Base: 0x00000000, Size: 0x000013e8, Max: 0x00040000, ABSOLUTE)
+  Load Region LR_IROM (Base: 0x00000000, Size: 0x00001648, Max: 0x00040000, ABSOLUTE)
 
-    Execution Region ER_IROM (Base: 0x00000000, Size: 0x000013ac, Max: 0x00040000, ABSOLUTE)
+    Execution Region ER_IROM (Base: 0x00000000, Size: 0x0000160c, Max: 0x00040000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x00000000   0x00000288   Code   RO          358  * RESET               startup_rvmdk.o
-    0x00000288   0x00000000   Code   RO         2440  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
-    0x00000288   0x00000004   Code   RO         2443    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
-    0x0000028c   0x00000004   Code   RO         2446    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
-    0x00000290   0x00000000   Code   RO         2448    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
-    0x00000290   0x00000000   Code   RO         2450    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
-    0x00000290   0x00000008   Code   RO         2451    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
-    0x00000298   0x00000000   Code   RO         2453    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
-    0x00000298   0x00000000   Code   RO         2455    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
-    0x00000298   0x00000004   Code   RO         2444    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
-    0x0000029c   0x00000006   Code   RO         1799    .emb_text           driverlib.lib(sysctl.o)
+    0x00000288   0x00000000   Code   RO         2494  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x00000288   0x00000004   Code   RO         2497    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
+    0x0000028c   0x00000004   Code   RO         2500    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x00000290   0x00000000   Code   RO         2502    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
+    0x00000290   0x00000000   Code   RO         2504    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
+    0x00000290   0x00000008   Code   RO         2505    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
+    0x00000298   0x00000000   Code   RO         2507    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
+    0x00000298   0x00000000   Code   RO         2509    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
+    0x00000298   0x00000004   Code   RO         2498    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
+    0x0000029c   0x00000006   Code   RO         1853    .emb_text           driverlib.lib(sysctl.o)
     0x000002a2   0x00000002   PAD
-    0x000002a4   0x00000024   Code   RO         2457    .text               mc_w.l(init.o)
-    0x000002c8   0x00000010   Code   RO         1149    i.FPUEnable         driverlib.lib(fpu.o)
-    0x000002d8   0x00000010   Code   RO         1152    i.FPULazyStackingEnable  driverlib.lib(fpu.o)
+    0x000002a4   0x00000024   Code   RO         2511    .text               mc_w.l(init.o)
+    0x000002c8   0x00000010   Code   RO         1203    i.FPUEnable         driverlib.lib(fpu.o)
+    0x000002d8   0x00000010   Code   RO         1206    i.FPULazyStackingEnable  driverlib.lib(fpu.o)
     0x000002e8   0x00000034   Code   RO          124    i.GPIOB_intHandler  board.o
-    0x0000031c   0x00000028   Code   RO         1222    i.GPIODirModeSet    driverlib.lib(gpio.o)
+    0x0000031c   0x00000028   Code   RO         1276    i.GPIODirModeSet    driverlib.lib(gpio.o)
     0x00000344   0x0000000c   Code   RO         1106    i.GPIOF_intHandler  switch.o
-    0x00000350   0x00000006   Code   RO         1223    i.GPIOIntClear      driverlib.lib(gpio.o)
-    0x00000356   0x0000000e   Code   RO         1227    i.GPIOIntStatus     driverlib.lib(gpio.o)
-    0x00000364   0x0000013a   Code   RO         1232    i.GPIOPadConfigSet  driverlib.lib(gpio.o)
+    0x00000350   0x00000006   Code   RO         1277    i.GPIOIntClear      driverlib.lib(gpio.o)
+    0x00000356   0x0000000e   Code   RO         1281    i.GPIOIntStatus     driverlib.lib(gpio.o)
+    0x00000364   0x0000013a   Code   RO         1286    i.GPIOPadConfigSet  driverlib.lib(gpio.o)
     0x0000049e   0x00000002   PAD
-    0x000004a0   0x00000048   Code   RO         1233    i.GPIOPinConfigure  driverlib.lib(gpio.o)
-    0x000004e8   0x0000001c   Code   RO         1258    i.GPIOPinTypeUART   driverlib.lib(gpio.o)
+    0x000004a0   0x00000048   Code   RO         1287    i.GPIOPinConfigure  driverlib.lib(gpio.o)
+    0x000004e8   0x0000001c   Code   RO         1312    i.GPIOPinTypeUART   driverlib.lib(gpio.o)
     0x00000504   0x000000a0   Code   RO         1107    i.Init_Switches     switch.o
     0x000005a4   0x00000010   Code   RO          367    i.IsBufferEmpty     uartstdio.o
     0x000005b4   0x0000001a   Code   RO          368    i.IsBufferFull      uartstdio.o
@@ -947,43 +974,52 @@ Memory Map of the image
     0x000005e6   0x00000032   Code   RO         1011    i.MPU6050_ReadAccel  mpu6050.o
     0x00000618   0x00000032   Code   RO         1012    i.MPU6050_ReadGyro  mpu6050.o
     0x0000064a   0x00000002   PAD
-    0x0000064c   0x00000120   Code   RO         1804    i.SysCtlClockSet    driverlib.lib(sysctl.o)
-    0x0000076c   0x00000028   Code   RO         1833    i.SysCtlPeripheralEnable  driverlib.lib(sysctl.o)
-    0x00000794   0x00000038   Code   RO         1108    i.Timer0AHandler    switch.o
-    0x000007cc   0x0000004c   Code   RO          888    i.Timer0A_Init      timers.o
-    0x00000818   0x00000028   Code   RO          370    i.UARTFlushRx       uartstdio.o
-    0x00000840   0x00000038   Code   RO          371    i.UARTFlushTx       uartstdio.o
-    0x00000878   0x00000078   Code   RO          374    i.UARTPrimeTransmit  uartstdio.o
-    0x000008f0   0x00000098   Code   RO          376    i.UARTStdioConfig   uartstdio.o
-    0x00000988   0x00000108   Code   RO          377    i.UARTStdioIntHandler  uartstdio.o
-    0x00000a90   0x00000044   Code   RO            1    i.UART_Init         main.o
-    0x00000ad4   0x00000012   Code   RO          381    i.UARTprintf        uartstdio.o
-    0x00000ae6   0x00000002   PAD
-    0x00000ae8   0x000001b4   Code   RO          382    i.UARTvprintf       uartstdio.o
-    0x00000c9c   0x00000090   Code   RO          383    i.UARTwrite         uartstdio.o
-    0x00000d2c   0x0000000e   Code   RO         2461    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x00000d3a   0x00000002   Code   RO         2462    i.__scatterload_null  mc_w.l(handlers.o)
-    0x00000d3c   0x0000000e   Code   RO         2463    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x00000d4a   0x00000002   PAD
-    0x00000d4c   0x00000048   Code   RO            2    i.handleButtons     main.o
-    0x00000d94   0x00000068   Code   RO          923    i.i2c_init          i2c.o
-    0x00000dfc   0x00000010   Code   RO          924    i.i2c_isBusy        i2c.o
-    0x00000e0c   0x00000038   Code   RO          925    i.i2c_readData      i2c.o
-    0x00000e44   0x00000058   Code   RO          928    i.i2c_sendPacket    i2c.o
-    0x00000e9c   0x00000018   Code   RO          128    i.initClk           board.o
-    0x00000eb4   0x000000d4   Code   RO            3    i.main              main.o
-    0x00000f88   0x0000007c   Code   RO          965    i.motor_init        motor.o
-    0x00001004   0x0000009c   Code   RO          966    i.motor_run         motor.o
-    0x000010a0   0x00000020   Code   RO          967    i.motor_set         motor.o
-    0x000010c0   0x00000036   Code   RO         1136    i.update_state      sense.o
-    0x000010f6   0x00000002   PAD
-    0x000010f8   0x00000047   Data   RO            5    .constdata          main.o
-    0x0000113f   0x00000001   PAD
-    0x00001140   0x00000028   Data   RO          385    .constdata          uartstdio.o
-    0x00001168   0x00000210   Data   RO         1265    .constdata          driverlib.lib(gpio.o)
-    0x00001378   0x00000011   Data   RO          386    .conststring        uartstdio.o
-    0x00001389   0x00000003   PAD
-    0x0000138c   0x00000020   Data   RO         2459    Region$$Table       anon$$obj.o
+    0x0000064c   0x0000000c   Code   RO         1148    i.PWM0A_Duty        pwm.o
+    0x00000658   0x0000009c   Code   RO         1149    i.PWM0A_Init        pwm.o
+    0x000006f4   0x0000000c   Code   RO         1150    i.PWM0B_Duty        pwm.o
+    0x00000700   0x000000a0   Code   RO         1151    i.PWM0B_Init        pwm.o
+    0x000007a0   0x0000000c   Code   RO         1152    i.PWM1A_Duty        pwm.o
+    0x000007ac   0x000000a0   Code   RO         1153    i.PWM1A_Init        pwm.o
+    0x0000084c   0x0000000c   Code   RO         1154    i.PWM1B_Duty        pwm.o
+    0x00000858   0x000000a0   Code   RO         1155    i.PWM1B_Init        pwm.o
+    0x000008f8   0x00000120   Code   RO         1858    i.SysCtlClockSet    driverlib.lib(sysctl.o)
+    0x00000a18   0x00000028   Code   RO         1887    i.SysCtlPeripheralEnable  driverlib.lib(sysctl.o)
+    0x00000a40   0x00000038   Code   RO         1108    i.Timer0AHandler    switch.o
+    0x00000a78   0x0000004c   Code   RO          888    i.Timer0A_Init      timers.o
+    0x00000ac4   0x00000028   Code   RO          370    i.UARTFlushRx       uartstdio.o
+    0x00000aec   0x00000038   Code   RO          371    i.UARTFlushTx       uartstdio.o
+    0x00000b24   0x00000078   Code   RO          374    i.UARTPrimeTransmit  uartstdio.o
+    0x00000b9c   0x00000098   Code   RO          376    i.UARTStdioConfig   uartstdio.o
+    0x00000c34   0x00000108   Code   RO          377    i.UARTStdioIntHandler  uartstdio.o
+    0x00000d3c   0x00000044   Code   RO            1    i.UART_Init         main.o
+    0x00000d80   0x00000012   Code   RO          381    i.UARTprintf        uartstdio.o
+    0x00000d92   0x00000002   PAD
+    0x00000d94   0x000001b4   Code   RO          382    i.UARTvprintf       uartstdio.o
+    0x00000f48   0x00000090   Code   RO          383    i.UARTwrite         uartstdio.o
+    0x00000fd8   0x0000000e   Code   RO         2515    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x00000fe6   0x00000002   Code   RO         2516    i.__scatterload_null  mc_w.l(handlers.o)
+    0x00000fe8   0x0000000e   Code   RO         2517    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x00000ff6   0x00000002   PAD
+    0x00000ff8   0x0000001c   Code   RO          965    i.getDuty           motor.o
+    0x00001014   0x00000048   Code   RO            2    i.handleButtons     main.o
+    0x0000105c   0x00000068   Code   RO          923    i.i2c_init          i2c.o
+    0x000010c4   0x00000010   Code   RO          924    i.i2c_isBusy        i2c.o
+    0x000010d4   0x00000038   Code   RO          925    i.i2c_readData      i2c.o
+    0x0000110c   0x00000058   Code   RO          928    i.i2c_sendPacket    i2c.o
+    0x00001164   0x00000018   Code   RO          128    i.initClk           board.o
+    0x0000117c   0x000000d0   Code   RO            3    i.main              main.o
+    0x0000124c   0x0000003c   Code   RO          966    i.motor_init        motor.o
+    0x00001288   0x00000078   Code   RO          967    i.motor_run         motor.o
+    0x00001300   0x00000020   Code   RO          968    i.motor_set         motor.o
+    0x00001320   0x00000036   Code   RO         1136    i.update_state      sense.o
+    0x00001356   0x00000002   PAD
+    0x00001358   0x00000047   Data   RO            5    .constdata          main.o
+    0x0000139f   0x00000001   PAD
+    0x000013a0   0x00000028   Data   RO          385    .constdata          uartstdio.o
+    0x000013c8   0x00000210   Data   RO         1319    .constdata          driverlib.lib(gpio.o)
+    0x000015d8   0x00000011   Data   RO          386    .conststring        uartstdio.o
+    0x000015e9   0x00000003   PAD
+    0x000015ec   0x00000020   Data   RO         2513    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM (Base: 0x20000000, Size: 0x000044d8, Max: 0x00008000, ABSOLUTE)
@@ -1011,9 +1047,10 @@ Image component sizes
 
         76         12          0          8          0       2460   board.o
        264         32          0          0          0       2172   i2c.o
-       352         56         71          1         24       7481   main.o
-       312         34          0         16          0       2022   motor.o
+       348         56         71          1         24       7481   main.o
+       240         18          0         16          0       3024   motor.o
        124          0          0          0          0       1614   mpu6050.o
+       684        104          0          0          0       3572   pwm.o
         54          0          0          0          0        675   sense.o
        648        622          0          0      16384        220   startup_rvmdk.o
        228         42          0          4          0       2138   switch.o
@@ -1021,7 +1058,7 @@ Image component sizes
       1272         72         57         28       1152       8347   uartstdio.o
 
     ----------------------------------------------------------------------
-      3412        884        164         60      17564      27544   Object Totals
+      4020        972        164         60      17564      32118   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          6          0          4          3          4          0   (incl. Padding)
 
@@ -1064,15 +1101,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      4344        938        692         60      17564      30682   Grand Totals
-      4344        938        692         60      17564      30682   ELF Image Totals
-      4344        938        692         60          0          0   ROM Totals
+      4952       1026        692         60      17564      34456   Grand Totals
+      4952       1026        692         60      17564      34456   ELF Image Totals
+      4952       1026        692         60          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 5036 (   4.92kB)
+    Total RO  Size (Code + RO Data)                 5644 (   5.51kB)
     Total RW  Size (RW Data + ZI Data)             17624 (  17.21kB)
-    Total ROM Size (Code + RO Data + RW Data)       5096 (   4.98kB)
+    Total ROM Size (Code + RO Data + RW Data)       5704 (   5.57kB)
 
 ==============================================================================
 

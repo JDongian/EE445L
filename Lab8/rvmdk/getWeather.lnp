@@ -17,6 +17,7 @@
 ".\rvmdk\pll.o"
 ".\rvmdk\switch.o"
 ".\rvmdk\sense.o"
+".\rvmdk\pwm.o"
 "..\driverlib\rvmdk\driverlib.lib"
 --library_type=microlib --strict --scatter "cc31000_starter.sct"
 

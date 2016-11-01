@@ -143,7 +143,7 @@ int main(void)
 								motor_set(PORT, NONE, 1.0);
                 motor_set(STARBOARD, NONE, 1.0);
         } 
-        motor_run(0);
+        motor_run();
         
     }
 }

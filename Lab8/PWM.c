@@ -103,3 +103,56 @@ void PWM0B_Duty(uint16_t duty){
   PWM0_0_CMPB_R = duty - 1;             // 6) count value when output rises
 }
 
+void PWM1A_Init(uint16_t period, uint16_t duty){
+  volatile unsigned long delay;
+  SYSCTL_RCGCPWM_R |= 0x01;             // 1) activate PWM0
+  SYSCTL_RCGCGPIO_R |= 0x02;            // 2) activate port B
+  delay = SYSCTL_RCGCGPIO_R;            // allow time to finish activating
+  GPIO_PORTB_AFSEL_R |= 0x10;           // enable alt funct on PB4
+  GPIO_PORTB_PCTL_R &= ~0x000F0000;     // configure PB4 as M1PWM0
+  GPIO_PORTB_PCTL_R |= 0x0000F000;
+  GPIO_PORTB_AMSEL_R &= ~0x10;          // disable analog functionality on PB4
+  GPIO_PORTB_DEN_R |= 0x10;             // enable digital I/O on PB4
+  SYSCTL_RCC_R |= SYSCTL_RCC_USEPWMDIV; // 3) use PWM divider
+  SYSCTL_RCC_R &= ~SYSCTL_RCC_PWMDIV_M; //    clear PWM divider field
+  SYSCTL_RCC_R += SYSCTL_RCC_PWMDIV_2;  //    configure for /2 divider
+  PWM0_1_CTL_R = 0;                     // 4) re-loading down-counting mode
+  PWM0_1_GENA_R = (PWM_1_GENA_ACTCMPBD_ONE|PWM_1_GENA_ACTLOAD_ZERO);
+  // PB7 goes low on LOAD
+  // PB7 goes high on CMPB down
+  PWM0_1_LOAD_R = period - 1;           // 5) cycles needed to count down to 0
+  PWM0_1_CMPA_R = duty - 1;             // 6) count value when output rises
+  PWM0_1_CTL_R |= 0x00000001;           // 7) start PWM0
+  PWM0_ENABLE_R |= 0x00000004;          // enable PB7/M0PWM1
+}
+
+void PWM1B_Init(uint16_t period, uint16_t duty){
+  volatile unsigned long delay;
+  SYSCTL_RCGCPWM_R |= 0x01;             // 1) activate PWM0
+  SYSCTL_RCGCGPIO_R |= 0x02;            // 2) activate port B
+  delay = SYSCTL_RCGCGPIO_R;            // allow time to finish activating
+  GPIO_PORTB_AFSEL_R |= 0x20;           // enable alt funct on PB7
+  GPIO_PORTB_PCTL_R &= ~0x00F00000;     // configure PB4 as M1PWM0
+  GPIO_PORTB_PCTL_R |= 0x000F0000;
+  GPIO_PORTB_AMSEL_R &= ~0x20;          // disable analog functionality on PB7
+  GPIO_PORTB_DEN_R |= 0x20;             // enable digital I/O on PB7
+  SYSCTL_RCC_R |= SYSCTL_RCC_USEPWMDIV; // 3) use PWM divider
+  SYSCTL_RCC_R &= ~SYSCTL_RCC_PWMDIV_M; //    clear PWM divider field
+  SYSCTL_RCC_R += SYSCTL_RCC_PWMDIV_2;  //    configure for /2 divider
+  PWM0_1_CTL_R = 0;                     // 4) re-loading down-counting mode
+  PWM0_1_GENB_R = (PWM_1_GENB_ACTCMPBD_ONE|PWM_1_GENB_ACTLOAD_ZERO);
+  // PB7 goes low on LOAD
+  // PB7 goes high on CMPB down
+  PWM0_1_LOAD_R = period - 1;           // 5) cycles needed to count down to 0
+  PWM0_1_CMPB_R = duty - 1;             // 6) count value when output rises
+  PWM0_1_CTL_R |= 0x00000001;           // 7) start PWM0
+  PWM0_ENABLE_R |= 0x00000008;          // enable PB7/M0PWM1
+}
+
+void PWM1A_Duty(uint16_t duty){
+  PWM0_1_CMPA_R = duty - 1;             // 6) count value when output rises
+}
+
+void PWM1B_Duty(uint16_t duty){
+  PWM0_1_CMPB_R = duty - 1;             // 6) count value when output rises
+}

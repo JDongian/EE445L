@@ -9,7 +9,7 @@
 #define PB5 (*((volatile uint32_t *)0x40005080))
 #define PB6 (*((volatile uint32_t *)0x40005100))
 #define PB7 (*((volatile uint32_t *)0x40005200))
-#define microseconds uint64_t
+#define PERIOD 10000
 
 MotorState left_state;
 MotorState right_state;
@@ -34,6 +34,8 @@ void motor_init()
 	*/
 		PWM0A_Init(10000, 5000);         // initialize PWM0, 4000 Hz, 50% duty
 		PWM0B_Init(10000, 2500);         // initialize PWM0, 4000 Hz, 25% duty
+		PWM1A_Init(10000, 5000);         // initialize PWM0, 4000 Hz, 50% duty
+		PWM1B_Init(10000, 2500);         // initialize PWM0, 4000 Hz, 25% duty
 
     // initialize motor states
     left_state.direction = NONE; // port side
@@ -66,20 +68,16 @@ void motor_set(Side side, Dir d, Speed s)
 }
 
 
-bool pwm_phase(Speed s, microseconds t)
+uint16_t getDuty(Speed s)
 {
-    return true;
-    // assert(0 < RESOLUTION <= 1000000)
-    // If double math is too slow, change to use integer cutoffs
-    return ((t % RESOLUTION) / (double)RESOLUTION) < s;
+    return s*PERIOD-10;
 }
 
 
 // to be called at least once every microsecond
-void motor_run(microseconds time)
+void motor_run()
 {
     // update port side
-    bool left_pwm_active = pwm_phase(left_state.speed, time);
     switch (left_state.direction) {
         case NONE:
             // left motor inactive
@@ -91,52 +89,37 @@ void motor_run(microseconds time)
         case FORWARD:
             // left motor forward
             // PB4 = pin2 := PWM, PB5 = pin7 := LO
-            if (left_pwm_active) {
-                PB4 |= (0x01 << 4);
-            } else {
-                PB4 &= ~(0x01 << 4);
-            }
-            PB5 &= ~(0x01 << 5);
+            PWM0A_Duty(getDuty(left_state.speed));
+            PWM0B_Duty(0);
             break;
         case BACKWARD:
             // left motor backward
             // PB4 = pin2 := LO, PB5 = pin7 := PWM
-            if (left_pwm_active) {
-                PB5 |= (0x01 << 5);
-            } else {
-                PB5 &= ~(0x01 << 5);
-            }
-            PB4 &= ~(0x01 << 4);
+            PWM0B_Duty(getDuty(left_state.speed));
+            PWM0A_Duty(0);
             break;
     }
 
     // update starboard side
-    bool right_pwm_active = pwm_phase(right_state.speed, time);
     switch (right_state.direction) {
         case NONE:
-            // right motor inactive
-            PB6 &= ~(0x01 << 6);
-            PB7 &= ~(0x01 << 7);
+            // left motor inactive
+            //PB4 &= ~(0x01 << 4);
+            //PB5 &= ~(0x01 << 5);
+						PWM1A_Duty(0);
+						PWM1B_Duty(0);
             break;
         case FORWARD:
-            // right motor forward
-            // PB7 = pin15 := PWM, PB6 = pin10 := LO
-            if (right_pwm_active) {
-                PB7 |= (0x01 << 7);
-            } else {
-                PB7 &= ~(0x01 << 7);
-            }
-            PB6 &= ~(0x01 << 6);
+            // left motor forward
+            // PB4 = pin2 := PWM, PB5 = pin7 := LO
+            PWM1A_Duty(getDuty(right_state.speed));
+            PWM1B_Duty(0);
             break;
         case BACKWARD:
-            // right motor backward
-            // PB7 = pin15 := LO, PB6 = pin10 := PWM
-            if (right_pwm_active) {
-                PB6 |= (0x01 << 6);
-            } else {
-                PB6 &= ~(0x01 << 6);
-            }
-            PB7 &= ~(0x01 << 7);
+            // left motor backward
+            // PB4 = pin2 := LO, PB5 = pin7 := PWM
+            PWM1B_Duty(getDuty(right_state.speed));
+            PWM1A_Duty(0);
             break;
     }
 }

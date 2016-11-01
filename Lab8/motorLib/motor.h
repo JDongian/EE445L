@@ -14,7 +14,7 @@ typedef struct {
 
 
 void motor_set(Side, Dir, Speed);
-void motor_run(uint64_t);
+void motor_run(void);
 void motor_init(void);
 
 #endif /* __MOTOR__ */
