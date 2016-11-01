@@ -1,0 +1,12 @@
+.\rvmdk\inv_mpu.o: mpu6050\driver\eMPL\inv_mpu.c
+.\rvmdk\inv_mpu.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\rvmdk\inv_mpu.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\rvmdk\inv_mpu.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
+.\rvmdk\inv_mpu.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
+.\rvmdk\inv_mpu.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h
+.\rvmdk\inv_mpu.o: mpu6050\driver\eMPL\inv_mpu.h
+.\rvmdk\inv_mpu.o: mpu6050\driver\eMPL\../../../i2c.h
+.\rvmdk\inv_mpu.o: ..\utils/uartstdio.h
+.\rvmdk\inv_mpu.o: C:\Keil\ARM\ARMCC\bin\..\include\stdarg.h
+.\rvmdk\inv_mpu.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
+.\rvmdk\inv_mpu.o: mpu6050\driver\eMPL\../../../SysTick.h

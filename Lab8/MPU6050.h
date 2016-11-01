@@ -8,7 +8,8 @@
 
 
 void MPU6050_Init(void);
-uint16_t MPU6050_ReadAccel(char axis);
-uint16_t MPU6050_ReadGyro(char axis);
+int16_t MPU6050_ReadAccel(char axis);
+int16_t MPU6050_ReadGyro(char axis);
 
 #endif /* __MPU6050__ */
+

@@ -40,3 +40,7 @@ void SysTick_Wait(uint32_t delay);
 // Time delay using busy wait.
 // This assumes 80 MHz system clock.
 void SysTick_Wait10ms(uint32_t delay);
+
+void DelayWaitMs(uint32_t delay);
+
+void SysTick_Read(unsigned long* t);

@@ -65,3 +65,18 @@ void SysTick_Wait10ms(uint32_t delay){
     SysTick_Wait(800000);  // wait 10ms (assumes 80 MHz clock)
   }
 }
+
+// Subroutine to wait 10 msec
+// Inputs: None
+// Outputs: None
+// Notes: ...
+void DelayWaitMs(uint32_t delay){
+  uint32_t i;
+  for(i=0; i<delay; i++){
+    SysTick_Wait(80000);  // wait 10ms (assumes 80 MHz clock)
+  }
+}
+
+void SysTick_Read(unsigned long* t){
+	*t = NVIC_ST_CURRENT_R;
+}

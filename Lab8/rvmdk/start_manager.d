@@ -1,0 +1,11 @@
+.\rvmdk\start_manager.o: mpu6050\mllite\start_manager.c
+.\rvmdk\start_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
+.\rvmdk\start_manager.o: mpu6050\mllite\../driver/include/log.h
+.\rvmdk\start_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
+.\rvmdk\start_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\stdarg.h
+.\rvmdk\start_manager.o: mpu6050\mllite\start_manager.h
+.\rvmdk\start_manager.o: mpu6050\mllite\../driver/include/mltypes.h
+.\rvmdk\start_manager.o: mpu6050\mllite\../driver/include/stdint_invensense.h
+.\rvmdk\start_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\rvmdk\start_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\errno.h
+.\rvmdk\start_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\limits.h

@@ -1,0 +1,13 @@
+.\rvmdk\log_stm32.o: mpu6050\driver\stm32L\log_stm32.c
+.\rvmdk\log_stm32.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\rvmdk\log_stm32.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\rvmdk\log_stm32.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
+.\rvmdk\log_stm32.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
+.\rvmdk\log_stm32.o: C:\Keil\ARM\ARMCC\bin\..\include\stdarg.h
+.\rvmdk\log_stm32.o: mpu6050\driver\stm32L\packet.h
+.\rvmdk\log_stm32.o: mpu6050\driver\stm32L\../include/mltypes.h
+.\rvmdk\log_stm32.o: mpu6050\driver\stm32L\../include/stdint_invensense.h
+.\rvmdk\log_stm32.o: C:\Keil\ARM\ARMCC\bin\..\include\errno.h
+.\rvmdk\log_stm32.o: C:\Keil\ARM\ARMCC\bin\..\include\limits.h
+.\rvmdk\log_stm32.o: mpu6050\driver\stm32L\../include/log.h
+.\rvmdk\log_stm32.o: mpu6050\driver\stm32L\../../../uart.h

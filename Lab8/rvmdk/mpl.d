@@ -1,0 +1,16 @@
+.\rvmdk\mpl.o: mpu6050\mllite\mpl.c
+.\rvmdk\mpl.o: mpu6050\mllite\storage_manager.h
+.\rvmdk\mpl.o: mpu6050\mllite\../driver/include/mltypes.h
+.\rvmdk\mpl.o: mpu6050\mllite\../driver/include/stdint_invensense.h
+.\rvmdk\mpl.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\rvmdk\mpl.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
+.\rvmdk\mpl.o: C:\Keil\ARM\ARMCC\bin\..\include\errno.h
+.\rvmdk\mpl.o: C:\Keil\ARM\ARMCC\bin\..\include\limits.h
+.\rvmdk\mpl.o: mpu6050\mllite\../driver/include/log.h
+.\rvmdk\mpl.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
+.\rvmdk\mpl.o: C:\Keil\ARM\ARMCC\bin\..\include\stdarg.h
+.\rvmdk\mpl.o: mpu6050\mllite\mpl.h
+.\rvmdk\mpl.o: mpu6050\mllite\start_manager.h
+.\rvmdk\mpl.o: mpu6050\mllite\data_builder.h
+.\rvmdk\mpl.o: mpu6050\mllite\results_holder.h
+.\rvmdk\mpl.o: mpu6050\mllite\../driver/include/mlinclude.h

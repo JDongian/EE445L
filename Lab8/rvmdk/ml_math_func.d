@@ -1,0 +1,11 @@
+.\rvmdk\ml_math_func.o: mpu6050\mllite\ml_math_func.c
+.\rvmdk\ml_math_func.o: mpu6050\mllite\../driver/include/mlmath.h
+.\rvmdk\ml_math_func.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h
+.\rvmdk\ml_math_func.o: mpu6050\mllite\ml_math_func.h
+.\rvmdk\ml_math_func.o: mpu6050\mllite\../driver/include/mltypes.h
+.\rvmdk\ml_math_func.o: mpu6050\mllite\../driver/include/stdint_invensense.h
+.\rvmdk\ml_math_func.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\rvmdk\ml_math_func.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
+.\rvmdk\ml_math_func.o: C:\Keil\ARM\ARMCC\bin\..\include\errno.h
+.\rvmdk\ml_math_func.o: C:\Keil\ARM\ARMCC\bin\..\include\limits.h
+.\rvmdk\ml_math_func.o: mpu6050\mllite\../driver/include/mlinclude.h
