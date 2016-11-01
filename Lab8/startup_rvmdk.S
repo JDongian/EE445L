@@ -66,6 +66,7 @@ __heap_limit
         EXTERN  GPIOB_intHandler
 		EXTERN 	GPIOF_intHandler
         EXTERN  UARTStdioIntHandler
+		EXTERN 	Timer0AHandler
 
 ;******************************************************************************
 ;
@@ -109,7 +110,7 @@ __Vectors
         DCD     IntDefaultHandler           ; ADC Sequence 2
         DCD     IntDefaultHandler           ; ADC Sequence 3
         DCD     IntDefaultHandler           ; Watchdog timer
-        DCD     IntDefaultHandler           ; Timer 0 subtimer A
+        DCD     Timer0AHandler          	; Timer 0 subtimer A
         DCD     IntDefaultHandler           ; Timer 0 subtimer B
         DCD     IntDefaultHandler           ; Timer 1 subtimer A
         DCD     IntDefaultHandler           ; Timer 1 subtimer B

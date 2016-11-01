@@ -98,7 +98,6 @@ Port A, SSI0 (PA2, PA3, PA5, PA6, PA7) sends data to Nokia5110 LCD
 #include "utils/cmdline.h"
 #include "application_commands.h"
 #include "LED.h"
-#include "Nokia5110.h"
 #include "ST7735.h"
 #include "ADCSWTrigger.h"
 #include "../inc/tm4c123gh6pm.h"
@@ -110,7 +109,10 @@ Port A, SSI0 (PA2, PA3, PA5, PA6, PA7) sends data to Nokia5110 LCD
 #include "SysTick.h"
 #include "board.h"
 #include "switch.h"
+#include "balance.h"
+#include "sense.h"
 
+RobotState segway;
 
 void UART_Init(void){
   SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);
@@ -127,22 +129,22 @@ int main(void) {
 	motor_init();
 	MPU6050_Init();
 	UART_Init();
-  //Init_Timers();
   motor_set(PORT, FORWARD);
   motor_set(STARBOARD, FORWARD);
-	 int data_x, data_y, data_z;
 	uint32_t i = 0;
+	//MPU6050_SetGyroOffestX(2000);
+	//MPU6050_SetGyroOffestY(3000);
+	//MPU6050_SetGyroOffestZ(2000);
 	
   while(1) {
 		if (i == 0){
-			data_x = MPU6050_ReadGyro('x');
-      data_y = MPU6050_ReadGyro('y');
-      data_z = MPU6050_ReadGyro('z');
-			UARTprintf("gyroX: %d, gyroY: %d, gyroZ: %d\n\r", data_x, data_y, data_z);
+			update_state(&segway);
+			UARTprintf("gyroX: %d, gyroY: %d, gyroZ: %d\n\raccelX: %d, accelY: %d, accelZ: %d\n\n\r", 
+									segway.gyro_x, segway.gyro_y, segway.gyro_z, segway.accel_x, segway.accel_y, segway.accel_z);
 		}
 		i = (i+1) % 800000;
     //handleButtons();
-		//motor_run();
+		motor_run();
     //switch (mode) {
     //} 
   }

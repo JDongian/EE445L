@@ -19,10 +19,11 @@ void i2c_init(void){
     I2C2_MTPR_R =0x18;//clock configuration 50MHz to 100KHz(standard speed)
 }
 
-void i2c_sendData(unsigned char address_7b,unsigned char data){
+void i2c_sendData(unsigned char address_7b, unsigned char regAddress, unsigned char data){
     I2C2_MSA_R=(address_7b<<1)|(0x0);//write to address uC->slave
-    I2C2_MDR_R=data;
+    I2C2_MDR_R=regAddress;
     I2C2_MCS_R=0x7;//single master transmit (STOP START RUN)
+		I2C2_MDR_R = data;
     while(i2c_isBusy());
 }
 
@@ -57,28 +58,6 @@ int i2c_sendPacket(unsigned char  address_7b, unsigned char regAddress, int nDat
     }
 		return 1;
 }
-
-int i2c_sendPacket2(unsigned char  address_7b, unsigned char  *pData, int nData){
-    int i;
-    if(nData>0){
-        I2C2_MSA_R=(address_7b<<1)|(0x0);//write to address uC_slave
-        I2C2_MDR_R=pData[0];
-        I2C2_MCS_R=(nData>1)?0x3:0x7;//single master transmit (START RUN)/(STOP START RUN)
-        while(i2c_isBusy());
-        for(i=1; i<(nData-1); i++){
-            I2C2_MDR_R=pData[i];
-            I2C2_MCS_R=0x1;//single master transmit (RUN)
-            while(i2c_isBusy());
-        }
-        if(nData>1){
-            I2C2_MDR_R=pData[nData-1];
-            I2C2_MCS_R=0x5;//single master transmit (STOP RUN)
-            while(i2c_isBusy());
-        }
-    }
-		return 1;
-}
-
 
 
 int i2c_readPacket(unsigned char  address_7b,unsigned char regAddress,

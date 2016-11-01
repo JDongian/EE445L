@@ -18,7 +18,6 @@
 .\rvmdk\main.o: ..\utils/cmdline.h
 .\rvmdk\main.o: application_commands.h
 .\rvmdk\main.o: LED.h
-.\rvmdk\main.o: Nokia5110.h
 .\rvmdk\main.o: ST7735.h
 .\rvmdk\main.o: ADCSWTrigger.h
 .\rvmdk\main.o: ../inc/tm4c123gh6pm.h
@@ -29,3 +28,5 @@
 .\rvmdk\main.o: SysTick.h
 .\rvmdk\main.o: ..\cc3100\platform\ek-tm4c123gxl\board.h
 .\rvmdk\main.o: switch.h
+.\rvmdk\main.o: balance.h
+.\rvmdk\main.o: sense.h

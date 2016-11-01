@@ -1,7 +1,6 @@
 --cpu Cortex-M4.fp
 ".\rvmdk\main.o"
 ".\rvmdk\board.o"
-".\rvmdk\nokia5110.o"
 ".\rvmdk\led.o"
 ".\rvmdk\spi.o"
 ".\rvmdk\startup_rvmdk.o"
@@ -17,6 +16,7 @@
 ".\rvmdk\systick.o"
 ".\rvmdk\pll.o"
 ".\rvmdk\switch.o"
+".\rvmdk\sense.o"
 "..\driverlib\rvmdk\driverlib.lib"
 --library_type=microlib --strict --scatter "cc31000_starter.sct"
 

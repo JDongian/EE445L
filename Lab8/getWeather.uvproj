@@ -416,11 +416,6 @@
               <FilePath>..\cc3100\platform\ek-tm4c123gxl\board.c</FilePath>
             </File>
             <File>
-              <FileName>Nokia5110.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Nokia5110.c</FilePath>
-            </File>
-            <File>
               <FileName>LED.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\LED.c</FilePath>
@@ -494,6 +489,11 @@
               <FileName>switch.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\switch.c</FilePath>
+            </File>
+            <File>
+              <FileName>sense.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\sense.c</FilePath>
             </File>
           </Files>
         </Group>

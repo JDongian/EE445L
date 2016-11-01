@@ -3,9 +3,20 @@
 #include <stdio.h>
 #include "../inc/tm4c123gh6pm.h"
 #include "switch.h"
+#include "Timers.h"
+
+#define F10HZ 50000000/16
 
 #define PD0 (*((volatile uint32_t *)0x40007004))
 #define PD1 (*((volatile uint32_t *)0x40007008))
+	
+#define PF0				(*((volatile uint32_t *)0x40025004))
+#define PF1       (*((volatile uint32_t *)0x40025008))
+#define PF2       (*((volatile uint32_t *)0x40025010))
+#define PF3       (*((volatile uint32_t *)0x40025020))
+#define PF4   		(*((volatile uint32_t *)0x40025040))
+	
+bool sw1, sw2, sw3, sw4;
 
 void Init_Switches(void){
 	volatile uint32_t delay;
@@ -23,13 +34,22 @@ void Init_Switches(void){
 	GPIO_PORTF_IS_R &= ~0x0F;     // (d) PF4 is edge-sensitive
 	GPIO_PORTF_IBE_R |= 0x0F;
 	GPIO_PORTF_ICR_R = 0x0F;      // (e) clear flag4
-  GPIO_PORTF_IM_R |= 0x0F;      // (f) arm interrupt on PF4 *** No IME bit as mentioned in Book ***
+  //GPIO_PORTF_IM_R |= 0x0F;      // (f) arm interrupt on PF4 *** No IME bit as mentioned in Book ***
   NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|0x00400000; // (g) priority 2
-  NVIC_EN0_R = 0x40000000;      // (h) enable interrupt 30 in NVIC  
+  //NVIC_EN0_R = 0x40000000;      // (h) enable interrupt 30 in NVIC  
+	Timer0A_Init(F10HZ);
 }
 
 void GPIOF_intHandler(){
 	GPIO_PORTF_ICR_R = 0x0F;      // (e) clear flag4
+}
+
+void Timer0AHandler(){
+	TIMER0_ICR_R = TIMER_ICR_TATOCINT;
+	sw1 = (PF1 & 0x02) >> 1;
+	sw2 = (PF0 & 0x01);
+	sw3 = (PF2 & 0x04) >> 2;
+	sw4 = (PF3 & 0x08) >> 3;
 }
 
 /*
