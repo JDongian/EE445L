@@ -109,6 +109,7 @@ Port A, SSI0 (PA2, PA3, PA5, PA6, PA7) sends data to Nokia5110 LCD
 #include "i2c.h"
 #include "SysTick.h"
 #include "board.h"
+#include "switch.h"
 
 
 void UART_Init(void){
@@ -122,6 +123,7 @@ void UART_Init(void){
 
 int main(void) {
 	initClk();       // set system clock to 50 MHz
+	Init_Switches();
 	motor_init();
 	MPU6050_Init();
 	UART_Init();

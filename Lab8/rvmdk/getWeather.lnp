@@ -16,6 +16,7 @@
 ".\rvmdk\mpu6050.o"
 ".\rvmdk\systick.o"
 ".\rvmdk\pll.o"
+".\rvmdk\switch.o"
 "..\driverlib\rvmdk\driverlib.lib"
 --library_type=microlib --strict --scatter "cc31000_starter.sct"
 

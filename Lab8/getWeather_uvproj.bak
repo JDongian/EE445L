@@ -360,7 +360,7 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls>--c99</MiscControls>
-              <Define>rvmdk PART_TM4C123GH6PM _POSIX_SOURCE UART_BUFFERED TARGET_IS_TM4C123_RB1</Define>
+              <Define>rvmdk PART_TM4C123GH6PM _POSIX_SOURCE UART_BUFFERED TARGET_IS_TM4C123_RB1, MPL_LOG_NDEBUG=1,MPU6050,EMPL,USE_DMP,EMPL_TARGET_STM32F4</Define>
               <Undefine></Undefine>
               <IncludePath>..;..\;..\..\..\..;..\cc3100;..\cc3100\platform\ek-tm4c123gxl;..\cc3100\simplelink\include;..\cc3100\simplelink\source</IncludePath>
             </VariousControls>

@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 #include "..//inc//tm4c123gh6pm.h"
+#include "Timers.h"
 
 
 
@@ -23,10 +24,9 @@ void (*PeriodicTask2)(void);   // user function
 // Inputs:  task is a pointer to a user function
 //          period in units (1/clockfreq), 32 bits
 // Outputs: none
-void Timer0A_Init(void(*task)(void), uint32_t period){
+void Timer0A_Init(uint32_t period){
   //sr = StartCritical(); 
   SYSCTL_RCGCTIMER_R |= 0x01;   // 0) activate TIMER0
-  PeriodicTask0 = task;          // user function
   TIMER0_CTL_R = 0x00000000;    // 1) disable TIMER0A during setup
   TIMER0_CFG_R = 0x00000000;    // 2) configure for 32-bit mode
   TIMER0_TAMR_R = 0x00000002;   // 3) configure for periodic mode, default down-count settings
@@ -47,7 +47,7 @@ void Timer0A_Init(void(*task)(void), uint32_t period){
 // Inputs:  task is a pointer to a user function
 //          period in units (1/clockfreq)
 // Outputs: none
-void Timer1_Init(void(*task)(void), uint32_t period){
+void Timer1_Init(uint32_t period){
 	SYSCTL_RCGCTIMER_R |= 0x02;   // 0) activate timer1
   TIMER1_CTL_R = 0x00000000;    // 1) disable TIMER1A during setup
   TIMER1_CFG_R = 0x00000000;    // 2) configure for 32-bit mode
@@ -69,9 +69,8 @@ void Timer1_Init(void(*task)(void), uint32_t period){
 // Inputs:  task is a pointer to a user function
 //          period in units (1/clockfreq)
 // Outputs: none
-void Timer2_Init(void(*task)(void), unsigned long period){
+void Timer2_Init(uint32_t period){
   SYSCTL_RCGCTIMER_R |= 0x04;   // 0) activate timer2
-  PeriodicTask2 = task;          // user function
   TIMER2_CTL_R = 0x00000000;    // 1) disable timer2A during setup
   TIMER2_CFG_R = 0x00000000;    // 2) configure for 32-bit mode
   TIMER2_TAMR_R = 0x00000002;   // 3) configure for periodic mode, default down-count settings

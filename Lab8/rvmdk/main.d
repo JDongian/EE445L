@@ -28,3 +28,4 @@
 .\rvmdk\main.o: i2c.h
 .\rvmdk\main.o: SysTick.h
 .\rvmdk\main.o: ..\cc3100\platform\ek-tm4c123gxl\board.h
+.\rvmdk\main.o: switch.h
