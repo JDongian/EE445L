@@ -4,59 +4,47 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 C:\Keil\ValvanoWareTM4C123\Lab8\getWeather.uvproj
-Project File Date:  10/31/2016
+Project File Date:  11/01/2016
 
 <h2>Output:</h2>
 Build target 'getWeather'
-compiling main.c...
-linking...
-Program Size: Code=4104 RO-data=692 RW-data=44 ZI-data=17564  
-After Build - User command #1: fromelf --bin --output .\rvmdk\cc31000_starter.bin .\rvmdk\cc31000_starter.axf
-".\rvmdk\getWeather.axf" - 0 Error(s), 0 Warning(s).
-</pre>
-</body>
-</html>
-eTM4C123\\Lab8\\rvmdk\\getWeather.axf" 
+compiling motor.c...
+motorLib\motor.c(4): error:  #5: cannot open source input file "PWM.h": No such file or directory
+  #include "PWM.h"
+motorLib\motor.c: 0 warnings, 1 error
+compiling PWM.c...
+".\rvmdk\getWeather.axf" - 1 Error(s), 0 Warning(s).
+Target not created
+rning(s).
+Load "C:\\Keil\\ValvanoWareTM4C123\\Lab8\\rvmdk\\getWeather.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-ming Done.
+\Keil\\ValvanoWareTM4C123\\Lab8\\rvmdk\\getWeather.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
 Verify OK.
-ng Done.
-Verify OK.
-eclared but never referenced
-  RobotState segway;
-main.c(151): error:  #169: expected a declaration
+: statement is unreachable
+      return ((t % RESOLUTION) / (double)RESOLUTION) < s;
+motorLib\motor.c: 2 warnings, 0 errors
+linking...
+Program Size: Code=4000 RO-data=692 RW-data=56 ZI-data=17560  
+After Build - User command #1: fromelf --bin --output .\rvmdk\cc31000_starter.bin .\rvmdk\cc31000_starter.axf
+".\rvmdk\getWeather.axf" - 0 Error(s), 5 Warning(s).
+reated
+ #20: identifier "RESOLUTION" is undefined
+      return ((t % RESOLUTION) / (double)RESOLUTION) < s
+motorLib\motor.c(69): error:  #65: expected a ";"
   }
-main.c(153): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
-main.c: 4 warnings, 3 errors
-compiling board.c...
-compiling LED.c...
-compiling spi.c...
-assembling startup_rvmdk.S...
-compiling uart.c...
-compiling uartstdio.c...
-compiling ustdlib.c...
-compiling ST7735.c...
-compiling ADCSWTrigger.c...
-compiling Timers.c...
-compiling i2c.c...
-compiling motor.c...
+motorLib\motor.c(73): error:  #147-D: declaration is incompatible with "void motor_run(void)" (declared at line 15 of "motorLib\motor.h")
+  void motor_run(microseconds time)
+motorLib\motor.c: 2 warnings, 3 errors
 compiling MPU6050.c...
-MPU6050.h(15): error:  #65: expected a ";"
-  void MPU6050_SetGyroOffestZ(uint16_t offset){
-MPU6050.c(427): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
-MPU6050.c(427): error: At end of source:  #67: expected a "}"
-MPU6050.c: 1 warning, 2 errors
 compiling SysTick.c...
 compiling PLL.c...
 compiling switch.c...
 compiling sense.c...
-MPU6050.h(15): error:  #65: expected a ";"
-  void MPU6050_SetGyroOffestZ(uint16_t offset){
-sense.c(12): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
-sense.c(12): error: At end of source:  #67: expected a "}"
-sense.c: 1 warning, 2 errors
-".\rvmdk\getWeather.axf" - 7 Error(s), 6 Warning(s).
+".\rvmdk\getWeather.axf" - 3 Error(s), 5 Warning(s).
 Target not created

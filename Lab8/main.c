@@ -71,7 +71,7 @@
 RobotState segway;
 
 // DEBUG
-typedef enum Mode {FWD, BWD, LFT, RGT} Mode;
+typedef enum Mode {FWD, BWD, LFT, RGT, NO} Mode;
 Mode mode;
 
 
@@ -85,6 +85,16 @@ void UART_Init(void)
     UARTStdioConfig(0, 115200, 50000000);
 }
 
+void handleButtons(){
+	mode = NO;
+	if (sw1) mode = FWD;
+	if (sw2) mode = BWD;
+	if (sw3) mode = LFT;
+	if (sw4) mode = RGT;
+
+	
+}
+
 
 int main(void)
 {
@@ -96,8 +106,7 @@ int main(void)
     //Init_Timers();
     motor_set(PORT, FORWARD, 1.0);
     motor_set(STARBOARD, FORWARD, 1.0);
-    int data_x, data_y, data_z;
-    uint16_t i = 0;
+		uint16_t i = 0;
 
     while(1) {
         if (i == 0){
@@ -108,11 +117,11 @@ int main(void)
         i++;
 
         // set the mode based on the buttons (DEBUG)
-        // handleButtons();
+        handleButtons();
        
         // DEBUG
         // Switch demo
-        /*
+        
         switch (mode) {
             case FWD:
                 motor_set(PORT, FORWARD, 1.0);
@@ -130,9 +139,12 @@ int main(void)
                 motor_set(PORT, FORWARD, 1.0);
                 motor_set(STARBOARD, BACKWARD, 1.0);
                 break;
+						case NO:
+								motor_set(PORT, NONE, 1.0);
+                motor_set(STARBOARD, NONE, 1.0);
         } 
         motor_run(0);
-        */
+        
     }
 }
 
