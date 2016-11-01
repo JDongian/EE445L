@@ -23,6 +23,12 @@ void motor_init()
     GPIO_PORTB_AFSEL_R &= ~0xF8;     // disable alt funct on PB0, PB1
     GPIO_PORTB_AMSEL_R = 0;          // disable analog functionality on PF
 
+    // Make sure nothing is moving to start
+    PB4 &= ~(0x01 << 4);
+    PB5 &= ~(0x01 << 5);
+    PB6 &= ~(0x01 << 6);
+    PB7 &= ~(0x01 << 7);
+
     // initialize motor states
     MotorState left_state = NONE; // port side
     MotorState right_state = NONE; // starboard side
@@ -62,6 +68,7 @@ bool pwm_phase(Speed s, microseconds t)
 }
 
 
+// to be called at least once every microsecond
 void motor_run(microseconds time)
 {
     // update port side
