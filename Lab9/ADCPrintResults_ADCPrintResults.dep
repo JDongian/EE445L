@@ -4,7 +4,7 @@ F (.\UART.c)(0x554518F0)(-c --cpu Cortex-M4 -g -O0 --apcs=interwork --split_sect
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C87C24)
 I (UART.h)(0x554505D8)
 I (../inc/tm4c123gh6pm.h)(0x5388C2DA)
-F (.\main.c)(0x581A54A5)(-c --cpu Cortex-M4 -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --C99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\main.o --omf_browse .\main.crf --depend .\main.d)
+F (.\main.c)(0x581A5535)(-c --cpu Cortex-M4 -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --C99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\main.o --omf_browse .\main.crf --depend .\main.d)
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C87C24)
 I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C87C24)
 I (../inc/tm4c123gh6pm.h)(0x5388C2DA)
@@ -24,3 +24,6 @@ F (.\Timers.c)(0x581A5192)(-c --cpu Cortex-M4 -g -O0 --apcs=interwork --split_se
 I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C87C24)
 I (..//inc//tm4c123gh6pm.h)(0x5388C2DA)
 I (Timers.h)(0x5817FB7A)
+F (.\ADCT0ATrigger.c)(0x554535C2)(-c --cpu Cortex-M4 -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --C99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\adct0atrigger.o --omf_browse .\adct0atrigger.crf --depend .\adct0atrigger.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C87C24)
+I (../inc/tm4c123gh6pm.h)(0x5388C2DA)

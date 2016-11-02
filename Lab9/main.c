@@ -41,17 +41,17 @@ long StartCritical (void);    // previous I bit, disable interrupts
 void EndCritical(long sr);    // restore I bit to previous value
 void WaitForInterrupt(void);  // low power mode
 
-volatile uint32_t ADCvalue;
+volatile uint32_t ADCdata;
 volatile uint32_t ADCRecords[MAX_SAMPLES];
 volatile uint16_t sampleIndex = 0;
 
 void Timer0A_Handler(void){
   TIMER0_ICR_R = TIMER_ICR_TATOCINT;    // acknowledge timer0A timeout
-  ADCvalue = ADC0_InSeq3();
+  ADCdata = ADC0_InSeq3();
 	
 	// stop recording after 100 samples
 	if(sampleIndex < 100){
-		ADCRecords[sampleIndex] = ADCvalue; // record ADC value into array
+		ADCRecords[sampleIndex] = ADCdata; // record ADC value into array
 		++sampleIndex;
 	}
 }
