@@ -253,6 +253,9 @@ void ADC0_InitTimer0ATriggerSeq3PD3(uint32_t period){
   ADC0_SSCTL3_R = 0x06;         // 8) set flag and end                       
   ADC0_IM_R |= 0x08;            // 9) enable SS3 interrupts
   ADC0_ACTSS_R |= 0x08;         // 10) enable sample sequencer 3
+	
+	ADC0_SAC_R = 0x04;	
+	
   NVIC_PRI4_R = (NVIC_PRI4_R&0xFFFF00FF)|0x00004000; // 11)priority 2
   NVIC_EN0_R = 1<<17;           // 12) enable interrupt 17 in NVIC
 

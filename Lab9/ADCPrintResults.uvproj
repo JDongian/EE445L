@@ -440,6 +440,21 @@
               <FileType>1</FileType>
               <FilePath>.\ADCT0ATrigger.c</FilePath>
             </File>
+            <File>
+              <FileName>fixed.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\fixed.c</FilePath>
+            </File>
+            <File>
+              <FileName>ST7735.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ST7735.c</FilePath>
+            </File>
+            <File>
+              <FileName>FIFO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FIFO.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

@@ -35,11 +35,10 @@
 #include "FIFO.h"
 #include "ST7735.h"
 #include "fixed.h"
+#include "Temperature.h"
 
-#define f1000HZ 80000
+#define f100HZ 80000000/100
 #define MAX_SAMPLES 100
-#define FS 1000
-#define N 128
 
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
@@ -47,57 +46,25 @@ long StartCritical (void);    // previous I bit, disable interrupts
 void EndCritical(long sr);    // restore I bit to previous value
 void WaitForInterrupt(void);  // low power mode
 
-volatile uint32_t ADCdata;
-volatile uint32_t ADCRecords[MAX_SAMPLES];
-volatile uint16_t sampleIndex = 0;
 
-void Timer0A_Handler(void){
-  TIMER0_ICR_R = TIMER_ICR_TATOCINT;    // acknowledge timer0A timeout
-  ADCdata = ADC0_InSeq3();
-	
-	// stop recording after 100 samples
-	if(sampleIndex < 100){
-		ADCRecords[sampleIndex] = ADCdata; // record ADC value into array
-		++sampleIndex;
-	}
-}
+volatile uint32_t ADCRecords[MAX_SAMPLES];
+uint16_t adcValue = 0;
+volatile uint32_t numSamples = 0;
 
 int main(void){ 
-	uint32_t numSamples = 0;
-	uint16_t adcValue = 0;
-	uint16_t temperature = 0;
+  PLL_Init(Bus80MHz); 	// 80 MHz
+  UART_Init();      		// initialize UART device
+	//initialize ADC, hardware timer trigger, 100Hz sampling
+	ADC0_InitTimer0ATriggerSeq3PD3(f100HZ);  
+	TxFifo_Init();	// initialize FIFO
+	ST7735_InitR(INITR_REDTAB); // initialize LCD
+	ST7735_InitTemperatureGraph();	// initialize graph area
 	
-  PLL_Init(Bus80MHz);   				// 80 MHz
-  UART_Init();              		// initialize UART device
-	ADC0_InitTimer0ATriggerSeq3PD3(80000000/100);
-	TxFifo_Init();
 	EnableInterrupts();
-	
-	ST7735_InitR(INITR_REDTAB);
-	ST7735_SetCursor(0,0); 
-	ST7735_OutString("Temperature Data");
-	ST7735_PlotClear(1000,4000);  // range from 0 to 4095
-	ST7735_SetCursor(0,1); 
-	ST7735_OutString("N=");
-	ST7735_SetCursor(0,2); 
-	ST7735_OutString("T= "); 
-	ST7735_sDecOut2(2500);
-  ST7735_OutString(" C");
 
 	while(1){
-		TxFifo_Get(&adcValue);
-		temperature = 4000+(-3000*(long)adcValue)/4096;
-		
-		ST7735_PlotPoint(temperature);  // Measured temperature
-    if((numSamples&(N-1))==0){          // fs sampling, fs/N samples plotted per second
-      ST7735_PlotNextErase();  // overwrites N points on same line
-    }
-    if((numSamples%FS)==0){    // fs sampling, 1 Hz display of numerical data
-      ST7735_SetCursor(3,1); 
-			ST7735_OutUDec(adcValue);            // 0 to 4095
-      ST7735_SetCursor(3,2); 
-			ST7735_sDecOut2(temperature); // 0.01 C 
-    }
+		TxFifo_Get(&adcValue);	// get most recent ADC value from FIFO
+		ST7735_UpdateTemperatureGraph(numSamples, adcValue); // plot new point and display ADC and temperature values
     numSamples++;                       // counts the number of samples
 	}
 }

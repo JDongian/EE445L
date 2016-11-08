@@ -10,3 +10,4 @@
 .\main.o: FIFO.h
 .\main.o: ST7735.h
 .\main.o: fixed.h
+.\main.o: Temperature.h
