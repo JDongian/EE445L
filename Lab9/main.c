@@ -31,9 +31,15 @@
 #include "uart.h"
 #include "PLL.h"
 #include "Timers.h"
+#include "ADCT0ATrigger.h"
+#include "FIFO.h"
+#include "ST7735.h"
+#include "fixed.h"
 
 #define f1000HZ 80000
 #define MAX_SAMPLES 100
+#define FS 1000
+#define N 128
 
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
@@ -57,18 +63,42 @@ void Timer0A_Handler(void){
 }
 
 int main(void){ 
-	char outBuf[200];
+	uint32_t numSamples = 0;
+	uint16_t adcValue = 0;
+	uint16_t temperature = 0;
+	
   PLL_Init(Bus80MHz);   				// 80 MHz
   UART_Init();              		// initialize UART device
-  ADC0_InitSWTriggerSeq3_Ch9();	// initialize ADC0
-	Timer0A_Init(f1000HZ);				// initialize Timer0A, 1000Hz interrupts
+	ADC0_InitTimer0ATriggerSeq3PD3(80000000/100);
+	TxFifo_Init();
 	EnableInterrupts();
-  while(sampleIndex < MAX_SAMPLES) {} // wait for ADC sample buffer to fill
-  DisableInterrupts();
-	// print ADC data
-	for (int i = 0; i < MAX_SAMPLES; i++){
-		sprintf(outBuf, "Sample 0: %d\n\r", ADCRecords[i]);
-		UART_OutString(outBuf);
+	
+	ST7735_InitR(INITR_REDTAB);
+	ST7735_SetCursor(0,0); 
+	ST7735_OutString("Temperature Data");
+	ST7735_PlotClear(1000,4000);  // range from 0 to 4095
+	ST7735_SetCursor(0,1); 
+	ST7735_OutString("N=");
+	ST7735_SetCursor(0,2); 
+	ST7735_OutString("T= "); 
+	ST7735_sDecOut2(2500);
+  ST7735_OutString(" C");
+
+	while(1){
+		TxFifo_Get(&adcValue);
+		temperature = 4000+(-3000*(long)adcValue)/4096;
+		
+		ST7735_PlotPoint(temperature);  // Measured temperature
+    if((numSamples&(N-1))==0){          // fs sampling, fs/N samples plotted per second
+      ST7735_PlotNextErase();  // overwrites N points on same line
+    }
+    if((numSamples%FS)==0){    // fs sampling, 1 Hz display of numerical data
+      ST7735_SetCursor(3,1); 
+			ST7735_OutUDec(adcValue);            // 0 to 4095
+      ST7735_SetCursor(3,2); 
+			ST7735_sDecOut2(temperature); // 0.01 C 
+    }
+    numSamples++;                       // counts the number of samples
 	}
 }
 

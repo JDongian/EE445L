@@ -6,3 +6,7 @@
 .\main.o: uart.h
 .\main.o: PLL.h
 .\main.o: Timers.h
+.\main.o: ADCT0ATrigger.h
+.\main.o: FIFO.h
+.\main.o: ST7735.h
+.\main.o: fixed.h
