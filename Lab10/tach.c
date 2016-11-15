@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include "../inc/tm4c123gh6pm.h"
 #include "tach.h"
+#include "Motor.h"
 
 #define NVIC_EN0_INT19          0x00080000  // Interrupt 19 enable
 #define TIMER_TAILR_TAILRL_M    0x0000FFFF  // GPTM TimerA Interval Load
@@ -46,18 +47,26 @@ void Tach_Init(){
                                    // Timer0A=priority 2
   NVIC_PRI4_R = (NVIC_PRI4_R&0x00FFFFFF)|0x40000000; // top 3 bits
   NVIC_EN0_R = NVIC_EN0_INT19;     // enable interrupt 19 in NVIC
+	
 }
 
-uint16_t Tach_GetSpeed(void){
-	
+uint32_t Tach_GetPeriod(){
+	return Period;
+}
+
+uint32_t Tach_GetSpeed() {
+	return 80000000/Period;
 }
 
 void Timer0A_Handler(void){
   PF2 = PF2^0x04;  // toggle PF2
   PF2 = PF2^0x04;  // toggle PF2
+	Motor_ResetCount();
   TIMER0_ICR_R = TIMER_ICR_CAECINT;// acknowledge timer0A capture match
+	
   Period = (First - TIMER0_TAR_R)&0xFFFFFF;// 24 bits, 12.5ns resolution
   First = TIMER0_TAR_R;            // setup for next
+	
   Done = 1;
   PF2 = PF2^0x04;  // toggle PF2
 }

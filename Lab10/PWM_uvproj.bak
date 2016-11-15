@@ -450,11 +450,6 @@
               <FileType>1</FileType>
               <FilePath>.\tach.c</FilePath>
             </File>
-            <File>
-              <FileName>ST7735.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\ST7735.c</FilePath>
-            </File>
           </Files>
         </Group>
       </Groups>

@@ -38,7 +38,7 @@ void Init_Switches(void){
 
 
 void Timer1A_Handler(void){
-	TIMER0_ICR_R = TIMER_ICR_TATOCINT;// acknowledge TIMER1A timeout
+	TIMER1_ICR_R = TIMER_ICR_TATOCINT;// acknowledge TIMER1A timeout
 	
 		
 	static uint16_t pf4State = 0; // Current debounce status

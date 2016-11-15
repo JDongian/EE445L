@@ -1,4 +1,6 @@
 
 void Tach_Init(void);
 
-uint16_t Tach_GetSpeed(void);
+uint32_t Tach_GetPeriod(void);
+
+uint32_t Tach_GetSpeed(void);

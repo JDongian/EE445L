@@ -455,6 +455,11 @@
               <FileType>1</FileType>
               <FilePath>.\FIFO.c</FilePath>
             </File>
+            <File>
+              <FileName>Temperature.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Temperature.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

@@ -1,4 +1,10 @@
 .\pwmtest.o: PWMtest.c
 .\pwmtest.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\pwmtest.o: ../inc/tm4c123gh6pm.h
 .\pwmtest.o: PLL.h
 .\pwmtest.o: PWM.h
+.\pwmtest.o: ST7735.h
+.\pwmtest.o: switch.h
+.\pwmtest.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
+.\pwmtest.o: tach.h
+.\pwmtest.o: Motor.h
