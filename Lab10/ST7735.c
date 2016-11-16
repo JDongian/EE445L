@@ -1469,6 +1469,7 @@ void ST7735_PlotNext(void){
 // Outputs: none
 void ST7735_PlotNextErase(void){
   if(X==127){
+		ST7735_PlotClear(0, 900);
     X = 0;
   } else{
     X++;

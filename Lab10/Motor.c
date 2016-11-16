@@ -11,7 +11,7 @@
 #define MAX_PID 39960
 #define K_PID 32/64
 
-volatile uint32_t desiredSpeed, measuredSpeed;
+volatile uint32_t desiredSpeed, measuredSpeed; // speed in units of 0.1 rps
 volatile int32_t error;
 volatile uint32_t count;
 // Linear interpolation at low RPMs
@@ -35,7 +35,7 @@ void Motor_IncrementSpeed()
 
 void Motor_DecrementSpeed()
 {
-    if (desiredSpeed - 20 > 0){
+    if (desiredSpeed >= 20){
         desiredSpeed -= 20;
     } else {
         desiredSpeed = 0;
@@ -82,9 +82,7 @@ void Timer2A_Handler(void)
         measuredSpeed = Tach_GetSpeed();
     }
 
-
-    // TODO: make sure this bit is still correct
-    error = Tach_GetSpeed() - measuredSpeed;
+    error = desiredSpeed - measuredSpeed;
     // integrate error*K_PID
     pid += error * K_PID;
 
@@ -112,7 +110,6 @@ void Timer2A_Handler(void)
 
         // setting the integral manually allows a smooth transition.
         // it's sort of a hack, but it works.
-        // TODO: make sure this hack works
     }
 
     PWM0B_Duty(pid);

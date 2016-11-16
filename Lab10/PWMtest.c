@@ -33,6 +33,9 @@
 #include "tach.h"
 #include "Motor.h"
 
+#define PLOT_SPEED 700
+#define TEXT_SPEED 10000
+
 
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
@@ -40,57 +43,66 @@ long StartCritical (void);    // previous I bit, disable interrupts
 void EndCritical(long sr);    // restore I bit to previous value
 void WaitForInterrupt(void);  // low power mode
 
-int main(void){
-	DisableInterrupts();
-  PLL_Init(Bus80MHz);               // bus clock at 80 MHz
-	Tach_Init();
-	Motor_Init();
-	Init_Switches();
-	ST7735_InitR(INITR_REDTAB);
-		ST7735_SetCursor(0,0); 
-	ST7735_PlotClear(0,900);  // temperature range from 10 to 40
-	ST7735_OutString("Motor Lab");
-	ST7735_SetCursor(0,1); 
-	ST7735_OutString("rps=");
-	ST7735_SetCursor(0,2); 
-	ST7735_OutString("desired=");
-	uint32_t i = 0;
-	EnableInterrupts();
-  //PWM0A_Init(40000, 30000);         // initialize PWM0, 1000 Hz, 75% duty
-  //PWM0B_Init(40000, 10000);         // initialize PWM0, 1000 Hz, 25% duty
-//  PWM0_Duty(4000);    // 10%
-//  PWM0_Duty(10000);   // 25%
-//  PWM0_Duty(30000);   // 75%
+uint32_t i = 0;
 
-//  PWM0_Init(4000, 2000);         // initialize PWM0, 10000 Hz, 50% duty
-//  PWM0_Init(1000, 900);          // initialize PWM0, 40000 Hz, 90% duty
-//  PWM0_Init(1000, 100);          // initialize PWM0, 40000 Hz, 10% duty
-//  PWM0_Init(40, 20);             // initialize PWM0, 1 MHz, 50% duty
-  while(1){
-		if (pf4Pressed){
+void handle_switches(){
+	if (pf4Pressed){
 			Motor_IncrementSpeed();
 			pf4Pressed = false;
 		}
-		if (pf0Pressed){
-			Motor_DecrementSpeed();
-			pf0Pressed = false;
+	if (pf0Pressed){
+		Motor_DecrementSpeed();
+		pf0Pressed = false;
+	}
+}
+
+void init_motorGraph(){
+	ST7735_SetCursor(0,0); 
+	ST7735_PlotClear(0,900);  // motor range 0 to 90 rps
+	ST7735_OutString("Motor Lab");
+	ST7735_SetCursor(0,1); 
+	ST7735_OutString("Set=");
+	ST7735_SetCursor(0,2); 
+	ST7735_OutString("Measured=");
+}
+
+void update_motorGraph(){
+		
+		if ((i % PLOT_SPEED) == 0){
+			ST7735_PlotPoints(Motor_GetActual(), Motor_GetDesired());  
 		}
-		ST7735_PlotPoints(Tach_GetSpeed(), Motor_GetDesired());  
-    if((i&(128-1))==0){          // fs sampling, fs/N samples plotted per second
-      ST7735_PlotNextErase();  // overwrites N points on same line
+    if((i%((ST7735_TFTWIDTH-1)*PLOT_SPEED))==0){          
+      ST7735_PlotNextErase();  // overwrites 127 points (pixels) on same line
     }
-    if((i%10000)==0){    // fs sampling, 1 Hz display of numerical data
-      ST7735_SetCursor(5,1); 
-			ST7735_OutUDec(Motor_GetActual()/10); 
+    if((i%TEXT_SPEED)==0){   
+      ST7735_SetCursor(10,2); 
+			// print measured motor speed
+			ST7735_OutUDec(Motor_GetActual()/10);  // integer part
 			ST7735_OutString(".");
-			ST7735_OutUDec(Motor_GetActual()%10); 
-			ST7735_OutString("   "); // clear previous number
-			ST7735_SetCursor(9,2); 
-			ST7735_OutUDec(Motor_GetDesired()/10); 
+			ST7735_OutUDec(Motor_GetActual()%10); 	// decimal part
+			ST7735_OutString(" rps  "); 
+			// print desired motor speed
+			ST7735_SetCursor(5,1); 
+			ST7735_OutUDec(Motor_GetDesired()/10); // integer part
 			ST7735_OutString(".");
-			ST7735_OutUDec(Motor_GetDesired()%10); 			
-			ST7735_OutString(" "); // clear previous number
+			ST7735_OutUDec(Motor_GetDesired()%10); // decimal part			
+			ST7735_OutString(" rps  "); 
     }
 		i++;
+}
+
+int main(void){
+	DisableInterrupts();
+  PLL_Init(Bus80MHz); // bus clock at 80 MHz
+	Tach_Init();	// initialize inpu capture
+	Motor_Init();	// initialize pwm
+	Init_Switches();	// initialize pf0 and pf4 switches
+	ST7735_InitR(INITR_REDTAB);
+	init_motorGraph();	// initialize LCD plot
+	i = 0;
+	EnableInterrupts();
+  while(1){
+		handle_switches();
+		update_motorGraph();
   }
 }

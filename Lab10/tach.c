@@ -55,7 +55,7 @@ uint32_t Tach_GetPeriod(){
 }
 
 uint32_t Tach_GetSpeed() {
-	return 80000000/Period;
+	return 80000000/Period; // speed in units of 0.1 rps
 }
 
 void Timer0A_Handler(void){
