@@ -17,9 +17,8 @@ MotorState right_state;
 
 void motor_init()
 {		
-		/*
     // initialize PB3-7 (h-bridge interface)
-    SYSCTL_RCGCGPIO_R |= 0x02;       // activate port B, D, F
+    SYSCTL_RCGCGPIO_R |= 0x02;       // activate port B
     int delay = SYSCTL_RCGCGPIO_R;   // allow time to finish activating
     GPIO_PORTB_DEN_R |= 0xF8;        // enable digital I/O on PB0, PB1
     GPIO_PORTB_DIR_R |= 0xF8;        // make PB1 output (for speaker)
@@ -27,13 +26,11 @@ void motor_init()
     GPIO_PORTB_AMSEL_R = 0;          // disable analog functionality on PF
 
     // Make sure nothing is moving to start
+		PB3 = 0x08;
     PB4 &= ~(0x01 << 4);
     PB5 &= ~(0x01 << 5);
     PB6 &= ~(0x01 << 6);
     PB7 &= ~(0x01 << 7);
-	*/
-		PWM0A_Init(10000, 5000);         // initialize PWM0, 4000 Hz, 50% duty
-		PWM0B_Init(10000, 2500);         // initialize PWM0, 4000 Hz, 25% duty
 
     // initialize motor states
     left_state.direction = NONE; // port side
@@ -83,10 +80,8 @@ void motor_run(microseconds time)
     switch (left_state.direction) {
         case NONE:
             // left motor inactive
-            //PB4 &= ~(0x01 << 4);
-            //PB5 &= ~(0x01 << 5);
-						PWM0A_Duty(0);
-						PWM0B_Duty(0);
+            PB4 &= ~(0x01 << 4);
+            PB5 &= ~(0x01 << 5);
             break;
         case FORWARD:
             // left motor forward

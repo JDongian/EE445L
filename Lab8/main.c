@@ -57,7 +57,7 @@
 #include "ST7735.h"
 #include "ADCSWTrigger.h"
 #include "../inc/tm4c123gh6pm.h"
-//#include "Timers.h"
+#include "Timers.h"
 #include "PLL.h"
 #include "motorLib/motor.h"
 #include "MPU6050.h"
@@ -67,8 +67,18 @@
 #include "switch.h"
 #include "balance.h"
 #include "sense.h"
+#include <math.h>
+
+#define ACCELEROMETER_SENSITIVITY 8192.0
+#define GYROSCOPE_SENSITIVITY 65.536
+ 
+#define M_PI 3.14159265359	    
+ 
+#define dt 0.01	
 
 RobotState segway;
+float pitch = 200;
+float roll = 200;
 
 // DEBUG
 typedef enum Mode {FWD, BWD, LFT, RGT, NO} Mode;
@@ -86,14 +96,38 @@ void UART_Init(void)
 }
 
 void handleButtons(){
+	// very crude debug for demoing
 	mode = NO;
 	if (sw1) mode = FWD;
 	if (sw2) mode = BWD;
 	if (sw3) mode = LFT;
 	if (sw4) mode = RGT;
-
-	
 }
+
+
+void ComplementaryFilter(RobotState* r, float *pitch, float *roll)
+{
+    float pitchAcc, rollAcc;               
+ 
+    // Integrate the gyroscope data -> int(angularSpeed) = angle
+    *pitch += ((float)r->gyro_x / GYROSCOPE_SENSITIVITY) * dt; // Angle around the X-axis
+    *roll -= ((float)r->gyro_y / GYROSCOPE_SENSITIVITY) * dt;    // Angle around the Y-axis
+ 
+    // Compensate for drift with accelerometer data if !bullshit
+    // Sensitivity = -2 to 2 G at 16Bit -> 2G = 32768 && 0.5G = 8192
+    int forceMagnitudeApprox = abs(r->accel_x) + abs(r->accel_y) + abs(r->accel_z);
+    if (forceMagnitudeApprox > 8192 && forceMagnitudeApprox < 32768)
+    {
+	// Turning around the X axis results in a vector on the Y-axis
+        pitchAcc = atan2f((float)r->accel_y, (float)r->accel_z) * 180 / M_PI;
+        *pitch = *pitch * 0.98 + pitchAcc * 0.02;
+ 
+	// Turning around the Y axis results in a vector on ssthe X-axis
+        rollAcc = atan2f((float)r->accel_x, (float)r->accel_z) * 180 / M_PI;
+        *roll = *roll * 0.98 + rollAcc * 0.02;
+    }
+} 
+
 
 
 int main(void)
@@ -103,25 +137,63 @@ int main(void)
     motor_init();
     MPU6050_Init();
     UART_Init();
+		ST7735_InitR(INITR_REDTAB);
+		Timer1_Init(50000000/100);
     //Init_Timers();
     motor_set(PORT, FORWARD, 1.0);
     motor_set(STARBOARD, FORWARD, 1.0);
 		uint16_t i = 0;
+	  // reset gyro offsets
+		MPU6050_SetGyroOffestX(0);
+		MPU6050_SetGyroOffestY(0);
+		MPU6050_SetGyroOffestZ(0);
+		int64_t sumX = 0;
+	
+		int16_t count = 42;
+	
+		char buf[500] = {0};
 
     while(1) {
         if (i == 0){
-            update_state(&segway);
-            UARTprintf("gyroX: %d, gyroY: %d, gyroZ: %d\n\raccelX: %d, accelY: %d, accelZ: %d\n\n\r", 
-                                    segway.gyro_x, segway.gyro_y, segway.gyro_z, segway.accel_x, segway.accel_y, segway.accel_z);
+					// DEBUG (attempt to calibrate using an average)
+						sumX += segway.gyro_x;
+						double avg = (double)sumX/count;
+						//UARTprintf("Average X: %d\n", (int)avg);
+					
+            //update_state(&segway);
+					UARTprintf("gyro\n%d\n%d\n%d\n\rpitch: %d roll: %d\n\n\r", 
+											 segway.gyro_x, segway.gyro_y, segway.gyro_z, (int)pitch, (int)roll);  
+					ST7735_FillScreen(0);
+					ST7735_SetCursor(0,0);
+					sprintf(buf, "gyro\n%d\n%d\n%d\n\raccel\n%d\n%d\n%d\n\rpitch: %d \nroll: %d\n\n\r",
+											 segway.gyro_x, segway.gyro_y, segway.gyro_z, segway.accel_x, segway.accel_y, segway.accel_z, 
+											(int)pitch, (int)roll);
+					ST7735_OutString(buf);
+					//UARTprintf("( %d ) gyroX: %d, gyroY: %d, gyroZ: %d\n\raccelX: %d, accelY: %d, accelZ: %d\n\n\r", count,
+            //                        segway.gyro_x, segway.gyro_y, segway.gyro_z,
+						//												segway.accel_x, segway.accel_y, segway.accel_z);
+						//UARTprintf("roll: %d\n\rpitch: %d\n\n\r", (int)roll, (int) pitch);
         }
-        i++;
+        i = (i + 1) % 50000;
 
         // set the mode based on the buttons (DEBUG)
         handleButtons();
        
         // DEBUG
         // Switch demo
-        
+				if(!sw4){
+						if(roll < 0){
+							mode = FWD;
+							//ST7735_OutString("FWD");
+						}
+					else{
+							mode = BWD;
+							//ST7735_OutString("BWD");
+
+						}
+					}
+					else mode = NO;
+					
         switch (mode) {
             case FWD:
                 motor_set(PORT, FORWARD, 1.0);
@@ -143,10 +215,15 @@ int main(void)
 								motor_set(PORT, NONE, 1.0);
                 motor_set(STARBOARD, NONE, 1.0);
         } 
+				
+				
         motor_run(0);
         
     }
 }
 
-// timer0 {
-        //motor_run(microseconds);
+void Timer1A_Handler(void){
+	TIMER1_ICR_R = TIMER_ICR_TATOCINT;
+	update_state(&segway);
+	ComplementaryFilter(&segway, &pitch, &roll);
+}

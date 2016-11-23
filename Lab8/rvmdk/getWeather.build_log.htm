@@ -8,43 +8,15 @@ Project File Date:  11/01/2016
 
 <h2>Output:</h2>
 Build target 'getWeather'
-compiling motor.c...
-motorLib\motor.c(4): error:  #5: cannot open source input file "PWM.h": No such file or directory
-  #include "PWM.h"
-motorLib\motor.c: 0 warnings, 1 error
-compiling PWM.c...
-".\rvmdk\getWeather.axf" - 1 Error(s), 0 Warning(s).
-Target not created
-rning(s).
+linking...
+Program Size: Code=8992 RO-data=2640 RW-data=112 ZI-data=17560  
+After Build - User command #1: fromelf --bin --output .\rvmdk\cc31000_starter.bin .\rvmdk\cc31000_starter.axf
+".\rvmdk\getWeather.axf" - 0 Error(s), 0 Warning(s).
 Load "C:\\Keil\\ValvanoWareTM4C123\\Lab8\\rvmdk\\getWeather.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-\Keil\\ValvanoWareTM4C123\\Lab8\\rvmdk\\getWeather.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-: statement is unreachable
-      return ((t % RESOLUTION) / (double)RESOLUTION) < s;
-motorLib\motor.c: 2 warnings, 0 errors
-linking...
-Program Size: Code=4000 RO-data=692 RW-data=56 ZI-data=17560  
-After Build - User command #1: fromelf --bin --output .\rvmdk\cc31000_starter.bin .\rvmdk\cc31000_starter.axf
-".\rvmdk\getWeather.axf" - 0 Error(s), 5 Warning(s).
-reated
- #20: identifier "RESOLUTION" is undefined
-      return ((t % RESOLUTION) / (double)RESOLUTION) < s
-motorLib\motor.c(69): error:  #65: expected a ";"
-  }
-motorLib\motor.c(73): error:  #147-D: declaration is incompatible with "void motor_run(void)" (declared at line 15 of "motorLib\motor.h")
-  void motor_run(microseconds time)
-motorLib\motor.c: 2 warnings, 3 errors
-compiling MPU6050.c...
-compiling SysTick.c...
-compiling PLL.c...
-compiling switch.c...
-compiling sense.c...
-".\rvmdk\getWeather.axf" - 3 Error(s), 5 Warning(s).
-Target not created
+</pre>
+</body>
+</html>

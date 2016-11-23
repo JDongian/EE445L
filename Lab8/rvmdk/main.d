@@ -21,6 +21,7 @@
 .\rvmdk\main.o: ST7735.h
 .\rvmdk\main.o: ADCSWTrigger.h
 .\rvmdk\main.o: ../inc/tm4c123gh6pm.h
+.\rvmdk\main.o: Timers.h
 .\rvmdk\main.o: PLL.h
 .\rvmdk\main.o: motorLib/motor.h
 .\rvmdk\main.o: MPU6050.h
@@ -30,3 +31,4 @@
 .\rvmdk\main.o: switch.h
 .\rvmdk\main.o: balance.h
 .\rvmdk\main.o: sense.h
+.\rvmdk\main.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h
