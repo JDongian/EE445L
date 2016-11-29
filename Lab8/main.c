@@ -77,8 +77,13 @@
 #define dt 0.01	
 
 RobotState segway;
-float pitch = 200;
-float roll = 200;
+float pitch = 0;
+float roll = 0;
+float sumErr = 0;
+float kD = 0.1;
+float kP = 0.8;
+float kI = 0.1;
+int botSpeed = 0;
 
 // DEBUG
 typedef enum Mode {FWD, BWD, LFT, RGT, NO} Mode;
@@ -129,6 +134,13 @@ void ComplementaryFilter(RobotState* r, float *pitch, float *roll)
 } 
 
 
+long map(long x, long in_min, long in_max, long out_min, long out_max)
+{
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+
+
 
 int main(void)
 {
@@ -161,14 +173,17 @@ int main(void)
 						//UARTprintf("Average X: %d\n", (int)avg);
 					
             //update_state(&segway);
-					UARTprintf("gyro\n%d\n%d\n%d\n\rpitch: %d roll: %d\n\n\r", 
-											 segway.gyro_x, segway.gyro_y, segway.gyro_z, (int)pitch, (int)roll);  
+					//UARTprintf("gyro\n%d\n%d\n%d\n\rpitch: %d roll: %d\n\n\r", 
+											 //segway.gyro_x, segway.gyro_y, segway.gyro_z, (int)pitch, (int)roll);  
+					/*
 					ST7735_FillScreen(0);
 					ST7735_SetCursor(0,0);
 					sprintf(buf, "gyro\n%d\n%d\n%d\n\raccel\n%d\n%d\n%d\n\rpitch: %d \nroll: %d\n\n\r",
 											 segway.gyro_x, segway.gyro_y, segway.gyro_z, segway.accel_x, segway.accel_y, segway.accel_z, 
 											(int)pitch, (int)roll);
 					ST7735_OutString(buf);
+					*/
+					
 					//UARTprintf("( %d ) gyroX: %d, gyroY: %d, gyroZ: %d\n\raccelX: %d, accelY: %d, accelZ: %d\n\n\r", count,
             //                        segway.gyro_x, segway.gyro_y, segway.gyro_z,
 						//												segway.accel_x, segway.accel_y, segway.accel_z);
@@ -178,22 +193,30 @@ int main(void)
 
         // set the mode based on the buttons (DEBUG)
         handleButtons();
-       
-        // DEBUG
-        // Switch demo
-				if(!sw4){
-						if(roll < 0){
-							mode = FWD;
-							//ST7735_OutString("FWD");
-						}
-					else{
-							mode = BWD;
-							//ST7735_OutString("BWD");
-
-						}
-					}
-					else mode = NO;
-					
+				sumErr += roll;
+  
+  
+  
+				float moImpulse = kD * roll + kP * abs(roll);
+  
+				if(abs(sumErr) < 200)
+				{
+					moImpulse += kI * sumErr;
+				}
+				
+				botSpeed = map((int)abs(moImpulse), 0,70, 10000,40000);
+				//ST7735_SetCursor(0,0);
+				//sprintf(buf, "value:  %d  ", (int)moImpulse);
+				//ST7735_OutString(buf);
+				if (roll < 0){
+					motor_set(PORT, BACKWARD, botSpeed);
+          motor_set(STARBOARD, BACKWARD, botSpeed);
+				} else {
+					motor_set(PORT, FORWARD, botSpeed);
+          motor_set(STARBOARD, FORWARD, botSpeed);
+				}
+				motor_run();
+				/*
         switch (mode) {
             case FWD:
                 motor_set(PORT, FORWARD, 1.0);
@@ -217,7 +240,8 @@ int main(void)
         } 
 				
 				
-        motor_run(0);
+        motor_run();
+				*/
         
     }
 }

@@ -18,19 +18,24 @@ MotorState right_state;
 void motor_init()
 {		
     // initialize PB3-7 (h-bridge interface)
-    SYSCTL_RCGCGPIO_R |= 0x02;       // activate port B
-    int delay = SYSCTL_RCGCGPIO_R;   // allow time to finish activating
-    GPIO_PORTB_DEN_R |= 0xF8;        // enable digital I/O on PB0, PB1
-    GPIO_PORTB_DIR_R |= 0xF8;        // make PB1 output (for speaker)
-    GPIO_PORTB_AFSEL_R &= ~0xF8;     // disable alt funct on PB0, PB1
+		PWM0A_Init(40000, 0);
+		PWM0B_Init(40000, 0);
+		PWM1A_Init(40000, 0);
+		PWM1B_Init(40000, 0);
+    //SYSCTL_RCGCGPIO_R |= 0x02;       // activate port B
+    //int delay = SYSCTL_RCGCGPIO_R;   // allow time to finish activating
+    GPIO_PORTB_DEN_R |= 0x08;        // enable digital I/O on PB0, PB1
+    GPIO_PORTB_DIR_R |= 0x08;        // make PB1 output (for speaker)
+    GPIO_PORTB_AFSEL_R &= ~0x08;     // disable alt funct on PB0, PB1
     GPIO_PORTB_AMSEL_R = 0;          // disable analog functionality on PF
+		
 
     // Make sure nothing is moving to start
 		PB3 = 0x08;
-    PB4 &= ~(0x01 << 4);
-    PB5 &= ~(0x01 << 5);
-    PB6 &= ~(0x01 << 6);
-    PB7 &= ~(0x01 << 7);
+    //PB4 &= ~(0x01 << 4);
+    //PB5 &= ~(0x01 << 5);
+    //PB6 &= ~(0x01 << 6);
+    //PB7 &= ~(0x01 << 7);
 
     // initialize motor states
     left_state.direction = NONE; // port side
@@ -50,15 +55,15 @@ MotorState motor_state(Side side)
 }
 
 
-void motor_set(Side side, Dir d, Speed s)
+void motor_set(Side side, Dir d, int speed)
 {
     switch (side) {
         case PORT:
             left_state.direction = d;
-            left_state.speed = s;
+            left_state.speed = speed;
         case STARBOARD:
             right_state.direction = d;
-            right_state.speed = s;
+            right_state.speed = speed;
     }
 }
 
@@ -73,65 +78,52 @@ bool pwm_phase(Speed s, microseconds t)
 
 
 // to be called at least once every microsecond
-void motor_run(microseconds time)
+void motor_run()
 {
     // update port side
-    bool left_pwm_active = pwm_phase(left_state.speed, time);
     switch (left_state.direction) {
         case NONE:
             // left motor inactive
-            PB4 &= ~(0x01 << 4);
-            PB5 &= ~(0x01 << 5);
+            PWM1A_Duty(0);
+						PWM1B_Duty(0);
             break;
         case FORWARD:
             // left motor forward
             // PB4 = pin2 := PWM, PB5 = pin7 := LO
-            if (left_pwm_active) {
-                PB4 |= (0x01 << 4);
-            } else {
-                PB4 &= ~(0x01 << 4);
-            }
-            PB5 &= ~(0x01 << 5);
+            PWM1A_Duty(left_state.speed);
+						PWM1B_Duty(0);
             break;
         case BACKWARD:
             // left motor backward
             // PB4 = pin2 := LO, PB5 = pin7 := PWM
-            if (left_pwm_active) {
-                PB5 |= (0x01 << 5);
-            } else {
-                PB5 &= ~(0x01 << 5);
-            }
-            PB4 &= ~(0x01 << 4);
+            PWM1A_Duty(0);
+						PWM1B_Duty(left_state.speed);
             break;
     }
 
     // update starboard side
-    bool right_pwm_active = pwm_phase(right_state.speed, time);
     switch (right_state.direction) {
         case NONE:
             // right motor inactive
-            PB6 &= ~(0x01 << 6);
-            PB7 &= ~(0x01 << 7);
+            PWM0A_Duty(0);
+						PWM0B_Duty(0);
             break;
         case FORWARD:
             // right motor forward
             // PB7 = pin15 := PWM, PB6 = pin10 := LO
-            if (right_pwm_active) {
-                PB7 |= (0x01 << 7);
-            } else {
-                PB7 &= ~(0x01 << 7);
-            }
-            PB6 &= ~(0x01 << 6);
+            PWM0A_Duty(right_state.speed);
+						PWM0B_Duty(0);
             break;
         case BACKWARD:
             // right motor backward
             // PB7 = pin15 := LO, PB6 = pin10 := PWM
-            if (right_pwm_active) {
-                PB6 |= (0x01 << 6);
-            } else {
-                PB6 &= ~(0x01 << 6);
-            }
-            PB7 &= ~(0x01 << 7);
+            PWM0A_Duty(0);
+						PWM0B_Duty(right_state.speed);
             break;
     }
+}
+
+void motor_off()
+{
+	PB3 = 0;
 }

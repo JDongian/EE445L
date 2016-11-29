@@ -9,12 +9,13 @@ typedef enum Motor {PORT, STARBOARD} Side;
 
 typedef struct {
     Dir direction;
-    Speed speed;
+    int speed;
 } MotorState;
 
 
-void motor_set(Side, Dir, Speed);
-void motor_run(uint64_t);
+void motor_set(Side, Dir, int);
+void motor_run();
 void motor_init(void);
+void motor_off(void);
 
 #endif /* __MOTOR__ */

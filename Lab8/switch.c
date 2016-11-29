@@ -46,10 +46,10 @@ void GPIOF_intHandler(){
 
 void Timer0AHandler(){
 	TIMER0_ICR_R = TIMER_ICR_TATOCINT;
-	sw1 = (PF1 & 0x02) >> 1;
-	sw2 = (PF0 & 0x01);
-	sw3 = (PF2 & 0x04) >> 2;
-	sw4 = (PF3 & 0x08) >> 3;
+	sw1 = !((PF1 & 0x02) >> 1);
+	sw2 = !(PF0 & 0x01);
+	sw3 = !((PF2 & 0x04) >> 2);
+	sw4 = !((PF3 & 0x08) >> 3);
 }
 
 /*
