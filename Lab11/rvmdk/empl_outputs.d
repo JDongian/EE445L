@@ -1,0 +1,14 @@
+.\rvmdk\empl_outputs.o: mpu6050\eMPL-hal\eMPL_outputs.c
+.\rvmdk\empl_outputs.o: mpu6050\eMPL-hal\eMPL_outputs.h
+.\rvmdk\empl_outputs.o: mpu6050\eMPL-hal\../driver/include/mltypes.h
+.\rvmdk\empl_outputs.o: mpu6050\eMPL-hal\../driver/include/stdint_invensense.h
+.\rvmdk\empl_outputs.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\rvmdk\empl_outputs.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
+.\rvmdk\empl_outputs.o: C:\Keil\ARM\ARMCC\bin\..\include\errno.h
+.\rvmdk\empl_outputs.o: C:\Keil\ARM\ARMCC\bin\..\include\limits.h
+.\rvmdk\empl_outputs.o: mpu6050\eMPL-hal\../mllite/ml_math_func.h
+.\rvmdk\empl_outputs.o: mpu6050\eMPL-hal\../driver/include/mlmath.h
+.\rvmdk\empl_outputs.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h
+.\rvmdk\empl_outputs.o: mpu6050\eMPL-hal\../mllite/start_manager.h
+.\rvmdk\empl_outputs.o: mpu6050\eMPL-hal\../mllite/data_builder.h
+.\rvmdk\empl_outputs.o: mpu6050\eMPL-hal\../mllite/results_holder.h

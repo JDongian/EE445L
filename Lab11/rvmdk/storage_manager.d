@@ -1,0 +1,14 @@
+.\rvmdk\storage_manager.o: mpu6050\mllite\storage_manager.c
+.\rvmdk\storage_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
+.\rvmdk\storage_manager.o: mpu6050\mllite\storage_manager.h
+.\rvmdk\storage_manager.o: mpu6050\mllite\../driver/include/mltypes.h
+.\rvmdk\storage_manager.o: mpu6050\mllite\../driver/include/stdint_invensense.h
+.\rvmdk\storage_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\rvmdk\storage_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\errno.h
+.\rvmdk\storage_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\limits.h
+.\rvmdk\storage_manager.o: mpu6050\mllite\../driver/include/log.h
+.\rvmdk\storage_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
+.\rvmdk\storage_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\stdarg.h
+.\rvmdk\storage_manager.o: mpu6050\mllite\ml_math_func.h
+.\rvmdk\storage_manager.o: mpu6050\mllite\../driver/include/mlmath.h
+.\rvmdk\storage_manager.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h

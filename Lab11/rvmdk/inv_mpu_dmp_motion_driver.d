@@ -1,0 +1,12 @@
+.\rvmdk\inv_mpu_dmp_motion_driver.o: mpu6050\driver\eMPL\inv_mpu_dmp_motion_driver.c
+.\rvmdk\inv_mpu_dmp_motion_driver.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\rvmdk\inv_mpu_dmp_motion_driver.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\rvmdk\inv_mpu_dmp_motion_driver.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
+.\rvmdk\inv_mpu_dmp_motion_driver.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
+.\rvmdk\inv_mpu_dmp_motion_driver.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h
+.\rvmdk\inv_mpu_dmp_motion_driver.o: mpu6050\driver\eMPL\inv_mpu.h
+.\rvmdk\inv_mpu_dmp_motion_driver.o: mpu6050\driver\eMPL\inv_mpu_dmp_motion_driver.h
+.\rvmdk\inv_mpu_dmp_motion_driver.o: mpu6050\driver\eMPL\dmpKey.h
+.\rvmdk\inv_mpu_dmp_motion_driver.o: mpu6050\driver\eMPL\dmpmap.h
+.\rvmdk\inv_mpu_dmp_motion_driver.o: mpu6050\driver\eMPL\../../../i2c.h
+.\rvmdk\inv_mpu_dmp_motion_driver.o: mpu6050\driver\eMPL\../../../SysTick.h

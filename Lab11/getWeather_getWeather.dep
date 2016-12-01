@@ -1,0 +1,164 @@
+Dependencies for Project 'getWeather', Target 'getWeather': (DO NOT MODIFY !)
+F (.\main.c)(0x583F9A26)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\main.o --omf_browse .\rvmdk\main.crf --depend .\rvmdk\main.d)
+I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x51C86E14)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C86E14)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C86E14)
+I (C:\Keil\ARM\ARMCC\include\stdbool.h)(0x51C86E14)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (..\inc/hw_memmap.h)(0x5388B4C8)
+I (..\inc/hw_types.h)(0x5388B4C8)
+I (..\driverlib/debug.h)(0x5388B48A)
+I (..\driverlib/fpu.h)(0x5388B48A)
+I (..\driverlib/gpio.h)(0x5388B48A)
+I (..\driverlib/pin_map.h)(0x581784B2)
+I (..\driverlib/rom.h)(0x5388B48A)
+I (..\driverlib/sysctl.h)(0x5388B48A)
+I (..\driverlib/uart.h)(0x5388B48A)
+I (..\utils/uartstdio.h)(0x5817B3FF)
+I (C:\Keil\ARM\ARMCC\include\stdarg.h)(0x51C86E14)
+I (..\utils/cmdline.h)(0x5388B4DC)
+I (application_commands.h)(0x57E425AC)
+I (LED.h)(0x57E425AC)
+I (ST7735.h)(0x57E425AC)
+I (ADCSWTrigger.h)(0x57E42A48)
+I (../inc/tm4c123gh6pm.h)(0x5388B4CA)
+I (Timers.h)(0x5817ED6A)
+I (PLL.h)(0x55462230)
+I (motorLib/motor.h)(0x583DF589)
+I (MPU6050.h)(0x58191725)
+I (i2c.h)(0x5818F847)
+I (SysTick.h)(0x58174C3B)
+I (..\cc3100\platform\ek-tm4c123gxl\board.h)(0x54F3B460)
+I (switch.h)(0x5818E76A)
+I (balance.h)(0x58126AB9)
+I (sense.h)(0x5818E92E)
+I (C:\Keil\ARM\ARMCC\include\math.h)(0x51C86E14)
+F (..\cc3100\platform\ek-tm4c123gxl\board.c)(0x554C3656)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\board.o --omf_browse .\rvmdk\board.crf --depend .\rvmdk\board.d)
+I (..\cc3100\simplelink\include\simplelink.h)(0x53A2F4FE)
+I (..\cc3100\platform\ek-tm4c123gxl\user.h)(0x53A2F4FE)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C86E14)
+I (..\cc3100\platform\ek-tm4c123gxl\board.h)(0x54F3B460)
+I (..\cc3100\platform\ek-tm4c123gxl\spi.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\../source/nonos.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\../source/objInclusion.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\../source/datatypes.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\trace.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\fs.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\socket.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\netapp.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\wlan.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\device.h)(0x54F3B460)
+I (..\cc3100\simplelink\include\netcfg.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\wlan_rx_filters.h)(0x53A2F4FE)
+I (..\cc3100\../inc/tm4c123gh6pm.h)(0x5388B4CA)
+I (..\inc/hw_memmap.h)(0x5388B4C8)
+I (..\inc/hw_ssi.h)(0x5388B4C8)
+I (..\inc/hw_types.h)(0x5388B4C8)
+I (..\driverlib/ssi.h)(0x5388B48A)
+I (..\driverlib/rom.h)(0x5388B48A)
+I (..\driverlib/gpio.h)(0x5388B48A)
+I (..\driverlib/sysctl.h)(0x5388B48A)
+I (..\driverlib/fpu.h)(0x5388B48A)
+I (..\driverlib/uart.h)(0x5388B48A)
+F (.\LED.c)(0x57E425AC)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\led.o --omf_browse .\rvmdk\led.crf --depend .\rvmdk\led.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (../inc/tm4c123gh6pm.h)(0x5388B4CA)
+F (..\cc3100\platform\ek-tm4c123gxl\spi.c)(0x554C367E)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\spi.o --omf_browse .\rvmdk\spi.crf --depend .\rvmdk\spi.d)
+I (..\cc3100\simplelink\include\simplelink.h)(0x53A2F4FE)
+I (..\cc3100\platform\ek-tm4c123gxl\user.h)(0x53A2F4FE)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C86E14)
+I (..\cc3100\platform\ek-tm4c123gxl\board.h)(0x54F3B460)
+I (..\cc3100\platform\ek-tm4c123gxl\spi.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\../source/nonos.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\../source/objInclusion.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\../source/datatypes.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\trace.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\fs.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\socket.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\netapp.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\wlan.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\device.h)(0x54F3B460)
+I (..\cc3100\simplelink\include\netcfg.h)(0x53A2F4FE)
+I (..\cc3100\simplelink\include\wlan_rx_filters.h)(0x53A2F4FE)
+I (..\inc/hw_memmap.h)(0x5388B4C8)
+I (..\inc/hw_ssi.h)(0x5388B4C8)
+I (..\inc/hw_gpio.h)(0x5388B4C8)
+I (..\inc/hw_types.h)(0x5388B4C8)
+I (..\driverlib/pin_map.h)(0x581784B2)
+I (..\inc/hw_ints.h)(0x5388B4C8)
+I (..\driverlib/ssi.h)(0x5388B48A)
+I (..\driverlib/rom.h)(0x5388B48A)
+I (..\driverlib/gpio.h)(0x5388B48A)
+I (..\driverlib/sysctl.h)(0x5388B48A)
+I (..\driverlib/interrupt.h)(0x5388B48A)
+F (.\startup_rvmdk.S)(0x583F87B3)(--cpu Cortex-M4.fp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-o .\rvmdk\startup_rvmdk.o --depend .\rvmdk\startup_rvmdk.d)
+F (..\cc3100\platform\ek-tm4c123gxl\uart.c)(0x53A2F4FE)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\uart.o --omf_browse .\rvmdk\uart.crf --depend .\rvmdk\uart.d)
+F (..\utils\uartstdio.c)(0x54D84642)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\uartstdio.o --omf_browse .\rvmdk\uartstdio.crf --depend .\rvmdk\uartstdio.d)
+I (C:\Keil\ARM\ARMCC\include\stdbool.h)(0x51C86E14)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (C:\Keil\ARM\ARMCC\include\stdarg.h)(0x51C86E14)
+I (..\inc/hw_ints.h)(0x5388B4C8)
+I (..\inc/hw_memmap.h)(0x5388B4C8)
+I (..\inc/hw_types.h)(0x5388B4C8)
+I (..\inc/hw_uart.h)(0x5388B4C8)
+I (..\driverlib/debug.h)(0x5388B48A)
+I (..\driverlib/interrupt.h)(0x5388B48A)
+I (..\driverlib/rom.h)(0x5388B48A)
+I (..\driverlib/rom_map.h)(0x5388B48A)
+I (..\driverlib/sysctl.h)(0x5388B48A)
+I (..\driverlib/uart.h)(0x5388B48A)
+I (..\utils/uartstdio.h)(0x5817B3FF)
+F (..\utils\ustdlib.c)(0x5388B4DC)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\ustdlib.o --omf_browse .\rvmdk\ustdlib.crf --depend .\rvmdk\ustdlib.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (..\driverlib/debug.h)(0x5388B48A)
+I (..\utils/ustdlib.h)(0x5388B4DC)
+I (C:\Keil\ARM\ARMCC\include\stdarg.h)(0x51C86E14)
+I (C:\Keil\ARM\ARMCC\include\time.h)(0x51C86E14)
+F (.\ST7735.c)(0x57E425AC)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\st7735.o --omf_browse .\rvmdk\st7735.crf --depend .\rvmdk\st7735.d)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C86E14)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (ST7735.h)(0x57E425AC)
+I (../inc/tm4c123gh6pm.h)(0x5388B4CA)
+F (.\ADCSWTrigger.c)(0x57D194B6)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\adcswtrigger.o --omf_browse .\rvmdk\adcswtrigger.crf --depend .\rvmdk\adcswtrigger.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (../inc/tm4c123gh6pm.h)(0x5388B4CA)
+F (.\Timers.c)(0x583F8749)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\timers.o --omf_browse .\rvmdk\timers.crf --depend .\rvmdk\timers.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (..//inc//tm4c123gh6pm.h)(0x5388B4CA)
+I (Timers.h)(0x5817ED6A)
+F (.\i2c.c)(0x5818F8C4)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\i2c.o --omf_browse .\rvmdk\i2c.crf --depend .\rvmdk\i2c.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (../inc/tm4c123gh6pm.h)(0x5388B4CA)
+I (i2c.h)(0x5818F847)
+F (.\motorLib\motor.c)(0x583D2DDD)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\motor.o --omf_browse .\rvmdk\motor.crf --depend .\rvmdk\motor.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (motorLib\motor.h)(0x583DF589)
+I (motorLib\../../inc/tm4c123gh6pm.h)(0x5388B4CA)
+I (motorLib\../PWM.h)(0x583D20A6)
+I (C:\Keil\ARM\ARMCC\include\stdbool.h)(0x51C86E14)
+F (.\MPU6050.c)(0x5819170F)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\mpu6050.o --omf_browse .\rvmdk\mpu6050.crf --depend .\rvmdk\mpu6050.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (MPU6050.h)(0x58191725)
+I (i2c.h)(0x5818F847)
+F (.\SysTick.c)(0x58174C32)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\systick.o --omf_browse .\rvmdk\systick.crf --depend .\rvmdk\systick.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+F (.\PLL.c)(0x554592D2)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\pll.o --omf_browse .\rvmdk\pll.crf --depend .\rvmdk\pll.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (PLL.h)(0x55462230)
+I (../inc/tm4c123gh6pm.h)(0x5388B4CA)
+F (.\switch.c)(0x583D2210)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\switch.o --omf_browse .\rvmdk\switch.crf --depend .\rvmdk\switch.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (C:\Keil\ARM\ARMCC\include\stdbool.h)(0x51C86E14)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C86E14)
+I (../inc/tm4c123gh6pm.h)(0x5388B4CA)
+I (switch.h)(0x5818E76A)
+I (Timers.h)(0x5817ED6A)
+F (.\sense.c)(0x583120C2)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\sense.o --omf_browse .\rvmdk\sense.crf --depend .\rvmdk\sense.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (sense.h)(0x5818E92E)
+I (MPU6050.h)(0x58191725)
+F (.\PWM.c)(0x583D1F40)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I.. -I..\ -I..\..\..\.. -I..\cc3100 -I..\cc3100\platform\ek-tm4c123gxl -I..\cc3100\simplelink\include -I..\cc3100\simplelink\source --c99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_TM4C123GH6PM -D_POSIX_SOURCE -DUART_BUFFERED -DTARGET_IS_TM4C123_RB1 -DMPL_LOG_NDEBUG="1" -DMPU6050 -DEMPL -DUSE_DMP -DEMPL_TARGET_STM32F4-o .\rvmdk\pwm.o --omf_browse .\rvmdk\pwm.crf --depend .\rvmdk\pwm.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C86E14)
+I (../inc/tm4c123gh6pm.h)(0x5388B4CA)
+F (..\driverlib\rvmdk\driverlib.lib)(0x5388B48A)()
+F (.\readme.txt)(0x57E425AC)()

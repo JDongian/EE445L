@@ -1,0 +1,38 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Keil\ValvanoWareTM4C123\Lab8\getWeather.uvproj
+Project File Date:  11/29/2016
+
+<h2>Output:</h2>
+Build target 'getWeather'
+compiling main.c...
+main.c(131): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      *pitch += ((float)r->gyro_x / GYROSCOPE_SENSITIVITY) * dt; // Angle around the X-axis
+main.c(132): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      *roll -= ((float)r->gyro_y / GYROSCOPE_SENSITIVITY) * dt;    // Angle around the Y-axis
+main.c(140): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          pitchAcc = atan2f((float)r->accel_y, (float)r->accel_z) * 180 / M_PI;
+main.c(141): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          *pitch = *pitch * 0.98 + pitchAcc * 0.02;
+main.c(141): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          *pitch = *pitch * 0.98 + pitchAcc * 0.02;
+main.c(144): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          rollAcc = atan2f((float)r->accel_x, (float)r->accel_z) * 180 / M_PI;
+main.c(145): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          *roll = *roll * 0.98 + rollAcc * 0.02;
+main.c(145): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          *roll = *roll * 0.98 + rollAcc * 0.02;
+main.c(168): warning:  #111-D: statement is unreachable
+                targetAngle = calibrationSum/100;
+main.c: 9 warnings, 0 errors
+linking...
+Program Size: Code=11136 RO-data=2640 RW-data=156 ZI-data=18060  
+After Build - User command #1: fromelf --bin --output .\rvmdk\cc31000_starter.bin .\rvmdk\cc31000_starter.axf
+".\rvmdk\getWeather.axf" - 0 Error(s), 9 Warning(s).
+Load "C:\\Keil\\ValvanoWareTM4C123\\Lab8\\rvmdk\\getWeather.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Unable to initialize device!, error code=1
+Error: Flash Download failed  -  Target DLL has been cancelled
